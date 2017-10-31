@@ -1,0 +1,45 @@
+<?php
+namespace SITBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * @ORM\Entity
+ * @ORM\Table(name="nieuwsbericht")
+ */
+class Nieuwsbericht
+{
+    /**
+     * @ORM\Column(type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $titel;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $auteur;
+
+    /**
+     * @ORM\Column(type="text")
+     */
+    private $bericht;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $gepubliceerd;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $edited;
+
+    
+}

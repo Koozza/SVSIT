@@ -1,0 +1,163 @@
+{% extends 'user/dashboard.html.twig' %}
+
+{% block content %}
+{{ form_start(form) }}
+<div class="row">
+    <div class="col-sm-6">
+        <legend><span class="number">1.</span>Basisgegevens</legend>
+        <label for="form_voornaam" class="required">Voornaam</label>
+        {{ form_errors(form.voornaam) }}
+        {{ form_widget(form.voornaam) }}
+
+        <label for="form_tussenvoegsel">Tussenvoegsel</label>
+        {{ form_errors(form.tussenvoegsel) }}
+        {{ form_widget(form.tussenvoegsel) }}
+
+        <label for="form_achternaam" class="required">Achternaam</label>
+        {{ form_errors(form.achternaam) }}
+        {{ form_widget(form.achternaam) }}
+
+        <label for="form_geslacht" class="required">Geslacht</label>
+        {{ form_errors(form.geslacht) }}
+        {{ form_widget(form.geslacht) }}
+
+        <label for="form_geboortedatum" class="required">Geboortedatum</label>
+        {{ form_errors(form.geboortedatum) }}
+        {{ form_widget(form.geboortedatum) }}
+
+        <legend><span class="number">2.</span>Contactgegevens</legend>
+        <label for="form_adres" class="required">Adres</label>
+        {{ form_errors(form.adres) }}
+        {{ form_widget(form.adres) }}
+
+        <label for="form_postcode" class="required">Postcode</label>
+        {{ form_errors(form.postcode) }}
+        {{ form_widget(form.postcode) }}
+
+        <label for="form_woonplaats" class="required">Woonplaats</label>
+        {{ form_errors(form.woonplaats) }}
+        {{ form_widget(form.woonplaats) }}
+
+        <label for="form_telefoonnummer" class="required">Telefoonnummer</label>
+        {{ form_errors(form.telefoonnummer) }}
+        {{ form_widget(form.telefoonnummer) }}
+    </div>
+    <div class="col-sm-6">
+        <legend><span class="number">3.</span>Accountgegevens</legend>
+
+        <label for="form_emailadres" class="required">E-mailadres *</label>
+        {{ form_errors(form.emailadres) }}
+        {{ form_widget(form.emailadres) }}
+
+        <label for="form_password" class="required">Wachtwoord **</label>
+        {{ form_errors(form.password) }}
+        {{ form_widget(form.password) }}
+
+        <label for="form_herhaalPassword" class="required">Herhaal Wachtwoord **</label>
+        {{ form_errors(form.herhaalPassword) }}
+        {{ form_widget(form.herhaalPassword) }}
+
+
+        {{  form_widget(form.wijzigen) }}
+        {{ getContent('dashboard_required_fields')|raw }}
+    </div>
+</div>
+{{ form_end(form) }}
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+
+    <style>
+
+        .container .col-sm-6:first-of-type{
+            padding-right: 30px;
+        }
+
+        .container .col-sm-6:last-of-type{
+            padding-left: 30px;
+        }
+
+        .number {
+            width: 25px;
+            display: inline-block;
+            font-size: 20px;
+            margin-right: 6px;
+            text-align: center;
+        }
+
+        legend {
+            font-size: 20px;
+            text-transform: uppercase;
+        }
+
+        label{
+            width: 100%;
+            font-weight: 400;
+            letter-spacing: 1.2px;
+        }
+
+        .container input, .container select, .container button{
+            width: 100%;
+            margin-bottom: 10px;
+            padding: 8px 16px;
+            background-color: #f1f1f1;
+            border: 1px solid transparent;
+        }
+
+        .container input:focus, .container select:focus, .container button:focus {
+            outline:none;
+            border: 1px solid #999;
+        }
+
+        .container button{
+            margin-top: 60px;
+            border-color: #4c6a9e;
+            background-color: white;
+            color: #4c6a9e;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        #form_geboortedatum select{
+            width: calc(32.666% - 4px) !important;
+            margin-right: 1%
+        }
+
+        #form_geboortedatum select:last-of-type{
+            margin-right: 1px !important;
+        }
+
+        .fillscreen ul{
+            list-style: none;
+            font-weight: 600;
+            color: #cc0000;
+        }
+
+        @media (max-width: 768px) {
+            legend{
+                margin-top: 30px !important;
+            }
+
+            .container{
+                padding-top: 10px;
+            }
+
+            .row{
+                margin: 0px;
+            }
+
+            .container .col-sm-6{
+                padding: 0px !important;
+            }
+
+            .container .col-sm-6:first-of-type{
+                padding-right: 15px;
+            }
+
+            .container .col-sm-6:last-of-type{
+                padding-left: 15px;
+            }
+        }
+    </style>
+{% endblock %}

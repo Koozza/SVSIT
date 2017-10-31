@@ -1,0 +1,9 @@
+{% extends 'webshop/simple.html.twig' %}
+
+{% block title %}
+    Betaling niet gelukt
+{% endblock %}
+
+{% block text %}
+    {{ getContent('webshop_payment_failure')|raw }}
+{% endblock %}

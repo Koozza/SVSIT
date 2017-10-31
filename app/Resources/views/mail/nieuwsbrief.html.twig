@@ -1,0 +1,212 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <div class="header">
+            <div id="headerImage">
+                <img src="{{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset('/bundles/sit/images/logo_large.png') }}" style=" height: 66%; margin-top: 50px;" />
+            </div>
+        </div>
+        <div class="content">
+            <h1>
+                SIT Nieuwsbrief
+            </h1>
+            <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam auctor eros in convallis lobortis. Sed mollis aliquet turpis id venenatis. Praesent eget metus ullamcorper, luctus felis vel, consequat est. Vivamus non fringilla sapien. Maecenas venenatis sollicitudin lectus nec tempus. Donec nec mi nec dolor placerat venenatis et nec lorem. Vivamus tincidunt blandit dolor nec efficitur. Vestibulum mollis erat justo, in dapibus eros elementum vitae. Maecenas interdum condimentum augue, sit amet tincidunt diam blandit id. Sed nec rhoncus nisi. Cras pharetra auctor mauris, in laoreet sem viverra et. Nulla molestie elit in tincidunt finibus. Aliquam metus magna, aliquet a ante sit amet, ultrices tincidunt leo.
+            </p>
+            <div class="row">
+                <div class="nieuwsbrief_block">
+                    <h2>Dit is een header</h2>
+                    <div style="background-image: url('https://scontent-amt2-1.xx.fbcdn.net/v/t1.0-0/s240x240/12670900_259437011067086_2544165827968422902_n.jpg?oh=ebdba53c1d7b46f48d0d915afd5b1144&oe=58B6E7BF');"> </div>
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam auctor eros in convallis lobortis. Sed mollis aliquet turpis id venenatis. Praesent eget metus ullamcorper, luctus felis vel, consequat est.
+                    </p>
+                    <p class="leesmeer">Lees meer...</p>
+                </div>
+
+                <div class="nieuwsbrief_block">
+                    <h2>Dit is een header</h2>
+                    <div style="background-image: url('https://scontent-amt2-1.xx.fbcdn.net/v/t1.0-0/s240x240/12670900_259437011067086_2544165827968422902_n.jpg?oh=ebdba53c1d7b46f48d0d915afd5b1144&oe=58B6E7BF');"> </div>
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam auctor eros in convallis lobortis. Sed mollis aliquet turpis id venenatis. Praesent eget metus ullamcorper, luctus felis vel, consequat est.
+                    </p>
+                    <p class="leesmeer">Lees meer...</p>
+                </div>
+
+                <!--<div class="nieuwsbrief_block">
+                    <h2>Dit is een header</h2>
+                    <div style="background-image: url('https://scontent-amt2-1.xx.fbcdn.net/v/t1.0-0/s240x240/12670900_259437011067086_2544165827968422902_n.jpg?oh=ebdba53c1d7b46f48d0d915afd5b1144&oe=58B6E7BF');"> </div>
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam auctor eros in convallis lobortis. Sed mollis aliquet turpis id venenatis. Praesent eget metus ullamcorper, luctus felis vel, consequat est.
+                    </p>
+                    <p>Lees meer...</p>
+                </div>-->
+            </div>
+
+            <div class="row">
+                <div class="nieuwsbrief_block">
+                    <h2>Dit is een header</h2>
+                    <div style="background-image: url('https://scontent-amt2-1.xx.fbcdn.net/v/t1.0-0/s240x240/12670900_259437011067086_2544165827968422902_n.jpg?oh=ebdba53c1d7b46f48d0d915afd5b1144&oe=58B6E7BF');"> </div>
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam auctor eros in convallis lobortis. Sed mollis aliquet turpis id venenatis. Praesent eget metus ullamcorper, luctus felis vel, consequat est.
+                    </p>
+                    <p class="leesmeer">Lees meer...</p>
+                </div>
+
+                <div class="nieuwsbrief_block">
+                    <h2>Dit is een header</h2>
+                    <div style="background-image: url('https://scontent-amt2-1.xx.fbcdn.net/v/t1.0-0/s240x240/12670900_259437011067086_2544165827968422902_n.jpg?oh=ebdba53c1d7b46f48d0d915afd5b1144&oe=58B6E7BF');"> </div>
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam auctor eros in convallis lobortis. Sed mollis aliquet turpis id venenatis. Praesent eget metus ullamcorper, luctus felis vel, consequat est.
+                    </p>
+                    <p class="leesmeer">Lees meer...</p>
+                </div>
+
+                <!--<div class="nieuwsbrief_block">
+                    <h2>Dit is een header</h2>
+                    <div style="background-image: url('https://scontent-amt2-1.xx.fbcdn.net/v/t1.0-0/s240x240/12670900_259437011067086_2544165827968422902_n.jpg?oh=ebdba53c1d7b46f48d0d915afd5b1144&oe=58B6E7BF');"> </div>
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam auctor eros in convallis lobortis. Sed mollis aliquet turpis id venenatis. Praesent eget metus ullamcorper, luctus felis vel, consequat est.
+                    </p>
+                    <p>Lees meer...</p>
+                </div>-->
+                <div style="clear: both;"></div>
+            </div>
+        </div>
+        <div class="footer">
+            <p>Onze nieuwsbrief niet meer ontvangen? Klik <a href="">hier</a>.</p>
+        </div>
+    </div>
+{% endblock %}
+
+{% block stylesheets %}
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
+    <style>
+        *{
+            margin: 0px;
+            padding: 0px;
+            font-family: 'Open Sans', sans-serif;
+            font-size: 12px;
+            letter-spacing: 1.2px;
+            color: #2a2a2a;
+        }
+
+        h2{
+            margin-bottom: 5px;
+            font-size: 14px;
+            text-transform: uppercase;
+        }
+
+        .row {
+            margin-top:30px;
+            clear:both;
+        }
+
+        .row .nieuwsbrief_block:first-of-type{
+            margin-left: 0px !important;
+        }
+        .row .nieuwsbrief_block .leesmeer{
+            text-align: right;
+            margin-top:12px;
+            font-style: italic;
+            cursor: pointer;
+        }
+
+        .nieuwsbrief_block{
+            float:left;
+            width: 45%;
+            margin: 15px 0px 15px 10%;
+        }
+
+        .nieuwsbrief_block div{
+            height:150px;
+            width: 100%;
+            background-position: center;
+            background-size: cover;
+            margin-bottom: 10px;
+        }
+
+        .footer{
+            text-align: center;
+            font-size: 9px;
+        }
+
+        .footer p{
+            margin-bottom: 8px;
+            margin-top: 25px;
+            letter-spacing: 1px;
+        }
+
+        .footer p a{
+            color: #2a2a2a !important;
+        }
+
+        body{
+            background-color: #FFFFFF;
+        }
+
+        h1{
+            font-size: 24px;
+            margin-bottom: 5px;
+            margin-top: 40px;
+            text-transform: uppercase;
+        }
+
+        h1:first-of-type{
+            margin-top: 10px;
+        }
+
+        .content{
+            padding: 10px;
+            max-width: 700px;
+            width:95%;
+            margin: 0px auto;
+        }
+
+        #slide-2 .container{
+            width: 100%;
+            margin: 0px auto;
+            background-color: white;
+        }
+
+        #headerImage {
+            background-color: rgba(28,28,28, 0.8);
+            width: 100%;
+            height: 100%;
+            text-align: center;
+        }
+
+        .header{
+            background-size: cover;
+            background-position: 0px 30%;
+            background-image: url('{{ app.request.scheme ~'://' ~ app.request.httpHost ~ asset('/bundles/sit/images/DSC_0569.JPG') }}');
+            height: 350px;
+            background-repeat: no-repeat;
+            width: 100%;
+            border-bottom: 1px #333333 solid;
+        }
+
+        @media (max-width: 768px) {
+            .nieuwsbrief_block{
+                width: 100%;
+                margin-top:30px;
+                margin-left: 0px;
+                float:none;
+            }
+
+            .nieuwsbrief_block div{
+                height: 200px;
+            }
+
+            .row {
+                margin-top:00px;
+                clear:both;
+            }
+
+            .header{
+                height: 250px;
+            }
+        }
+    </style>
+{% endblock %}

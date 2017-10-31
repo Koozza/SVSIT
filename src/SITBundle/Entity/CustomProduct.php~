@@ -1,0 +1,280 @@
+<?php
+namespace SITBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * @ORM\Entity
+ * @ORM\Table(name="custom_product")
+ */
+class CustomProduct
+{
+    /**
+     * @ORM\Column(type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $naam;
+
+    /**
+     * @ORM\Column(type="decimal", precision=5, scale=2)
+     */
+    private $prijs;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $btw;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isIncBtw;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $aantal;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Factuur", inversedBy="producten")
+     * @ORM\JoinColumn(name="factuur_id", referencedColumnName="id")
+     */
+    private $factuur;
+
+
+    public function __construct()
+    {
+        $this->btw = 21;
+    }
+
+    public function __toString()
+    {
+        return $this->naam;
+    }
+
+    public function getFactuurProduct() {
+        $facuurProduct = new FactuurProduct();
+        $facuurProduct->setNaam($this->naam);
+        $facuurProduct->setBtw($this->btw);
+        $facuurProduct->setPrijs($this->getExPrijs());
+    }
+
+    public function getIncPrijs() {
+        if($this->getIsIncBtw() || $this->getBtw() == 0) {
+            return $this->prijs;
+        }else{
+            return round($this->prijs * ($this->getBtw() / 100 + 1),2);
+        }
+    }
+
+    public function getExPrijs() {
+        if($this->getIsIncBtw()) {
+            if($this->checkPricePossible()) {
+                if ($this->compareFloatNumbers(round(round($this->getPrijs() / 121 * 100, 2) * 1.21, 2), $this->getPrijs()))
+                    return round($this->getPrijs() / 121 * 100, 2);
+                else if ($this->compareFloatNumbers(round((round($this->getPrijs() / 121 * 100, 2) + 0.01) * 1.21, 2), $this->getPrijs()))
+                    return round($this->getPrijs() / 121 * 100, 2) + 0.01;
+                else if ($this->compareFloatNumbers(round((round($this->getPrijs() / 121 * 100, 2) - 0.01) * 1.21, 2), $this->getPrijs()))
+                    return round($this->getPrijs() / 121 * 100, 2) - 0.01;
+            }else{
+                if(round(round($this->getPrijs() / 121 * 100, 2) * 1.21, 2) >= $this->getPrijs())
+                    return round($this->getPrijs() / 121 * 100, 2);
+                else if(round((round($this->getPrijs() / 121 * 100, 2) - 0.01) * 1.21, 2) >= $this->getPrijs())
+                    return round($this->getPrijs() / 121 * 100, 2) - 0.01;
+                else if(round((round($this->getPrijs() / 121 * 100, 2) + 0.01) * 1.21, 2) >= $this->getPrijs())
+                    return round($this->getPrijs() / 121 * 100, 2) + 0.01;
+            }
+        }else{
+            return $this->getPrijs();
+        }
+    }
+
+    public function checkPricePossible() {
+        if($this->getIsIncBtw()) {
+            if($this->compareFloatNumbers(round(round($this->getPrijs() / 121 * 100, 2) * 1.21, 2), $this->getPrijs()) ||
+                $this->compareFloatNumbers(round((round($this->getPrijs() / 121 * 100, 2) + 0.01) * 1.21, 2), $this->getPrijs()) ||
+                $this->compareFloatNumbers(round((round($this->getPrijs() / 121 * 100, 2) - 0.01) * 1.21, 2), $this->getPrijs()) ) {
+                return true;
+            }else{
+                return false;
+            }
+        }else{
+            return true;
+        }
+    }
+
+    private function compareFloatNumbers($float1, $float2)
+    {
+        // Check numbers to 5 digits of precision
+        $epsilon = 0.001;
+
+        $float1 = (float)$float1;
+        $float2 = (float)$float2;
+
+        if (abs($float1 - $float2) < $epsilon) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set naam
+     *
+     * @param string $naam
+     *
+     * @return Product
+     */
+    public function setNaam($naam)
+    {
+        $this->naam = $naam;
+
+        return $this;
+    }
+
+    /**
+     * Get naam
+     *
+     * @return string
+     */
+    public function getNaam()
+    {
+        return $this->naam;
+    }
+
+    /**
+     * Set prijs
+     *
+     * @param string $prijs
+     *
+     * @return Product
+     */
+    public function setPrijs($prijs)
+    {
+        $this->prijs = $prijs;
+
+        return $this;
+    }
+
+    /**
+     * Get prijs
+     *
+     * @return string
+     */
+    public function getPrijs()
+    {
+        return $this->prijs;
+    }
+
+    /**
+     * Set btw
+     *
+     * @param integer $btw
+     *
+     * @return Product
+     */
+    public function setBtw($btw)
+    {
+        $this->btw = $btw;
+
+        return $this;
+    }
+
+    /**
+     * Get btw
+     *
+     * @return integer
+     */
+    public function getBtw()
+    {
+        return $this->btw;
+    }
+
+    /**
+     * Set isIncBtw
+     *
+     * @param boolean $isIncBtw
+     *
+     * @return Product
+     */
+    public function setIsIncBtw($isIncBtw)
+    {
+        $this->isIncBtw = $isIncBtw;
+
+        return $this;
+    }
+
+    /**
+     * Get isIncBtw
+     *
+     * @return boolean
+     */
+    public function getIsIncBtw()
+    {
+        return $this->isIncBtw;
+    }
+
+    /**
+     * Set voorraadKanNegatief
+     *
+     * @param boolean $voorraadKanNegatief
+     *
+     * @return Product
+     */
+    public function setVoorraadKanNegatief($voorraadKanNegatief)
+    {
+        $this->voorraadKanNegatief = $voorraadKanNegatief;
+
+        return $this;
+    }
+
+    /**
+     * Get voorraadKanNegatief
+     *
+     * @return boolean
+     */
+    public function getVoorraadKanNegatief()
+    {
+        return $this->voorraadKanNegatief;
+    }
+
+    /**
+     * Set aantal
+     *
+     * @param integer $aantal
+     *
+     * @return CustomProduct
+     */
+    public function setAantal($aantal)
+    {
+        $this->aantal = $aantal;
+
+        return $this;
+    }
+
+    /**
+     * Get aantal
+     *
+     * @return integer
+     */
+    public function getAantal()
+    {
+        return $this->aantal;
+    }
+}

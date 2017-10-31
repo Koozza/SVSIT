@@ -1,0 +1,28 @@
+<?php
+namespace SITBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * @ORM\Entity
+ * @ORM\Table(name="position")
+ */
+class Position
+{
+    /**
+     * @ORM\Column(type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @ORM\Column(type="decimal")
+     */
+    private $lat;
+
+    /**
+     * @ORM\Column(type="decimal")
+     */
+    private $lng;
+}

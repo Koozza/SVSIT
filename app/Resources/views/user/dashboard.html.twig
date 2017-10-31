@@ -1,0 +1,80 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {% include 'header.html.twig' %}
+    <div class="container fillscreen" style="max-width: 1000px; padding-top: 120px; padding-bottom: 80px;">
+        <div class="row">
+            <div class="col-sm-3">
+                {% include 'user/dashboard_menu.html.twig' %}
+            </div>
+            <div class="col-sm-9">
+                {% block content %}{% endblock %}
+            </div>
+        </div>
+    </div>
+    {% include 'footer.html.twig' %}
+{% endblock %}
+
+{% block javascripts_head %}
+    <script src="{{ asset('/bundles/sit/js/jquery.min.js') }}"></script>
+    <script src="{{ asset('/bundles/sit/js/bootstrap.min.js') }}"></script>
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript">
+        $(function () {
+            $( ".fillscreen" ).css('min-height', $( window ).outerHeight(true) - $( '.footer' ).outerHeight(true) - $( '.credits' ).outerHeight(true));
+        });
+    </script>
+{% endblock %}
+
+{% block stylesheets %}
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{{ asset('/bundles/sit/css/bootstrap.css') }}">
+    <link rel="stylesheet" href="{{ asset('/bundles/sit/css/default.css') }}">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
+    <style>
+        *, *:before, *:after {
+            -moz-box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+
+        li, ul {
+            list-style: none;
+            margin: 0px;
+            padding: 0px;
+        }
+
+        h1{
+            text-align: left;
+            width:100%;
+            font-size: 20px;
+            margin-bottom: 40px;
+            text-transform: uppercase;
+        }
+
+        p{
+            margin-top: 12px;
+        }
+
+        .dashboardmenu{
+            list-style: none;
+        }
+
+        .dashboardmenu li a{
+            text-decoration: none !important;
+            display:block;
+            padding: 8px;
+            color: black;
+        }
+
+        .dashboardmenu li a:first-of-type{
+            margin-top: 0px !important;
+        }
+
+        @media (max-width: 992px) {
+            /* Nothing on this page */
+        }
+    </style>
+{% endblock %}

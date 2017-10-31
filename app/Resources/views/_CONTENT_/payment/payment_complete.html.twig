@@ -1,0 +1,9 @@
+{% extends 'payment/payment_result.html.twig' %}
+
+{% block title %}
+    Betaling Geslaagd
+{% endblock %}
+
+{% block text %}
+    {{ include(template_from_string(getContent('payment_result_success')|unescape|raw)) }}
+{% endblock %}

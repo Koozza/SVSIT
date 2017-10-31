@@ -1,0 +1,9 @@
+{% extends 'paylink/simple.html.twig' %}
+
+{% block title %}
+    Betaling Geslaagd
+{% endblock %}
+
+{% block text %}
+    {{ getContent('paylink_payment_success')|raw }}
+{% endblock %}

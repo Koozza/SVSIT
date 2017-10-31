@@ -1,0 +1,12 @@
+{% extends 'mail/basemail.html.twig' %}
+
+{% block content %}
+    <h2>Beste lid van SIT,</h2>
+
+    <p>De nieuwe website is live! Bekijk hem snel op <a href="https://svsit.nl/">https://svsit.nl/</a><br>
+        Op de nieuwe website hebben wij al een account voor je aangemaakt waar jij jouw lidmaatschap kunt bekijken. Je kunt inloggen met de volgende gegevens:</p>
+    <p>Gebruikersnaam: {{ email }}<br>
+        Wachtwoord: {{ password }}</p>
+
+    <p><br>Met vriendelijke groet,<br>Het bestuur</p>
+{% endblock %}

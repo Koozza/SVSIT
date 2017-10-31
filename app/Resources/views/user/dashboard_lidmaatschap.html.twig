@@ -1,0 +1,84 @@
+{% extends 'user/dashboard.html.twig' %}
+
+{% block content %}
+    <table>
+    {% if gebruiker.lidmaatschap is not null %}
+            <tr>
+                <td><span style="font-weight: 600;">Lidmaatschap:</span></td>
+                <td>{{ gebruiker.studierichting.studierichting }} ({{ gebruiker.lidmaatschap.beschrijving }})</td>
+            </tr>
+            {% if gebruiker.betaald %}
+                <tr>
+                    <td><span style="font-weight: 600;">Lidmaatschap status:</span></td>
+                    <td>Betaald / Actief</td>
+                </tr>
+                <tr>
+                    <td><span style="font-weight: 600;">Lid sinds:</span></td>
+                    <td>{{ lidsinds|dutchDate("j F Y") }}</td>
+                </tr>
+                {% if lifetime %}
+                    <tr>
+                        <td><span style="font-weight: 600;">Lid tot:</span></td>
+                        <td>Tot het einde van je studie</td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td><span style="font-weight: 600;">Lid tot:</span></td>
+                        <td>{{ lidtot|dutchDate("j F Y") }}</td>
+                    </tr>
+                {% endif %}
+            {% else %}
+                <tr>
+                    <td><span style="font-weight: 600;">Lidmaatschap status:</span></td>
+                    <td>Niet betaald / inactief</td>
+                </tr>
+            {% endif %}
+        {% else %}
+                <tr>
+                    <td><span style="font-weight: 600;">Lidmaatschap:</span></td>
+                    <td>{{ gebruiker.lidmaatschap.beschrijving }}</td>
+                </tr>
+                <tr>
+                    <td><span style="font-weight: 600;">Lidmaatschap Status:</span></td>
+                    <td>Niet Betaald / Inactief</td>
+                </tr>
+    {% endif %}
+        {% if magBetalen %}
+            <tr>
+                <td colspan="2"><a href="{{ path('payment_accept') }}" class="payment_button">Lidmaatschap Afsluiten</a></td>
+            </tr>
+        {% endif %}
+        {% if mandate is not null %}
+            {% if mandate.status == "valid" %}
+                <tr>
+                    <td colspan="2"><a href="{{ path('payment_cancel') }}" class="payment_button">Lidmaatschap Annuleren</a></td>
+                </tr>
+            {% endif %}
+        {% endif %}
+    </table>
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        td{
+            padding: 4px 30px 4px 0px;
+        }
+
+        .payment_button{
+            padding: 10px 20px;
+            color: #4c6a9e;
+            display: inline-block;
+            border: 1px solid #4c6a9e;
+            margin-top: 10px;
+            font-weight: 600;
+            text-decoration: none !important;
+        }
+
+        @media (max-width: 768px) {
+            table{
+                margin-top: 50px;
+            }
+        }
+    </style>
+{% endblock %}

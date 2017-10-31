@@ -1,0 +1,325 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {% include 'header.html.twig' %}
+
+    <section id="slide-1" class="homeSlide">
+        <div class="row" style="margin: 0px !important; height: 100%;">
+            <div class="col-sm-12" style="overflow: hidden; padding: 0px; height: 100%;">
+                <div class="headerimage" style=" height: 100%; background-size: cover; background-image: url('{{ asset('/bundles/sit/images/webshop.jpg') }}'); width: 100%; background-repeat: no-repeat; background-attachment: fixed; background-position: center;"
+                     data-center="background-position: 50% 85%;"
+                     data-top-bottom="background-position: 50% 185%;"
+                     data-anchor-target="#slide-1">
+
+                    <div style=" height: 100%; background-color: rgba(28,28,28, 0.7); width: 100%; display: flex; align-items: center; margin-top: 20px;">
+                        <h1>Webshop</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="slide-2" class="webshop">
+        <div class="container" style="max-width: 1000px;">
+            {% if page == 'aanmelden' %}
+                <form method="POST" action="">
+                    {{ include(template_from_string(getContent('webshop_product_verzoek_aanmelden')|unescape|raw)) }}
+                    <input type="submit" class="accept_button" value="Houd mij op de hoogte!" style="margin-top: 40px;" />
+                    <a href="{{ path('productpage', {'id': mp.product.id}) }}" class="cancel_button" style="margin-top: 40px;">Terug naar de webshop</a>
+                </form>
+            {% elseif page == 'aangemeld' %}
+                {{ include(template_from_string(getContent('webshop_product_verzoek_aangemeld')|unescape|raw)) }}
+                <a href="{{ path('productpage', {'id': mp.product.id}) }}" class="cancel_button" style="margin-top: 40px;">Terug naar de webshop</a>
+            {% else %}
+                {{ include(template_from_string(getContent('webshop_product_verzoek_alAangemeld')|unescape|raw)) }}
+                <a href="{{ path('productpage', {'id': mp.product.id}) }}" class="cancel_button" style="margin-top: 40px;">Terug naar de webshop</a>
+            {% endif %}
+        </div>
+    </section>
+
+    {% include 'footer.html.twig' %}
+
+{% endblock %}
+
+{% block javascripts_head %}
+    <script src="{{ asset('/bundles/sit/js/jquery.min.js') }}"></script>
+    <script src="{{ asset('/bundles/sit/js/bootstrap.min.js') }}"></script>
+
+    <script src="{{ asset('/bundles/sit/js/skrollr.min.js') }}"></script>
+{% endblock %}
+
+{% block stylesheets %}
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{{ asset('/bundles/sit/css/bootstrap.css') }}">
+    <link rel="stylesheet" href="{{ asset('/bundles/sit/css/default.css') }}">
+    <link rel="stylesheet" href="{{ asset('/bundles/sit/css/fa.css') }}">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
+    <style>
+        .homeSlide{
+            height: 400px;
+        }
+
+        .accept_button{
+            padding: 10px 20px;
+            color: white;
+            display: inline-block;
+            border: 1px solid #4c6a9e;
+            margin-top: 10px;
+            font-weight: 600;
+            text-decoration: none !important;
+            background-color: #4c6a9e;
+        }
+
+        .cancel_button{
+            padding: 10px 20px;
+            color: #4c6a9e;
+            display: inline-block;
+            border: 1px solid #4c6a9e;
+            margin-top: 10px;
+            font-weight: 600;
+            text-decoration: none !important;
+            background-color: white;
+        }
+
+        h1{
+            text-transform: uppercase;
+            text-align: center;
+            color: #efefef;
+            width:100%;
+            font-size: 32px;
+        }
+
+        #slide-2 h2{
+            text-align: left;
+            width:100%;
+            font-size: 20px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        .webshop{
+            padding: 40px 0px 80px 0px;
+        }
+
+        .webshop p{
+            letter-spacing: 1.5px;
+        }
+
+        .imageContainer {
+            width: 455px;
+            background-color: #f6f6f6;
+            float: left;
+            white-space: nowrap;
+            text-align: center;
+            margin-right: 30px;
+        }
+
+        .helper {
+            display: inline-block;
+            height: 100%;
+            vertical-align: middle;
+        }
+
+        .imageContainer img{
+            max-width: 455px;
+            vertical-align: middle;
+        }
+
+        .thumnailContainer{
+            width: 55px;
+            height: 654px;
+            margin-right: 30px;
+            float:left;
+        }
+
+        .thumnailContainer a{
+            white-space: nowrap;
+            background-color: #f6f6f6;
+            width: 55px;
+            display: block;
+            margin-bottom: 10px;
+            overflow: hidden;
+        }
+
+        .thumnailContainer a img{
+            width: 55px;
+        }
+
+        .infoContainer{
+            float:left;
+            width: 400px;
+        }
+
+        .productPrice{
+            margin-top: 6px;
+            margin-bottom: 0px;
+            font-size: 12px;
+            font-weight: 700;
+            font-size: 16px;
+        }
+
+        .productType{
+            text-transform: uppercase;
+            font-weight: 700;
+            margin-bottom: 0px;
+            font-size: 13px;
+        }
+
+        .productName{
+            font-size: 12px;
+        }
+
+        .webshop_dropdown{
+            margin-top: 60px;
+            width: 350px;
+            padding: 10px 10px 10px 20px;
+            outline:none !important;
+            border: 1px solid #979797;
+            cursor: pointer;
+        }
+
+        .webshop_dropdownOptions{
+            width: 350px;
+            border: 1px solid #979797;
+            border-top: 0px;
+            max-height: 200px;
+            overflow-y: auto;
+            position: absolute;
+            background-color: white;
+            display:none;
+        }
+
+        .webshop_dropdownOptions ul{
+            list-style: none;
+            margin: 0px;
+            padding: 0px;
+        }
+
+        .webshop_dropdownOptions ul li{
+            padding: 10px 10px 10px 20px;
+            cursor: pointer;
+        }
+
+        .webshop_dropdownOptions ul li p:first-child{
+            width: 50px;
+        }
+
+        .webshop_dropdownOptions ul li p:last-child{
+            color: #999;
+        }
+
+        .webshop_dropdownOptions ul li p{
+            display:inline-block;
+            margin:0px;
+            padding: 0px;
+        }
+
+        .webshop_dropdownOptions ul li:hover{
+            background-color: #f3f3f3;
+        }
+
+        .webshop_dropdown i{
+            float:right;
+            margin-top: 3px;
+        }
+
+        .webshop_dropdown p{
+            float:left;
+            margin: 0px;
+            padding: 0px;
+        }
+
+        .infoContainer select option{
+            -webkit-appearance: menulist-button;
+            height: 50px;
+        }
+
+        .panel4_button{
+            width: 350px;
+            background-color: #e5e5e5;
+            color: #111111;
+            text-align: center;
+            line-height: 38px;
+            border-radius: 2px;
+            cursor: pointer;
+            padding: 0px;
+            margin: 5px 0px;
+            letter-spacing: 1px;
+            font-size: 13px;
+        }
+
+
+        @media (max-width: 768px) {
+            .container p{
+                margin-bottom: 20px !important;
+            }
+            .accept_button, .cancel_button {
+                width: 100%;
+                text-align: center;
+                margin-top: 8px !important;
+            }
+        }
+    </style>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+
+        $(document).ready(function() {
+            $(window).click(function() {
+                $('.webshop_dropdownOptions').css('display', 'none');
+            });
+
+            $('#menucontainer').click(function(event){
+            });
+
+            $('.product_thumbnail').click(function() {
+                $('#mediumImage').attr('src', $(this).data('fullsize'));
+                $('#largeImage').css("background-image", "url("+$(this).data('fullsize')+")");
+            });
+
+            $('.webshop_dropdown').click(function() {
+                $('.webshop_dropdownOptions').css('display', 'block');
+                event.stopPropagation();
+            });
+            $('.webshop_dropdownOptions ul li').click(function() {
+                $('.webshop_dropdownOptions').css('display', 'none');
+                $('.webshop_dropdown').children().first().text($(this).children().first().text());
+                event.stopPropagation();
+            });
+
+            $( ".imageContainer" ).mouseover(function() {
+                $( "#largeImage" ).animate({
+                    opacity: 1
+                }, 150, function() {
+                    // Animation complete.
+                });
+            });
+
+            $( ".imageContainer" ).mouseout(function() {
+                $( "#largeImage" ).animate({
+                    opacity: 0
+                }, 150, function() {
+                    // Animation complete.
+                });
+            });
+        });
+        $(function () {
+            $( ".fullscreenMaxHeight" ).css('max-height', $( window ).height());
+            $( ".fullscreenHeight" ).css('height', $( window ).height());
+
+            // initialize skrollr if the window width is large enough
+            if ($(window).width() > 992) {
+                skrollr.init({smoothScrolling: false, forceHeight: false});
+            }
+
+            $( ".imageContainer" ).mousemove(function( e ) {
+                var parentOffset = $(this).offset();
+                var relX = e.pageX - parentOffset.left;
+                var relY = e.pageY - parentOffset.top;
+
+                $('#largeImage').css('backgroundPosition', (relX * -1.5) + 'px' + ' ' + (relY * -1.5) + 'px' );
+            });
+        });
+    </script>
+{% endblock %}

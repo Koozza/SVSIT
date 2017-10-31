@@ -1,0 +1,185 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {% include 'header.html.twig' %}
+
+    <section id="slide-1" class="homeSlide">
+        <div class="row" style="margin: 0px !important; height: 100%;">
+            <div class="col-sm-12" style="overflow: hidden; padding: 0px; height: 100%;">
+                <div style=" height: 100%; background-size: cover; background-image: url('{{ asset('/bundles/sit/images/IMG_9226.jpg') }}'); width: 100%; background-repeat: no-repeat; background-attachment: fixed; background-position: center;"
+                     data-center="background-position: 50% 80%;"
+                     data-top-bottom="background-position: 50% 180%;"
+                     data-anchor-target="#slide-1">
+
+                    <div style=" height: 100%; background-color: rgba(28,28,28, 0.8); width: 100%; display: flex; align-items: center; margin-top: 20px;">
+                        <h1>Evenementen</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="slide-2">
+        <div class="container fillscreen" style="max-width: 900px;">
+            <div class="evenement">
+                <h2> {{ evenement.naam }}</h2>
+                <div class="published_by">{{ evenement.datum|dutchDate("d F Y") }} van {{ evenement.datum|dutchDate("H:i") }} tot ongeveer {{ evenement.einddatum|dutchDate("H:i") }}</div>
+                <p>{{ evenement.omschrijving|raw }}</p>
+                <div id="googlemap">
+
+                </div>
+                <p class="leesmeer"><a href="{{ path('evenementen') }}">Terug naar evenemten</a></p>
+            </div>
+        </div>
+    </section>
+
+    {% include 'footer.html.twig' %}
+
+{% endblock %}
+
+{% block javascripts_head %}
+    <script src="{{ asset('/bundles/sit/js/jquery.min.js') }}"></script>
+    <script src="{{ asset('/bundles/sit/js/bootstrap.min.js') }}"></script>
+    <script defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCd4khbDjR6uLYi1-bCy6mnGwNVfCOJYBQ&callback=initMap"> </script>
+
+    <script src="{{ asset('/bundles/sit/js/skrollr.min.js') }}"></script>
+{% endblock %}
+
+{% block stylesheets %}
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{{ asset('/bundles/sit/css/bootstrap.css') }}">
+    <link rel="stylesheet" href="{{ asset('/bundles/sit/css/default.css') }}">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('/bundles/sit/css/fa.css') }}">
+    <style>
+        .homeSlide{
+            height: 400px;
+        }
+
+        h1{
+            text-transform: uppercase;
+            text-align: center;
+            color: #efefef;
+            width:100%;
+            font-size: 32px;
+        }
+
+        #googlemap{
+            height: 350px;
+            width: 100%;
+            border: 1px solid #a4a4a4;
+            margin-top: 35px;
+        }
+
+        .evenement{
+            margin-top: 40px;
+        }
+
+        .evenement ul, .evenement ol{
+            padding: 0px 0px 0px 40px;
+            margin: 14px 0px 0px 0px;
+        }
+
+        .evenement p{
+            margin-top: 14px;
+        }
+
+        .evenement h4, .evenement h3{
+            padding: 0px 0px 0px 0px;
+            margin: 28px 0px -8px 0px;
+            font-size: 12px;
+            color: black;
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+
+        .evenement h2{
+            display: inline;
+            padding: 0px 0px 0px 0px;
+            margin: 0px 0px 0px 0px;
+            font-weight: 700;
+            font-size: 16px;
+            text-transform: uppercase;
+            color: black;
+        }
+
+        .leesmeer{
+            text-align: right;
+            color: #6e6d6d;
+            font-style: italic;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .leesmeer a{
+            color: #6e6d6d !important;
+            text-decoration: none;
+        }
+
+        .published_by{
+            color: #6e6d6d;
+            font-size: 10px;
+            padding-bottom: 8px;
+            letter-spacing: 1.5px !important
+        }
+
+        #slide-2 p{
+            letter-spacing: 1.5px !important;
+            margin-bottom: 0px;
+        }
+
+        #slide-2 .container{
+            margin: 30px auto 80px auto;
+        }
+
+        @media (max-width: 768px) {
+            .homeSlide{
+                height: 400px;
+            }
+        }
+    </style>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        var map;
+        var marker;
+        var infowindow;
+        function initMap() {
+            var markerloc = {lat: {{ evenement.locatiePositie.lat }}, lng: {{ evenement.locatiePositie.lng }}};
+            map = new google.maps.Map(document.getElementById('googlemap'), {
+                zoom: 15,
+                center: markerloc
+            });
+            marker = new google.maps.Marker({
+                position: markerloc,
+                map: map
+            });
+            marker.setVisible(false);
+
+            infowindow = new google.maps.InfoWindow({
+                content: '<h3 style="font-size: 12px; font-weight: bold; margin: 0px 0px 5px 0px;">{{ evenement.locatieNaam }}</h3><p style="font-size: 10px;">{{ evenement.locatieAdres|replace({"," : "<br>"})|raw }}</p>',
+            });
+
+            infowindow.setOptions({position:marker.getPosition(),
+                pixelOffset:new google.maps.Size(0,40),
+                map:map});
+
+
+            infowindow.open(map, marker);
+        }
+
+        $(function () {
+            $( ".fullscreenMaxHeight" ).css('max-height', $( window ).height());
+            $( ".fullscreenHeight" ).css('height', $( window ).height());
+
+            // initialize skrollr if the window width is large enough
+            if ($(window).width() > 992) {
+                skrollr.init({smoothScrolling: false, forceHeight: false});
+            }
+
+            var paddT = parseInt($('.fillscreen').css('marginTop').replace("px","")) + parseInt($('.fillscreen').css('marginBottom').replace("px",""));
+            $( ".fillscreen" ).css('min-height', $( window ).outerHeight(true) - $( '.footer' ).outerHeight(true) - $( '.credits' ).outerHeight(true) - $('.homeSlide').outerHeight(true) - paddT);
+        });
+    </script>
+{% endblock %}

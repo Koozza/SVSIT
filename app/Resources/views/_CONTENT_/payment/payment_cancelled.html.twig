@@ -1,0 +1,9 @@
+{% extends 'payment/payment_result.html.twig' %}
+
+{% block title %}
+    Betaling niet gelukt
+{% endblock %}
+
+{% block text %}
+    {{ getContent('payment_result_failed')|raw }}
+{% endblock %}

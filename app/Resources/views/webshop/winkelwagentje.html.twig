@@ -1,0 +1,242 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {% include 'header.html.twig' %}
+
+    <section id="slide-1" class="homeSlide">
+        <div class="row" style="margin: 0px !important; height: 100%;">
+            <div class="col-sm-12" style="overflow: hidden; padding: 0px; height: 100%;">
+                <div class="headerimage" style=" height: 100%; background-size: cover; background-image: url('{{ asset('/bundles/sit/images/webshop.jpg') }}'); width: 100%; background-repeat: no-repeat; background-attachment: fixed; background-position: center;"
+                     data-center="background-position: 50% 85%;"
+                     data-top-bottom="background-position: 50% 185%;"
+                     data-anchor-target="#slide-1">
+
+                    <div style=" height: 100%; background-color: rgba(28,28,28, 0.7); width: 100%; display: flex; align-items: center; margin-top: 20px;">
+                        <h1>Winkelwagentje</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="slide-6" class="webshop" style=" padding: 30px 15px;">
+        <div class="container" style="max-width: 1000px;">
+            {% if session|length == 0 %}
+                <div style="margin: 40px 125px 60px 125px;" id="leeg_winkelmandje_container">
+                    {{ include(template_from_string(getContent('webshop_winkelmandje_leeg')|unescape|raw)) }}
+                </div>
+            {% endif %}
+            <form method="post" id="amount_form">
+            {% for item in session %}
+            <div class="row"
+                    {% if not loop.last %}
+                        style="border-bottom: 1px dashed #dddddd; padding-bottom: 10px; margin-bottom: 10px;"
+                    {% endif %}
+            >
+                <div class="col-xs-5 col-sm-3">
+                    <div class="prodImage" style="width: 190px; height: 190px; margin: 10px; background-image: url({% path item['product'].product.afbeeldingen[0].media, 'small' %}); background-size:cover; background-repeat: no-repeat; background-position: center center;"></div>
+                </div>
+                <div class="col-xs-7 col-sm-9" style="padding: 10px 0px;">
+                    <span style="font-weight: 700;  font-size: 14px;">{{ item['product'].product.naam }}</span>
+                    <a href="{{ path('winkelwagentje_remove_prod', {id: item['product'].id}) }}" style="display:inline; float: right; color: black; text-decoration: none; font-weight: normal;"><i class="fa fa-times" aria-hidden="true"></i></a><br>
+                    {{ item['product'].product.type }}<br>
+                    Maat: {{ item['product'].maat.naam }}<br>
+                        <select class="amount_selector" name="amount_{{ item['product'].id }}" style="background-color: transparent; height: 26px; border: 1px solid #ddd; padding: 0px 10px 0px 0px; margin-top: 10px;">
+                            {% set maxProductAmmount = 5 %}
+                            {% if item['product'].voorraad < maxProductAmmount %}
+                                {% set maxProductAmmount = item['product'].voorraad  %}
+                            {% endif %}
+
+                            {% for i in 1..maxProductAmmount %}
+                            <option{% if i == item['aantal'] or (item['aantal'] > maxProductAmmount and loop.last) %} selected="selected"{% endif %} value="{{ i }}">{{ i }}</option>
+                            {% endfor %}
+                        </select>
+                    <div style="font-size: 16px; font-weight: 700; margin-top: 10px;">
+                        &euro; {{ (item['product'].product.prijs * item['aantal'])|number_format(2, ',', '.') }}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            </form>
+        </div>
+    </section>
+
+    <section id="totaal" class="totaal">
+        <div class="container" style="max-width: 1000px;">
+            <div style="display: inline-block; width: 350px;  margin-right: 25px; text-align: left; padding-left: 2px;" id="bezorgmethode">
+                {{ include(template_from_string(getContent('webshop_winkelmandje_bezorging')|unescape|raw)) }}
+            </div>
+            <div style="display: inline-block; width: 350px;  text-align: left; padding-left: 2px; vertical-align: top;" id="totaalBedrag">
+                {% set totaalPrijs = 0 %}
+                {% for item in session %}
+                    {% set totaalPrijs = totaalPrijs + (item['product'].product.prijs * item['aantal']) %}
+                {% endfor %}
+                <span style="font-weight: 800; text-transform: uppercase; font-size: 22px; letter-spacing: 1px">Totaalprijs: &euro; {{ totaalPrijs|number_format(2, ',', '.') }}</span><br>
+            </div>
+            <a href="{{ path('webshop') }}" class="panel4_button" style="border: 1px solid #4c6a9e; color: #4c6a9e; text-decoration: none; background-color: white; display: inline-block; margin-right: 25px;">
+                Verder Winkelen
+            </a>
+            <a href="{{ path('webshop_afrekenen') }}" class="panel4_button" id="bestellenButton" style="background-color: #4c6a9e; color: white; border: 0px; margin-bottom: 0px; display: inline-block;">
+                Bestellen & Afrekenen
+            </a>
+        </div>
+    </section>
+
+    {% include 'footer.html.twig' %}
+
+{% endblock %}
+
+{% block javascripts_head %}
+    <script src="{{ asset('/bundles/sit/js/jquery.min.js') }}"></script>
+    <script src="{{ asset('/bundles/sit/js/bootstrap.min.js') }}"></script>
+
+    <script src="{{ asset('/bundles/sit/js/skrollr.min.js') }}"></script>
+{% endblock %}
+
+{% block stylesheets %}
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{{ asset('/bundles/sit/css/bootstrap.css') }}">
+    <link rel="stylesheet" href="{{ asset('/bundles/sit/css/default.css') }}">
+    <link rel="stylesheet" href="{{ asset('/bundles/sit/css/fa.css') }}">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
+    <style>
+        .homeSlide{
+            height: 400px;
+        }
+
+        h1{
+            text-transform: uppercase;
+            text-align: center;
+            color: #efefef;
+            width:100%;
+            font-size: 32px;
+        }
+
+        .panel4_button{
+            width: 350px;
+            background-color: #e5e5e5;
+            color: #111111;
+            text-align: center;
+            line-height: 38px;
+            border-radius: 2px;
+            cursor: pointer;
+            padding: 0px;
+            margin: 5px 0px;
+            letter-spacing: 1px;
+            font-size: 13px;
+        }
+
+        .totaal{
+            background-color: #f2f2f2;
+            padding: 40px 0px 40px 0px;
+            text-align: center;
+        }
+
+        .webshop{
+            padding: 40px 0px 20px 0px;
+        }
+
+        .webshop p{
+            letter-spacing: 1.5px;
+        }
+
+        #bezorgmethode p{
+            font-size: 10px;
+            padding-top: 4px
+        }
+
+        .productContainer{
+            width: 246px;
+            margin: 30px auto 0px auto;
+        }
+
+        .productImageContainer{
+            width: 246px;
+            height: 355px;
+            background-color: #f6f6f6;
+            margin-bottom: 8px;
+            overflow: hidden;
+            text-align: center;
+
+        }
+
+        .productImageContainer img{
+            max-width: 246px;
+            max-height: 355px;
+        }
+
+        .productPrice{
+            float:right;
+            margin-bottom: 0px;
+        }
+
+        .productType{
+            float:left;
+            text-transform: uppercase;
+            font-weight: 700;
+            margin-bottom: 0px;
+        }
+
+        .productName{
+            margin-top: 6px;
+            clear:both;
+            font-size: 11px;
+        }
+
+        .productLink{
+            color:inherit !important;
+            text-decoration: none !important;
+            display: block;
+        }
+
+        @media (max-width: 992px) {
+            .prodImage {
+                width: 110px !important;
+                height: 110px !important;
+                margin-left: 0px !important;
+                padding-left: 0px !important;
+            }
+
+            .panel4_button{
+                width:100% !important;;
+                margin-right: 0px !important;
+            }
+
+            #bezorgmethode{
+                margin-right: 0px !important;
+                width:100% !important;;
+            }
+
+            #totaalBedrag{
+                width: 100% !important;
+                margin-bottom: 10px;
+            }
+
+            #leeg_winkelmandje_container{
+                margin: 0px !important;
+            }
+        }
+    </style>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        $(document).ready(function() {
+            $('.amount_selector').change(function() {
+                $('#amount_form').submit();
+            })
+        });
+        $(function () {
+            $( ".fullscreenMaxHeight" ).css('max-height', $( window ).height());
+            $( ".fullscreenHeight" ).css('height', $( window ).height());
+
+            // initialize skrollr if the window width is large enough
+            if ($(window).width() > 992) {
+                skrollr.init({smoothScrolling: false, forceHeight: false});
+            }
+
+            var paddT = parseInt($('.fillscreen').css('marginTop').replace("px","")) + parseInt($('.fillscreen').css('marginBottom').replace("px",""));
+            $( ".fillscreen" ).css('min-height', $( window ).outerHeight(true) - $( '.footer' ).outerHeight(true) - $( '.credits' ).outerHeight(true) - $('.homeSlide').outerHeight(true) - paddT);
+        });
+    </script>
+{% endblock %}

@@ -1,0 +1,336 @@
+<?php
+namespace SITBundle\Entity;
+
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
+/**
+ * @ORM\Entity
+ * @ORM\Table(name="product")
+ */
+class Product
+{
+    /**
+     * @ORM\Column(type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $naam;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $type;
+
+    /**
+     * @ORM\Column(type="decimal", precision=5, scale=2)
+     */
+    private $prijs;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $btw;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isIncBtw;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $voorraadKanNegatief;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="SITMedia",cascade={"persist","remove"})
+     * @ORM\JoinTable(name="product_sitmedia",
+     *      joinColumns={@ORM\JoinColumn(name="product_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="sitmedia_id", referencedColumnName="id", unique=true)}
+     *      )
+     */
+    protected $afbeeldingen;
+
+
+    public function __construct()
+    {
+        $this->btw = 21;
+        $this->isIncBtw = true;
+        $this->afbeeldingen = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    public function __toString()
+    {
+        return $this->naam . ' - ' . $this->type;
+    }
+
+    public function getFactuurProduct() {
+        $facuurProduct = new FactuurProduct();
+        $facuurProduct->setType($this->type);
+        $facuurProduct->setNaam($this->naam);
+        $facuurProduct->setBtw($this->btw);
+        $facuurProduct->setPrijs($this->getExPrijs());
+    }
+
+    public function getExPrijs() {
+        if($this->getIsIncBtw()) {
+            if($this->checkPricePossible()) {
+                if ($this->compareFloatNumbers(round(round($this->getPrijs() / 121 * 100, 2) * 1.21, 2), $this->getPrijs()))
+                    return round($this->getPrijs() / 121 * 100, 2);
+                else if ($this->compareFloatNumbers(round((round($this->getPrijs() / 121 * 100, 2) + 0.01) * 1.21, 2), $this->getPrijs()))
+                    return round($this->getPrijs() / 121 * 100, 2) + 0.01;
+                else if ($this->compareFloatNumbers(round((round($this->getPrijs() / 121 * 100, 2) - 0.01) * 1.21, 2), $this->getPrijs()))
+                    return round($this->getPrijs() / 121 * 100, 2) - 0.01;
+            }else{
+                if(round(round($this->getPrijs() / 121 * 100, 2) * 1.21, 2) >= $this->getPrijs())
+                    return round($this->getPrijs() / 121 * 100, 2);
+                else if(round((round($this->getPrijs() / 121 * 100, 2) - 0.01) * 1.21, 2) >= $this->getPrijs())
+                    return round($this->getPrijs() / 121 * 100, 2) - 0.01;
+                else if(round((round($this->getPrijs() / 121 * 100, 2) + 0.01) * 1.21, 2) >= $this->getPrijs())
+                    return round($this->getPrijs() / 121 * 100, 2) + 0.01;
+            }
+        }else{
+            return $this->getPrijs();
+        }
+    }
+
+    public function checkPricePossible() {
+        if($this->getIsIncBtw()) {
+            if($this->compareFloatNumbers(round(round($this->getPrijs() / 121 * 100, 2) * 1.21, 2), $this->getPrijs()) ||
+                $this->compareFloatNumbers(round((round($this->getPrijs() / 121 * 100, 2) + 0.01) * 1.21, 2), $this->getPrijs()) ||
+                $this->compareFloatNumbers(round((round($this->getPrijs() / 121 * 100, 2) - 0.01) * 1.21, 2), $this->getPrijs()) ) {
+                return true;
+            }else{
+                return false;
+            }
+        }else{
+            return true;
+        }
+    }
+
+    private function compareFloatNumbers($float1, $float2)
+    {
+        // Check numbers to 5 digits of precision
+        $epsilon = 0.001;
+
+        $float1 = (float)$float1;
+        $float2 = (float)$float2;
+
+        if (abs($float1 - $float2) < $epsilon) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function getIncPrijs() {
+        if($this->getIsIncBtw() || $this->getBtw() == 0) {
+            return $this->prijs;
+        }else{
+            return round($this->prijs * ($this->getBtw() / 100 + 1),2);
+        }
+    }
+
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set naam
+     *
+     * @param string $naam
+     *
+     * @return Product
+     */
+    public function setNaam($naam)
+    {
+        $this->naam = $naam;
+
+        return $this;
+    }
+
+    /**
+     * Get naam
+     *
+     * @return string
+     */
+    public function getNaam()
+    {
+        return $this->naam;
+    }
+
+    /**
+     * Set prijs
+     *
+     * @param string $prijs
+     *
+     * @return Product
+     */
+    public function setPrijs($prijs)
+    {
+        $this->prijs = $prijs;
+
+        return $this;
+    }
+
+    /**
+     * Get prijs
+     *
+     * @return string
+     */
+    public function getPrijs()
+    {
+        return $this->prijs;
+    }
+
+    /**
+     * Set btw
+     *
+     * @param integer $btw
+     *
+     * @return Product
+     */
+    public function setBtw($btw)
+    {
+        $this->btw = $btw;
+
+        return $this;
+    }
+
+    /**
+     * Get btw
+     *
+     * @return integer
+     */
+    public function getBtw()
+    {
+        return $this->btw;
+    }
+
+    /**
+     * Set isIncBtw
+     *
+     * @param boolean $isIncBtw
+     *
+     * @return Product
+     */
+    public function setIsIncBtw($isIncBtw)
+    {
+        $this->isIncBtw = $isIncBtw;
+
+        return $this;
+    }
+
+    /**
+     * Get isIncBtw
+     *
+     * @return boolean
+     */
+    public function getIsIncBtw()
+    {
+        return $this->isIncBtw;
+    }
+
+    /**
+     * Set voorraadKanNegatief
+     *
+     * @param boolean $voorraadKanNegatief
+     *
+     * @return Product
+     */
+    public function setVoorraadKanNegatief($voorraadKanNegatief)
+    {
+        $this->voorraadKanNegatief = $voorraadKanNegatief;
+
+        return $this;
+    }
+
+    /**
+     * Get voorraadKanNegatief
+     *
+     * @return boolean
+     */
+    public function getVoorraadKanNegatief()
+    {
+        return $this->voorraadKanNegatief;
+    }
+
+    /**
+     * Remove widgetImages
+     *
+     * @param \Application\Sonata\MediaBundle\Entity\Media $widgetImages
+     */
+    public function removeAfbeeldingen(SITMedia $afbeeldingen)
+    {
+        $this->afbeeldingen->removeElement($afbeeldingen);
+    }
+
+
+    /**
+     * Get widgetImages
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getAfbeeldingen()
+    {
+        return $this->afbeeldingen;
+    }
+
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setAfbeeldingen($afbeeldingen)
+    {
+        $this->afbeeldingen = new ArrayCollection();
+
+
+        foreach ($afbeeldingen as $afbeelding) {
+            $this->addAfbeeldingen($afbeelding);
+        }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function addAfbeeldingen(SITMedia $afbeeldingen)
+    {
+        $this->afbeeldingen[] = $afbeeldingen;
+    }
+
+    /**
+     * Set type
+     *
+     * @param string $type
+     *
+     * @return Product
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+    
+        return $this;
+    }
+
+    /**
+     * Get type
+     *
+     * @return string
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+}

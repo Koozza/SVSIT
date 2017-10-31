@@ -1,0 +1,856 @@
+<?php
+namespace SITBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * @ORM\Entity
+ * @ORM\Table(name="mollie_payment")
+ */
+class MolliePayment
+{
+    /**
+     * @ORM\Column(type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @ORM\Column(type="string", length=35)
+     */
+    private $UID;
+
+    /**
+     * @ORM\Column(type="string", length=15)
+     */
+    private $paymentid;
+
+    /**
+     * @ORM\Column(type="string", length=4)
+     */
+    private $mode;
+
+    /**
+     * @ORM\Column(type="string", length=10)
+     */
+    private $amount;
+
+    /**
+     * @ORM\Column(type="string", length=10, nullable=true)
+     */
+    private $amountRefunded;
+
+    /**
+     * @ORM\Column(type="string", length=10, nullable=true)
+     */
+    private $amountRemaining;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $description;
+
+    /**
+     * @ORM\Column(type="string", length=15, nullable=true)
+     */
+    private $method;
+
+    /**
+     * @ORM\Column(type="string", length=15)
+     */
+    private $status;
+
+    /**
+     * @ORM\Column(type="string", length=15)
+     */
+    private $expiryPeriod;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $createdDatetime;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $paidDatetime;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $cancelledDatetime;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $manuallyCancelledDatetime;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $expiredDatetime;
+
+    /**
+     * @ORM\Column(type="string", length=15)
+     */
+    private $profileId;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="MollieCustomer", inversedBy="payments", cascade={"persist"})
+     */
+    private $customerId;
+
+    /**
+     * @ORM\Column(type="string", length=15, nullable=true)
+     */
+    private $recurringType;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="MollieMandate", inversedBy="payments", cascade={"persist"})
+     */
+    private $mandateId;
+
+    /**
+     * @ORM\Column(type="string", length=15, nullable=true)
+     */
+    private $subscriptionId;
+
+    /**
+     * @ORM\Column(type="string", length=15, nullable=true)
+     */
+    private $settlementId;
+
+    /**
+     * @ORM\Column(type="string", length=6, nullable=true)
+     */
+    private $locale;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $consumerName;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $consumerAccount;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $consumerBic;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $metadata;
+
+    /**
+     * @ORM\OneToOne(targetEntity="Betaling", mappedBy="molliePayment")
+     */
+    private $betaling;
+
+    /**
+     * @ORM\OneToOne(targetEntity="Gebruiker_MolliePayment", mappedBy="molliePayment")
+     */
+    private $gebruikerMolliePayment;
+
+
+    public function __toString() {
+        return $this->paymentid . ' (' . $this->description . ', ' . $this->status . ')';
+    }
+
+
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set paymentid
+     *
+     * @param string $paymentid
+     *
+     * @return MolliePayment
+     */
+    public function setPaymentid($paymentid)
+    {
+        $this->paymentid = $paymentid;
+
+        return $this;
+    }
+
+    /**
+     * Get paymentid
+     *
+     * @return string
+     */
+    public function getPaymentid()
+    {
+        return $this->paymentid;
+    }
+
+    /**
+     * Set mode
+     *
+     * @param string $mode
+     *
+     * @return MolliePayment
+     */
+    public function setMode($mode)
+    {
+        $this->mode = $mode;
+
+        return $this;
+    }
+
+    /**
+     * Get mode
+     *
+     * @return string
+     */
+    public function getMode()
+    {
+        return $this->mode;
+    }
+
+    /**
+     * Set amount
+     *
+     * @param string $amount
+     *
+     * @return MolliePayment
+     */
+    public function setAmount($amount)
+    {
+        $this->amount = $amount;
+
+        return $this;
+    }
+
+    /**
+     * Get amount
+     *
+     * @return string
+     */
+    public function getAmount()
+    {
+        return $this->amount;
+    }
+
+    /**
+     * Set amountRefunded
+     *
+     * @param string $amountRefunded
+     *
+     * @return MolliePayment
+     */
+    public function setAmountRefunded($amountRefunded)
+    {
+        $this->amountRefunded = $amountRefunded;
+
+        return $this;
+    }
+
+    /**
+     * Get amountRefunded
+     *
+     * @return string
+     */
+    public function getAmountRefunded()
+    {
+        return $this->amountRefunded;
+    }
+
+    /**
+     * Set amountRemaining
+     *
+     * @param string $amountRemaining
+     *
+     * @return MolliePayment
+     */
+    public function setAmountRemaining($amountRemaining)
+    {
+        $this->amountRemaining = $amountRemaining;
+
+        return $this;
+    }
+
+    /**
+     * Get amountRemaining
+     *
+     * @return string
+     */
+    public function getAmountRemaining()
+    {
+        return $this->amountRemaining;
+    }
+
+    /**
+     * Set description
+     *
+     * @param string $description
+     *
+     * @return MolliePayment
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * Get description
+     *
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * Set method
+     *
+     * @param string $method
+     *
+     * @return MolliePayment
+     */
+    public function setMethod($method)
+    {
+        $this->method = $method;
+
+        return $this;
+    }
+
+    /**
+     * Get method
+     *
+     * @return string
+     */
+    public function getMethod()
+    {
+        return $this->method;
+    }
+
+    /**
+     * Set status
+     *
+     * @param string $status
+     *
+     * @return MolliePayment
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * Get status
+     *
+     * @return string
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * Set expiryPeriod
+     *
+     * @param string $expiryPeriod
+     *
+     * @return MolliePayment
+     */
+    public function setExpiryPeriod($expiryPeriod)
+    {
+        $this->expiryPeriod = $expiryPeriod;
+
+        return $this;
+    }
+
+    /**
+     * Get expiryPeriod
+     *
+     * @return string
+     */
+    public function getExpiryPeriod()
+    {
+        return $this->expiryPeriod;
+    }
+
+    /**
+     * Set createdDatetime
+     *
+     * @param \DateTime $createdDatetime
+     *
+     * @return MolliePayment
+     */
+    public function setCreatedDatetime($createdDatetime)
+    {
+        $this->createdDatetime = $createdDatetime;
+
+        return $this;
+    }
+
+    /**
+     * Get createdDatetime
+     *
+     * @return \DateTime
+     */
+    public function getCreatedDatetime()
+    {
+        return $this->createdDatetime;
+    }
+
+    /**
+     * Set paidDatetime
+     *
+     * @param \DateTime $paidDatetime
+     *
+     * @return MolliePayment
+     */
+    public function setPaidDatetime($paidDatetime)
+    {
+        $this->paidDatetime = $paidDatetime;
+
+        return $this;
+    }
+
+    /**
+     * Get paidDatetime
+     *
+     * @return \DateTime
+     */
+    public function getPaidDatetime()
+    {
+        return $this->paidDatetime;
+    }
+
+    /**
+     * Set cancelledDatetime
+     *
+     * @param \DateTime $cancelledDatetime
+     *
+     * @return MolliePayment
+     */
+    public function setCancelledDatetime($cancelledDatetime)
+    {
+        $this->cancelledDatetime = $cancelledDatetime;
+
+        return $this;
+    }
+
+    /**
+     * Get cancelledDatetime
+     *
+     * @return \DateTime
+     */
+    public function getCancelledDatetime()
+    {
+        return $this->cancelledDatetime;
+    }
+
+    /**
+     * Set manuallyCancelledDatetime
+     *
+     * @param \DateTime $manuallyCancelledDatetime
+     *
+     * @return MolliePayment
+     */
+    public function setManuallyCancelledDatetime($manuallyCancelledDatetime)
+    {
+        $this->manuallyCancelledDatetime = $manuallyCancelledDatetime;
+
+        return $this;
+    }
+
+    /**
+     * Get cancelledDatetime
+     *
+     * @return \DateTime
+     */
+    public function getManuallyCancelledDatetime()
+    {
+        return $this->manuallyCancelledDatetime;
+    }
+
+    /**
+     * Set expiredDatetime
+     *
+     * @param \DateTime $expiredDatetime
+     *
+     * @return MolliePayment
+     */
+    public function setExpiredDatetime($expiredDatetime)
+    {
+        $this->expiredDatetime = $expiredDatetime;
+
+        return $this;
+    }
+
+    /**
+     * Get expiredDatetime
+     *
+     * @return \DateTime
+     */
+    public function getExpiredDatetime()
+    {
+        return $this->expiredDatetime;
+    }
+
+    /**
+     * Set profileId
+     *
+     * @param string $profileId
+     *
+     * @return MolliePayment
+     */
+    public function setProfileId($profileId)
+    {
+        $this->profileId = $profileId;
+
+        return $this;
+    }
+
+    /**
+     * Get profileId
+     *
+     * @return string
+     */
+    public function getProfileId()
+    {
+        return $this->profileId;
+    }
+
+    /**
+     * Set recurringType
+     *
+     * @param string $recurringType
+     *
+     * @return MolliePayment
+     */
+    public function setRecurringType($recurringType)
+    {
+        $this->recurringType = $recurringType;
+
+        return $this;
+    }
+
+    /**
+     * Get recurringType
+     *
+     * @return string
+     */
+    public function getRecurringType()
+    {
+        return $this->recurringType;
+    }
+
+    /**
+     * Set subscriptionId
+     *
+     * @param string $subscriptionId
+     *
+     * @return MolliePayment
+     */
+    public function setSubscriptionId($subscriptionId)
+    {
+        $this->subscriptionId = $subscriptionId;
+
+        return $this;
+    }
+
+    /**
+     * Get subscriptionId
+     *
+     * @return string
+     */
+    public function getSubscriptionId()
+    {
+        return $this->subscriptionId;
+    }
+
+    /**
+     * Set settlementId
+     *
+     * @param string $settlementId
+     *
+     * @return MolliePayment
+     */
+    public function setSettlementId($settlementId)
+    {
+        $this->settlementId = $settlementId;
+
+        return $this;
+    }
+
+    /**
+     * Get settlementId
+     *
+     * @return string
+     */
+    public function getSettlementId()
+    {
+        return $this->settlementId;
+    }
+
+    /**
+     * Set locale
+     *
+     * @param string $locale
+     *
+     * @return MolliePayment
+     */
+    public function setLocale($locale)
+    {
+        $this->locale = $locale;
+
+        return $this;
+    }
+
+    /**
+     * Get locale
+     *
+     * @return string
+     */
+    public function getLocale()
+    {
+        return $this->locale;
+    }
+
+    /**
+     * Set consumerName
+     *
+     * @param string $consumerName
+     *
+     * @return MolliePayment
+     */
+    public function setConsumerName($consumerName)
+    {
+        $this->consumerName = $consumerName;
+
+        return $this;
+    }
+
+    /**
+     * Get consumerName
+     *
+     * @return string
+     */
+    public function getConsumerName()
+    {
+        return $this->consumerName;
+    }
+
+    /**
+     * Set consumerAccount
+     *
+     * @param string $consumerAccount
+     *
+     * @return MolliePayment
+     */
+    public function setConsumerAccount($consumerAccount)
+    {
+        $this->consumerAccount = $consumerAccount;
+
+        return $this;
+    }
+
+    /**
+     * Get consumerAccount
+     *
+     * @return string
+     */
+    public function getConsumerAccount()
+    {
+        return $this->consumerAccount;
+    }
+
+    /**
+     * Set consumerBic
+     *
+     * @param string $consumerBic
+     *
+     * @return MolliePayment
+     */
+    public function setConsumerBic($consumerBic)
+    {
+        $this->consumerBic = $consumerBic;
+
+        return $this;
+    }
+
+    /**
+     * Get consumerBic
+     *
+     * @return string
+     */
+    public function getConsumerBic()
+    {
+        return $this->consumerBic;
+    }
+
+    /**
+     * Set customerId
+     *
+     * @param \SITBundle\Entity\MollieCustomer $customerId
+     *
+     * @return MolliePayment
+     */
+    public function setCustomerId(\SITBundle\Entity\MollieCustomer $customerId = null)
+    {
+        $this->customerId = $customerId;
+
+        return $this;
+    }
+
+    /**
+     * Get customerId
+     *
+     * @return \SITBundle\Entity\MollieCustomer
+     */
+    public function getCustomerId()
+    {
+        return $this->customerId;
+    }
+
+    /**
+     * Set mandateId
+     *
+     * @param \SITBundle\Entity\MollieMandate $mandateId
+     *
+     * @return MolliePayment
+     */
+    public function setMandateId(\SITBundle\Entity\MollieMandate $mandateId = null)
+    {
+        $this->mandateId = $mandateId;
+
+        return $this;
+    }
+
+    /**
+     * Get mandateId
+     *
+     * @return \SITBundle\Entity\MollieMandate
+     */
+    public function getMandateId()
+    {
+        return $this->mandateId;
+    }
+
+    /**
+     * Set uID
+     *
+     * @param string $uID
+     *
+     * @return MolliePayment
+     */
+    public function setUID($uID)
+    {
+        $this->UID = $uID;
+
+        return $this;
+    }
+
+    /**
+     * Get uID
+     *
+     * @return string
+     */
+    public function getUID()
+    {
+        return $this->UID;
+    }
+
+    /**
+     * Set betaling
+     *
+     * @param \SITBundle\Entity\Betaling $betaling
+     *
+     * @return MolliePayment
+     */
+    public function setBetaling(\SITBundle\Entity\Betaling $betaling = null)
+    {
+        $this->betaling = $betaling;
+
+        return $this;
+    }
+
+    /**
+     * Get betaling
+     *
+     * @return \SITBundle\Entity\Betaling
+     */
+    public function getBetaling()
+    {
+        return $this->betaling;
+    }
+
+    /**
+     * Set metadata
+     *
+     * @param string $metadata
+     *
+     * @return MolliePayment
+     */
+    public function setMetadata($metadata)
+    {
+        $this->metadata = $metadata;
+
+        return $this;
+    }
+
+    /**
+     * Get metadata
+     *
+     * @return string
+     */
+    public function getMetadata()
+    {
+        return json_decode($this->metadata);
+    }
+
+    /**
+     * Get metadata
+     *
+     * @return string
+     */
+    public function getMetadataString()
+    {
+        return $this->metadata;
+    }
+
+    /**
+     * Set gebruikerMolliePayment
+     *
+     * @param \SITBundle\Entity\Gebruiker_MolliePayment $gebruikerMolliePayment
+     *
+     * @return MolliePayment
+     */
+    public function setGebruikerMolliePayment(\SITBundle\Entity\Gebruiker_MolliePayment $gebruikerMolliePayment = null)
+    {
+        $this->gebruikerMolliePayment = $gebruikerMolliePayment;
+    
+        return $this;
+    }
+
+    /**
+     * Get gebruikerMolliePayment
+     *
+     * @return \SITBundle\Entity\Gebruiker_MolliePayment
+     */
+    public function getGebruikerMolliePayment()
+    {
+        return $this->gebruikerMolliePayment;
+    }
+}

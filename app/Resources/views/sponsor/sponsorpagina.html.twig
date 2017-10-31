@@ -1,0 +1,132 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+{% include 'header.html.twig' %}
+
+    <section id="slide-1" class="homeSlide">
+        <div class="row" style="margin: 0px !important; height: 100%;">
+            <div class="col-sm-12" style="overflow: hidden; padding: 0px; height: 100%;">
+                <div style=" height: 100%; background-size: cover; background-image: url('{{ asset('/bundles/sit/images/IMG_7736.jpg') }}'); width: 100%; background-repeat: no-repeat; background-attachment: fixed; background-position: center;"
+                     data-center="background-position: 50% -200px;"
+                     data-top-bottom="background-position: 50% -400px;"
+                     data-anchor-target="#slide-1">
+
+                    <div style=" height: 100%; background-color: rgba(28,28,28, 0.8); width: 100%; display: flex; align-items: center; margin-top: 20px;">
+                        <h1>Partners</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="slide-2">
+        <div class="container fillscreen" style="max-width: 900px;">
+            <div class="sponsor_artikel">
+                <h2> {{ sponsor.naam }}</h2>
+                <div class="website">Website: <a href="{{ sponsor.url }}" target="_blank">{{ sponsor.website }}</a></div>
+                <p>{{ sponsor.beschrijving|raw }}</p>
+            </div>
+        </div>
+    </section>
+
+{% include 'footer.html.twig' %}
+
+{% endblock %}
+
+{% block javascripts_head %}
+    <script src="{{ asset('/bundles/sit/js/jquery.min.js') }}"></script>
+    <script src="{{ asset('/bundles/sit/js/bootstrap.min.js') }}"></script>
+
+    <script src="{{ asset('/bundles/sit/js/skrollr.min.js') }}"></script>
+{% endblock %}
+
+{% block stylesheets %}
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{{ asset('/bundles/sit/css/bootstrap.css') }}">
+    <link rel="stylesheet" href="{{ asset('/bundles/sit/css/default.css') }}">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('/bundles/sit/css/fa.css') }}">
+    <style>
+    .homeSlide{
+        height: 400px;
+    }
+
+    h1{
+        text-transform: uppercase;
+        text-align: center;
+        color: #efefef;
+        width:100%;
+        font-size: 32px;
+    }
+
+    .website{
+        color: #6e6d6d;
+        font-size: 12px;
+        margin-bottom: 18px;
+        letter-spacing: 1.5px !important
+    }
+
+    .sponsor_artikel{
+        margin-top: 40px;
+    }
+
+    .sponsor_artikel ul, .sponsor_artikel ol{
+        padding: 0px 0px 0px 40px;
+        margin: 14px 0px 0px 0px;
+    }
+
+    .sponsor_artikel p{
+        margin-top: 14px;
+    }
+
+    .sponsor_artikel h2{
+        display: inline;
+        padding: 0px 0px 0px 0px;
+        margin: 0px 0px 0px 0px;
+        font-size: 28px;
+        color: black;
+        font-weight: 600;
+    }
+
+    .sponsor_artikel h4, .sponsor_artikel h3{
+        padding: 0px 0px 0px 0px;
+        margin: 28px 0px -8px 0px;
+        font-size: 12px;
+        color: black;
+        text-transform: uppercase;
+        font-weight: 700;
+    }
+
+    #slide-2 p{
+        letter-spacing: 1.5px !important;
+        margin-bottom: 0px;
+    }
+
+    #slide-2 .container{
+        margin: 30px auto 80px auto;
+    }
+
+    @media (max-width: 768px) {
+        .homeSlide{
+            height: 400px;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        $(function () {
+            $( ".fullscreenMaxHeight" ).css('max-height', $( window ).height());
+            $( ".fullscreenHeight" ).css('height', $( window ).height());
+
+            // initialize skrollr if the window width is large enough
+            if ($(window).width() > 992) {
+                skrollr.init({smoothScrolling: false, forceHeight: false});
+            }
+
+            var paddT = parseInt($('.fillscreen').css('marginTop').replace("px","")) + parseInt($('.fillscreen').css('marginBottom').replace("px",""));
+            $( ".fillscreen" ).css('min-height', $( window ).outerHeight(true) - $( '.footer' ).outerHeight(true) - $( '.credits' ).outerHeight(true) - $('.homeSlide').outerHeight(true) - paddT);
+        });
+    </script>
+{% endblock %}

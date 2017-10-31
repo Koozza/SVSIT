@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {% include 'header.html.twig' %}
+    <div class="container" style="max-width: 1000px; padding-top: 120px; padding-bottom: 80px;">
+        <h1>Algemene voorwaarden lidmaatschap Studievereniging Innovatie en Technologie</h1>
+        {{ getContent('algemene_voorwaarden')|raw }}
+        </div>
+    {% include 'footer.html.twig' %}
+{% endblock %}
+
+{% block javascripts_head %}
+    <script src="{{ asset('/bundles/sit/js/jquery.min.js') }}"></script>
+    <script src="{{ asset('/bundles/sit/js/bootstrap.min.js') }}"></script>
+{% endblock %}
+
+{% block stylesheets %}
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{{ asset('/bundles/sit/css/bootstrap.css') }}">
+    <link rel="stylesheet" href="{{ asset('/bundles/sit/css/default.css') }}">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
+    <style>
+        *, *:before, *:after {
+            -moz-box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+
+        li, ul {
+            list-style: none;
+            margin: 0px;
+            padding: 0px;
+        }
+
+        h1{
+            text-align: left;
+            width:100%;
+            font-size: 20px;
+            margin-bottom: 40px;
+            text-transform: uppercase;
+        }
+        p{
+            margin-top: 12px;
+        }
+    </style>
+{% endblock %}

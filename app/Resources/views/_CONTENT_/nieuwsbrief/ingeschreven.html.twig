@@ -1,0 +1,9 @@
+{% extends 'mail/nieuwsbrief_action.html.twig' %}
+
+{% block title %}
+
+{% endblock %}
+
+{% block text %}
+    {{ getContent('mail_nieuwsbrief_aangemeld')|raw }}
+{% endblock %}

@@ -1,0 +1,105 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {% include 'header.html.twig' %}
+    <div class="container fillscreen" style="max-width: 1000px; padding-top: 120px; padding-bottom: 80px;">
+        <h1>Betaling: {{ betaalLink.naam }}</h1>
+        {{ include(template_from_string(getContent('paylink_accept')|unescape|raw)) }}
+
+        {{ form_start(form) }}
+        {% if not ingelogged %}
+            <p style="font-weight: 600; margin-bottom: 2px;">Volledige naam: *</p>
+            {{ form_errors(form.volledigeNaam) }}
+            {{ form_widget(form.volledigeNaam) }}
+        {% endif %}
+        <p style="font-weight: 600; margin-bottom: 2px;">Kies je bank: *</p>
+        {{ form_errors(form.issuers) }}
+        {{ form_widget(form.issuers) }}<br>
+
+        <input type="submit" class="payment_button" value="Doorgaan met betaling" style="margin-top: 20px;" />
+        {{ form_end(form) }}
+    </div>
+    {% include 'footer.html.twig' %}
+{% endblock %}
+
+{% block javascripts_head %}
+    <script src="{{ asset('/bundles/sit/js/jquery.min.js') }}"></script>
+    <script src="{{ asset('/bundles/sit/js/bootstrap.min.js') }}"></script>
+{% endblock %}
+
+{% block stylesheets %}
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{{ asset('/bundles/sit/css/bootstrap.css') }}">
+    <link rel="stylesheet" href="{{ asset('/bundles/sit/css/default.css') }}">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
+    <style>
+        *, *:before, *:after {
+            -moz-box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+
+        li, ul {
+            list-style: none;
+            margin: 0px;
+            padding: 0px;
+        }
+
+        h1{
+            text-align: left;
+            width:100%;
+            font-size: 20px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        p{
+            margin-top: 12px;
+        }
+
+        .container input, .container select, .container button{
+            max-width: 300px;
+            width: 100%;
+            margin-bottom: 10px;
+            padding: 8px 16px;
+            background-color: #f1f1f1;
+            border: 1px solid transparent;
+        }
+
+        .container input:focus, .container select:focus, .container button:focus {
+            outline:none;
+            border: 1px solid #999;
+        }
+
+        .payment_button{
+            padding: 10px 20px;
+            color: #4c6a9e;
+            display: inline-block;
+            border: 1px solid #4c6a9e;
+            margin-top: 10px;
+            font-weight: 600;
+            text-decoration: none !important;
+            background-color: white;
+        }
+
+        #slide-2 .container select, #slide-2 .container button{
+            margin-bottom: 10px;
+            padding: 8px 16px;
+            background-color: #f1f1f1;
+            border: 1px solid transparent;
+        }
+
+        #slide-2 .container select:focus, #slide-2 .container button:focus {
+            outline:none;
+            border: 1px solid #999;
+        }
+    </style>
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript">
+        $(function () {
+            $( ".fillscreen" ).css('min-height', $( window ).outerHeight(true) - $( '.footer' ).outerHeight(true) - $( '.credits' ).outerHeight(true));
+        });
+    </script>
+{% endblock %}

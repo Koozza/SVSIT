@@ -1,0 +1,5 @@
+{% extends 'mail/basemail.html.twig' %}
+
+{% block content %}
+    {{ include(template_from_string(getContent('mail_factuur')|unescape|raw)) }}
+{% endblock %}

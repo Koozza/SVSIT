@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>{% block title %}Studievereniging Innovatie en Technologie{% endblock %}</title>
+        {% block stylesheets %}{% endblock %}
+        {% block javascripts_head %}{% endblock %}
+        <style>
+            .cookie_button{
+                background-color: #4c6a9e;
+                color: white;
+                min-width:160px;
+                text-align: center;
+                line-height: 30px;
+                border-radius: 2px;
+                cursor: pointer;
+                padding: 0px;
+                margin: 2px;
+                letter-spacing: 0px;
+                max-width: 100%;
+                font-size: 10px;
+                width: 100%
+            }
+
+            #cookieMelding p{
+                font-size: 10px !important;
+                letter-spacing: 0px !important;
+            }
+
+            #cookieMelding p strong{
+                font-size: 10px !important;
+                letter-spacing: 0px !important;
+            }
+
+        </style>
+        <link rel="icon" type="image/x-icon" href="{{ asset('/bundles/sit/images/favicon.ico') }}?v=2" />
+        <script src="{{ asset('/bundles/sit/js/jquery.3.1.1.min.js') }}"></script>
+        <script type="text/javascript">
+            $(document).ready(function() {
+                $('.cookie_button').click(function () {
+                    $('.navbar-fixed-bottom').hide();
+                    $.get('{{ path('accept_cookies') }}', function() {
+                    })
+                });
+            });
+        </script>
+        <script src="{{ asset('/bundles/sit/js/bootstrap-hover-dropdown.min.js') }}"></script>
+    </head>
+    <body>
+        {% block top %}{% endblock %}
+        {% block body %}{% endblock %}
+        {% if app.request.cookies.get('cookies') != "accepted" %}
+        <div class="navbar-fixed-bottom" style="background-color: white; border-top: 1px solid black; padding: 15px;">
+            <div style="max-width: 1000px; margin: 0px auto;" id="cookieMelding">
+                {{ getContent('cookie_melding')|raw }}
+
+                <div style=" margin: 18px auto 0px auto; width: 200px;">
+                    <div class="cookie_button col-md-6">
+                        Ja, Ik accepteer deze cookies.
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        {% endif %}
+        {% block javascripts %}{% endblock %}
+    </body>
+</html>

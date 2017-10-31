@@ -1,0 +1,285 @@
+imports:
+    - { resource: parameters.yml }
+    - { resource: security.yml }
+    - { resource: services.yml }
+    - { resource: "@SITBundle/Resources/config/admin.yml" }
+
+# Put parameters here that don't need to change on each machine where the app is deployed
+# http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
+parameters:
+    locale: nl
+
+sonata_admin:
+    templates:
+        layout:  SonataAdminBundle::layout.html.twig
+    title_logo: /bundles/sit/images/logo_small.png
+    security:
+        handler: sonata.admin.security.handler.role
+    assets:
+        stylesheets:
+            - bundles/sonatacore/vendor/bootstrap/dist/css/bootstrap.min.css
+            - bundles/sonatacore/vendor/components-font-awesome/css/font-awesome.min.css
+            - bundles/sonatacore/vendor/ionicons/css/ionicons.min.css
+            - bundles/sonataadmin/vendor/admin-lte/dist/css/AdminLTE.min.css
+            - bundles/sonataadmin/vendor/admin-lte/dist/css/skins/skin-black.min.css
+            - bundles/sonataadmin/vendor/iCheck/skins/square/blue.css
+            - bundles/sonatacore/vendor/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css
+            - bundles/sonataadmin/vendor/jqueryui/themes/base/jquery-ui.css
+            - bundles/sonatacore/vendor/select2/select2.css
+            - bundles/sonatacore/vendor/select2-bootstrap-css/select2-bootstrap.min.css
+            - bundles/sonataadmin/vendor/x-editable/dist/bootstrap3-editable/css/bootstrap-editable.css
+            - bundles/sonataadmin/css/styles.css
+            - bundles/sonataadmin/css/layout.css
+            - bundles/sonataadmin/css/tree.css
+            - bundles/sonataadmin/css/colors.css
+            - bundles/sit/css/sonataadmin.css
+    dashboard:
+        groups:
+            sonata.admin.group.ledenadministratie:
+                label:           Ledenadministratie
+                icon:            '<i class="fa fa-users"></i>'
+                items:
+                    - sonata.admin.gebruiker
+                    - sonata.admin.betaling
+            sonata.admin.group.website:
+                label:           Website
+                icon:            '<i class="fa fa-laptop"></i>'
+                items:
+                    - sonata.admin.nieuws
+                    - sonata.admin.nieuwsbriefleden
+                    - sonata.admin.evenement
+                    - sonata.admin.sponsor
+                    - sonata.admin.bestuurslid
+                    - sonata.admin.bestuur
+                    - sonata.admin.content
+            sonata.admin.group.mollie:
+                label:           Financieel
+                icon:            '<i class="fa fa-euro"></i>'
+                items:
+                    - sonata.admin.factuur
+                    - sonata.admin.betaallinks
+                    - sonata.admin.mollie.customer
+                    - sonata.admin.mollie.payment
+                    - sonata.admin.mollie.mandate
+            sonata.admin.group.merchendise:
+                label:           Merchandise
+                icon:            '<i class="fa fa-shopping-bag"></i>'
+                items:
+                    - sonata.admin.product
+                    - sonata.admin.voorraad
+                    - sonata.admin.maat
+                    - sonata.admin.productverzoek
+            sonata.admin.group.overige:
+                label:           Overige
+                icon:            '<i class="fa fa-ellipsis-h"></i>'
+                items:
+                    - sonata.admin.lidmaatschap
+                    - sonata.admin.studierichting
+                    - sonata.admin.periode
+            sonata.admin.group.fos:
+                label:           Gebruikers
+                icon:            '<i class="fa fa-address-card-o"></i>'
+                items:
+                    - sonata.user.admin.user
+                    - sonata.user.admin.group
+
+ewz_recaptcha:
+    public_key:  6Lcrmg4UAAAAAF2UGImW7p3NvlGQG4KJn0L2HHpk
+    private_key: 6Lcrmg4UAAAAAJhZigYSekN_JZd6xK_6zrk4J8yv
+    locale_key:  %kernel.default_locale%
+
+ivory_ck_editor:
+    default_config: default
+    configs:
+        default:
+            toolbar: [ [ 'Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo' ], [ 'Scayt' ], [ 'Link', 'Unlink', 'Anchor' ], [ 'Image', 'SpecialChar' ], ["Maximize"],  "/", [ 'Bold', 'Italic', 'Underline', 'Strike', '-', 'RemoveFormat' ], [ 'NumberedList', 'BulletedList' ], ['Format'] ]
+            format_tags: 'h3'
+            removeDialogTabs: 'image:advanced;link:advanced'
+            extraPlugins: 'uploadimage'
+            uploadUrl: '/admin/ckeditor/upload'
+        simpleText:
+            toolbar: [ [ 'Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo' ], [ 'Scayt' ], [ 'Link', 'Unlink', 'Anchor' ], ['SpecialChar', "Maximize"],  "/", [ 'Bold', 'Italic', 'RemoveFormat' ], ['BulletedList' ] ]
+            removeDialogTabs: 'image:advanced;link:advanced'
+        h2h3noImage:
+            toolbar: [ [ 'Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo' ], [ 'Scayt' ], [ 'Link', 'Unlink', 'Anchor' ], [ 'SpecialChar', "Maximize"],  "/", [ 'Bold', 'Italic', 'Underline', 'Strike', '-', 'RemoveFormat' ], [ 'NumberedList', 'BulletedList' ], ['Format'] ]
+            format_tags: 'h2;h3'
+            removeDialogTabs: 'image:advanced;link:advanced'
+
+framework:
+    #esi:             ~
+    translator:      { fallbacks: ["%locale%"] }
+    secret:          "%secret%"
+    router:
+        resource: "%kernel.root_dir%/config/routing.yml"
+        strict_requirements: ~
+    form:            ~
+    csrf_protection: ~
+    validation:      { enable_annotations: true }
+    #serializer:      { enable_annotations: true }
+    templating:
+        engines: ['twig']
+    default_locale:  "%locale%"
+    trusted_hosts:   ~
+    trusted_proxies: ~
+    session:
+        # http://symfony.com/doc/current/reference/configuration/framework.html#handler-id
+        handler_id:  session.handler.native_file
+        save_path:   "%kernel.root_dir%/../var/sessions/%kernel.environment%"
+    fragments:       ~
+    http_method_override: true
+    assets: ~
+
+# Twig Configuration
+twig:
+    debug:            "%kernel.debug%"
+    strict_variables: "%kernel.debug%"
+    form_themes:
+        - 'form/fields.html.twig'
+
+sonata_formatter:
+    formatters:
+        markdown:
+            service: sonata.formatter.text.markdown
+            extensions:
+                - sonata.formatter.twig.control_flow
+                - sonata.formatter.twig.gist
+        #        - sonata.media.formatter.twig #keep this commented unless you are using media bundle.
+
+
+        text:
+            service: sonata.formatter.text.text
+            extensions:
+                - sonata.formatter.twig.control_flow
+                - sonata.formatter.twig.gist
+        #        - sonata.media.formatter.twig
+
+
+        rawhtml:
+            service: sonata.formatter.text.raw
+            extensions:
+                - sonata.formatter.twig.control_flow
+                - sonata.formatter.twig.gist
+        #        - sonata.media.formatter.twig
+
+
+        richhtml:
+            service: sonata.formatter.text.raw
+            extensions:
+                - sonata.formatter.twig.control_flow
+                - sonata.formatter.twig.gist
+        #        - sonata.media.formatter.twig
+
+
+        twig:
+            service: sonata.formatter.text.twigengine
+            extensions: [] # Twig formatter cannot have extensions
+
+
+fos_user:
+    db_driver:      orm # can be orm or odm
+    firewall_name:  main
+    user_class:     Application\Sonata\UserBundle\Entity\User
+
+
+    group:
+        group_class:   Application\Sonata\UserBundle\Entity\Group
+        group_manager: sonata.user.orm.group_manager                    # If you're using doctrine orm (use sonata.user.mongodb.group_manager for mongodb)
+
+    service:
+        user_manager: sonata.user.orm.user_manager                      # If you're using doctrine orm (use sonata.user.mongodb.user_manager for mongodb)
+
+
+
+
+# Doctrine Configuration
+doctrine:
+    dbal:
+        driver:   pdo_mysql
+        host:     "%database_host%"
+        port:     "%database_port%"
+        dbname:   "%database_name%"
+        user:     "%database_user%"
+        password: "%database_password%"
+        charset:  UTF8
+        types:
+            json: Sonata\Doctrine\Types\JsonType
+        # if using pdo_sqlite as your database driver:
+        #   1. add the path in parameters.yml
+        #     e.g. database_path: "%kernel.root_dir%/data/data.db3"
+        #   2. Uncomment database_path in parameters.yml.dist
+        #   3. Uncomment next line:
+        #     path:     "%database_path%"
+
+    orm:
+        auto_generate_proxy_classes: "%kernel.debug%"
+        naming_strategy: doctrine.orm.naming_strategy.underscore
+        auto_mapping: true
+
+# Swiftmailer Configuration
+swiftmailer:
+    transport: "%mailer_transport%"
+    host:      "%mailer_host%"
+    username:  "%mailer_user%"
+    password:  "%mailer_password%"
+    spool:     { type: memory }
+
+sonata_block:
+    default_contexts: [cms]
+    blocks:
+
+        # enable the SonataAdminBundle block
+        sonata.admin.block.admin_list:
+            contexts:   [admin]
+liip_imagine :
+    resolvers :
+        default :
+            web_path : ~
+
+    filter_sets :
+        cache : ~
+        # the name of the "filter set"
+        adminListThumb :
+            quality : 100
+            filters :
+                thumbnail  : { size : [120, 90], mode : outbound }
+        bestuuricon :
+            quality : 100
+            filters :
+                relative_resize  : { heighten: 300 }
+
+sonata_media:
+    # if you don't use default namespace configuration
+    #class:
+    #    media:        MyVendor\MediaBundle\Entity\Media
+    #    gallery:      MyVendor\MediaBundle\Entity\Gallery
+    #    gallery_item: MyVendor\MediaBundle\Entity\GalleryItem
+    db_driver: doctrine_orm # or doctrine_mongodb, doctrine_phpcr it is mandatory to choose one here
+    default_context: default # you need to set a context
+    contexts:
+        default:  # the default context is mandatory
+            providers:
+                - sonata.media.provider.dailymotion
+                - sonata.media.provider.youtube
+                - sonata.media.provider.image
+                - sonata.media.provider.file
+                - sonata.media.provider.vimeo
+
+            formats:
+                small: { width: 100 , quality: 70}
+                big:   { width: 500 , quality: 70}
+        webshop:  # the default context is mandatory
+            providers:
+                - sonata.media.provider.image
+
+            formats:
+                small: { width: 350, quality: 90}
+                big:   { width: 1500 , quality: 100}
+
+    cdn:
+        server:
+            path: /uploads/media # http://media.sonata-project.org/
+
+    filesystem:
+        local:
+            directory:  "%kernel.root_dir%/../web/uploads/media"
+            create:     false

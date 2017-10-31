@@ -1,0 +1,244 @@
+<?php
+namespace SITBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * @ORM\Entity
+ * @ORM\Table(name="betaalverzoek")
+ */
+class BetaalVerzoek
+{
+    /**
+     * @ORM\Column(type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $naam;
+
+    /**
+     * @ORM\Column(type="text")
+     */
+    private $omschrijving;
+
+    /**
+     * @ORM\Column(type="decimal", precision=5, scale=2)
+     */
+    private $amount;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $chargePaymentCost;
+
+    /**
+     * @ORM\OneToMany(targetEntity="BetaalLink", mappedBy="betaalVerzoek", cascade={"remove"})
+     */
+    private $betaalLinks;
+
+
+    //Bullshit die nodig is
+    private $AantalBetalingen, $AlleBetalingen;
+
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->betaalLinks = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    public function __toString()
+    {
+        return $this->naam;
+    }
+
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set naam
+     *
+     * @param string $naam
+     *
+     * @return BetaalVerzoek
+     */
+    public function setNaam($naam)
+    {
+        $this->naam = $naam;
+
+        return $this;
+    }
+
+    /**
+     * Get naam
+     *
+     * @return string
+     */
+    public function getNaam()
+    {
+        return $this->naam;
+    }
+
+    /**
+     * Add betaalLink
+     *
+     * @param \SITBundle\Entity\BetaalLink $betaalLink
+     *
+     * @return BetaalVerzoek
+     */
+    public function addBetaalLink(\SITBundle\Entity\BetaalLink $betaalLink)
+    {
+        $this->betaalLinks[] = $betaalLink;
+
+        return $this;
+    }
+
+    /**
+     * Remove betaalLink
+     *
+     * @param \SITBundle\Entity\BetaalLink $betaalLink
+     */
+    public function removeBetaalLink(\SITBundle\Entity\BetaalLink $betaalLink)
+    {
+        $this->betaalLinks->removeElement($betaalLink);
+    }
+
+    /**
+     * Get betaalLinks
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getBetaalLinks()
+    {
+        return $this->betaalLinks;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAantalBetalingen()
+    {
+        $betalingen = 0;
+        foreach ($this->getBetaalLinks() as $betaallink) {
+            foreach ($betaallink->getGebruikerMolliePayments() as $gmpayment) {
+                if ($gmpayment->getMolliePayment()->getStatus() == "paid") {
+                    $betalingen++;
+                }
+            }
+        }
+        return $betalingen;
+    }
+
+
+    /**
+     * @return mixed
+     */
+    public function getTotaalAantalBetalingen()
+    {
+        $betalingen = 0;
+        foreach ($this->getBetaalLinks() as $betaallink) {
+            foreach ($betaallink->getGebruikerMolliePayments() as $gmpayment) {
+                $betalingen++;
+            }
+        }
+        return $betalingen;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAlleBetalingen()
+    {
+        $gmpayments = new \Doctrine\Common\Collections\ArrayCollection();
+
+        foreach ($this->getBetaalLinks() as $betaallink) {
+            foreach ($betaallink->getGebruikerMolliePayments() as $gmpayment) {
+                if ($gmpayment->getMolliePayment()->getStatus() == "paid") {
+                    $gmpayments->add($gmpayment);
+                }
+            }
+        }
+
+        return $gmpayments;
+    }
+
+    /**
+     * Set omschrijving
+     *
+     * @param string $omschrijving
+     *
+     * @return BetaalVerzoek
+     */
+    public function setOmschrijving($omschrijving)
+    {
+        $this->omschrijving = $omschrijving;
+
+        return $this;
+    }
+
+    /**
+     * Get omschrijving
+     *
+     * @return string
+     */
+    public function getOmschrijving()
+    {
+        return $this->omschrijving;
+    }
+
+    /**
+     * Set amount
+     *
+     * @param string $amount
+     *
+     * @return BetaalVerzoek
+     */
+    public function setAmount($amount)
+    {
+        $this->amount = $amount;
+
+        return $this;
+    }
+
+    /**
+     * Get amount
+     *
+     * @return string
+     */
+    public function getAmount()
+    {
+        return $this->amount;
+    }
+
+
+    //Bullshit die nodig is
+    public function setAlleBetalingen($v)
+    {
+    }
+
+    public function addAlleBetalingen($v)
+    {
+    }
+
+    public function removeAlleBetalingen($v)
+    {
+    }
+
+    public function setAantalBetalingen($v)
+    {
+    }
+}

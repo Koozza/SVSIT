@@ -1,0 +1,140 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+{% include 'header.html.twig' %}
+
+    <div class="container" style="max-width: 1100px; padding-top: 150px;">
+        <h1>{{ bestuur.naam }}</h1>
+    </div>
+
+    <section id="slide-6" class="bestuur">
+        <div class="container" style="max-width: 1100px;">
+            <div class="row">
+                {% set maxXpos = (bestuur.bestuursleden|length / 2)|round(0, 'ceil') %}
+                {% set cusPos = maxXpos %}
+                {% set otherWay = "false" %}
+                {% for lid in bestuur.bestuursleden | sortbyfield('positie') %}
+                    <div class="{% if bestuur.bestuursleden|length == 5 %}col-md-15{% elseif bestuur.bestuursleden|length == 4 %}col-md-3{% else %}col-md-4{% endif %} col-sm-4 bestuurslid" data-100-bottom-top="transform: translateY({{ cusPos }}00px); opacity: 0" data-center-top="transform: translateX(0px); opacity: 1;">
+                        {% if lid.getWebPath() is not null %}
+                        <div style="width: 192px; height: 192px; margin:0px auto; overflow: hidden; position: relative;" id="bestuursImageContainer">
+                            <img src="{{ lid.getWebPath()|imagine_filter('bestuuricon') }}" style="position: relative; left: {{ lid.l }}px; top: {{ lid.t }}px; width: {{ lid.w }}px;" />
+                            <img src="/bundles/sit/images/bestuur_overlay.png" style="position: absolute; left: 0px; top: 0px;" />
+                        </div>
+                        {% endif %}
+                        <p>{{ lid.naam }}</p>
+                        <p>{{ lid.functie }}</p>
+                        {% if lid.fblink is not null %}
+                            <a href="{{ lid.fblink }}" target="_blank" style="color: inherit;"><i class="fa fa-facebook-official" style="font-size: 15px; margin-top: 3px;"></i></a>
+                        {% endif %}
+                        {% if lid.inlink is not null %}
+                            <a href="{{ lid.inlink }}" target="_blank" style="color: inherit;"><i class="fa fa-linkedin-square" style="font-size: 15px; margin-top: 3px;"></i></a>
+                        {% endif %}
+                    </div>
+
+                    {% if cusPos > 1 and otherWay == "false" %}
+                        {% set cusPos = cusPos-1 %}
+                    {% else %}
+                        {% if otherWay == "true" %}
+                            {% set cusPos = cusPos+1 %}
+                        {% endif %}
+                    {% endif %}
+
+                    {% if cusPos == 1 %}
+                        {% if bestuur.bestuursleden|length is even %}
+                            {% if bestuur.bestuursleden|length / 2 == loop.index %}
+                                {% set otherWay = "true" %}
+                            {% endif %}
+                        {% else %}
+                            {% set otherWay = "true" %}
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <div class="container" style="max-width: 1100px; padding-top: 30px; padding-bottom: 40px;">
+        {% if bestuur.getWebPath() is not null %}
+        <img src="{{ bestuur.getWebPath() }}" style="width: 100%;">
+        {% endif %}
+    </div>
+
+{% include 'footer.html.twig' %}
+
+{% endblock %}
+
+{% block javascripts_head %}
+    <script src="{{ asset('/bundles/sit/js/jquery.min.js') }}"></script>
+    <script src="{{ asset('/bundles/sit/js/bootstrap.min.js') }}"></script>
+
+    <script src="{{ asset('/bundles/sit/js/skrollr.min.js') }}"></script>
+{% endblock %}
+
+{% block stylesheets %}
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{{ asset('/bundles/sit/css/bootstrap.css') }}">
+    <link rel="stylesheet" href="{{ asset('/bundles/sit/css/default.css') }}">
+    <link rel="stylesheet" href="{{ asset('/bundles/sit/css/fa.css') }}">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
+    <style>
+    h1{
+        text-align: center;
+        width:100%;
+        font-size: 32px;
+        margin:0px 0px 30px 0px;
+        padding: 0px;
+    }
+
+    .bestuurslid{
+        text-align: center;
+    }
+
+    .bestuurslid p{
+        text-align: center;
+        letter-spacing: 1.5px;
+        margin: 0;
+        padding: 0;
+        color: #6e6d6d;
+    }
+
+    .bestuurslid p:first-of-type{
+        font-weight: 700;
+        margin-top: 10px;
+    }
+
+    .bestuur{
+        padding: 40px 0px;
+    }
+
+    .bestuur .row{
+        margin-bottom:20px;
+    }
+
+    .bestuur .col-sm-4 {
+        text-align: center;
+    }
+
+    .bestuur p{
+        letter-spacing: 1.5px;
+    }
+
+    .bestuur .col-sm-8 div{
+        display:table-cell;
+        vertical-align:middle;
+    }
+</style>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        $(function () {
+            $( ".fullscreenMaxHeight" ).css('max-height', $( window ).height());
+            $( ".fullscreenHeight" ).css('height', $( window ).height());
+
+            // initialize skrollr if the window width is large enough
+            if ($(window).width() > 992) {
+                skrollr.init({smoothScrolling: false, forceHeight: false});
+            }
+        });
+    </script>
+{% endblock %}

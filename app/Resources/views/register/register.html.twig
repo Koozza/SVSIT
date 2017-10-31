@@ -1,0 +1,298 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+{% include 'header.html.twig' %}
+
+<section id="slide-1" class="homeSlide">
+    <div class="row" style="margin: 0px !important; height: 100%;">
+        <div class="col-sm-12" style="overflow: hidden; padding: 0px; height: 100%;">
+            <div class="headerimage" style=" height: 100%; background-size: cover; background-image: url('{{ asset('/bundles/sit/images/IMG_8941.jpg') }}'); width: 100%; background-repeat: no-repeat; background-attachment: fixed; background-position: center;"
+                 data-center="background-position: 50% 85%;"
+                 data-top-bottom="background-position: 50% 185%;"
+                 data-anchor-target="#slide-1">
+
+                <div style=" height: 100%; background-color: rgba(28,28,28, 0.8); width: 100%; display: flex; align-items: center; margin-top: 20px;">
+                    <h1>Aanmelden bij SIT!</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="slide-2">
+    {{ form_start(form) }}
+    <div class="container" style="max-width: 1000px;">
+        <div class="row">
+            <div class="col-sm-6">
+                <legend><span class="number">1.</span>Basisgegevens</legend>
+                <label for="form_voornaam" class="required">Voornaam *</label>
+                {{ form_errors(form.voornaam) }}
+                {{ form_widget(form.voornaam) }}
+
+                <label for="form_tussenvoegsel">Tussenvoegsel</label>
+                {{ form_errors(form.tussenvoegsel) }}
+                {{ form_widget(form.tussenvoegsel) }}
+
+                <label for="form_achternaam" class="required">Achternaam *</label>
+                {{ form_errors(form.achternaam) }}
+                {{ form_widget(form.achternaam) }}
+
+                <label for="form_geslacht" class="required">Geslacht *</label>
+                {{ form_errors(form.geslacht) }}
+                {{ form_widget(form.geslacht) }}
+
+                <label for="form_geboortedatum" class="required">Geboortedatum *</label>
+                {{ form_errors(form.geboortedatum) }}
+                {{ form_widget(form.geboortedatum) }}
+
+                <legend><span class="number">2.</span>Contactgegevens</legend>
+                <label for="form_adres" class="required">Adres *</label>
+                {{ form_errors(form.adres) }}
+                {{ form_widget(form.adres) }}
+
+                <label for="form_postcode" class="required">Postcode *</label>
+                {{ form_errors(form.postcode) }}
+                {{ form_widget(form.postcode) }}
+
+                <label for="form_woonplaats" class="required">Woonplaats *</label>
+                {{ form_errors(form.woonplaats) }}
+                {{ form_widget(form.woonplaats) }}
+
+                <label for="form_telefoonnummer" class="required">Telefoonnummer *</label>
+                {{ form_errors(form.telefoonnummer) }}
+                {{ form_widget(form.telefoonnummer) }}
+
+                <legend><span class="number">3.</span>Studiegegevens</legend>
+                <label for="form_studentnummer">Studentnummer **</label>
+                {{ form_errors(form.studentnummer) }}
+                {{ form_widget(form.studentnummer) }}
+
+                <label for="form_startjaar" class="required">Startjaar studie **</label>
+                {{ form_errors(form.startjaar) }}
+                {{ form_widget(form.startjaar) }}
+
+                <label for="form_studierichting" class="required">Studierichting **</label>
+                {{ form_errors(form.studierichting) }}
+                {{ form_widget(form.studierichting) }}
+
+                <label for="form_lidmaatschap" class="required">Lidmaatschap *</label>
+                {{ form_errors(form.lidmaatschap) }}
+                {{ form_widget(form.lidmaatschap) }}
+            </div>
+            <div class="col-sm-6">
+
+                <legend><span class="number">4.</span>Accountgegevens</legend>
+                <label for="form_emailadres" class="required">E-mailadres *</label>
+                {{ form_errors(form.emailadres) }}
+                {{ form_widget(form.emailadres) }}
+
+                <label for="form_herhaalEmailadres" class="required">Herhaal E-mailadres *</label>
+                {{ form_errors(form.herhaalEmailadres) }}
+                {{ form_widget(form.herhaalEmailadres) }}
+
+                <label for="form_password" class="required">Wachtwoord *</label>
+                {{ form_errors(form.password) }}
+                {{ form_widget(form.password) }}
+
+                <label for="form_herhaalPassword" class="required">Herhaal Wachtwoord *</label>
+                {{ form_errors(form.herhaalPassword) }}
+                {{ form_widget(form.herhaalPassword) }}
+
+                <legend><span class="number">5.</span>Algemene Voorwaarden</legend>
+                {{  form_widget(form.akkoord) }} <span style="margin-top: -3px;">Ik ga akkoord met de <a href="{{ path('register_av') }}" target="_blank">Algemene Voorwaarden</a>.</span><br>
+                {{  form_widget(form.incasso) }} <span style="margin-top: -3px;">SIT mag jaarlijks de lidmaatschapskosten van mijn bankrekening afschrijven.</span>
+
+                <legend><span class="number">6.</span>Captcha</legend>
+                {{  form_errors(form.recaptcha) }}
+                {{  form_widget(form.recaptcha) }}
+
+
+                {{  form_widget(form.aanmelden) }}
+                {{ getContent('register_required_fields_explanation')|raw }}
+            </div>
+        </div>
+    </div>
+    {{ form_end(form) }}
+</section>
+
+{% include 'footer.html.twig' %}
+
+{% endblock %}
+
+{% block javascripts_head %}
+    <script src="{{ asset('/bundles/sit/js/jquery.min.js') }}"></script>
+    <script src="{{ asset('/bundles/sit/js/bootstrap.min.js') }}"></script>
+
+    <script src="{{ asset('/bundles/sit/js/skrollr.min.js') }}"></script>
+{% endblock %}
+
+{% block stylesheets %}
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{{ asset('/bundles/sit/css/bootstrap.css') }}">
+    <link rel="stylesheet" href="{{ asset('/bundles/sit/css/default.css') }}">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
+<style>
+    .homeSlide{
+        height: 400px;
+    }
+
+    input[type="checkbox"] {
+        width: auto !important;
+        top: 2px;
+        position: relative;
+        margin: 0px 2px 0px 0px !important;
+        padding: 0px;
+    }
+
+    h1{
+        text-transform: uppercase;
+        text-align: center;
+        color: #efefef;
+        width:100%;
+        font-size: 32px;
+    }
+
+    #slide-2 p{
+        margin-top: 10px;
+        font-size: 10px;
+        color: #999;
+    }
+
+    #slide-2 ul{
+        list-style: none;
+        font-weight: 600;
+        color: #cc0000;
+    }
+
+    #slide-2 .container{
+        padding: 50px 0px;
+    }
+
+    #slide-2 .container .col-sm-6:first-of-type{
+        padding-right: 30px;
+    }
+
+    #slide-2 .container .col-sm-6:last-of-type{
+        padding-left: 30px;
+    }
+
+    .number {
+        width: 25px;
+        display: inline-block;
+        font-size: 20px;
+        margin-right: 6px;
+        text-align: center;
+    }
+
+    #slide-2 .container .col-sm-6 legend:first-of-type{
+        margin-top: 30px;
+    }
+
+    legend {
+        margin-top: 60px;
+        font-size: 20px;
+        text-transform: uppercase;
+    }
+
+    label{
+        width: 100%;
+        font-weight: 400;
+        letter-spacing: 1.2px;
+    }
+
+    #slide-2 .container input, #slide-2 .container select, #slide-2 .container button{
+        width: 100%;
+        margin-bottom: 10px;
+        padding: 8px 16px;
+        background-color: #f1f1f1;
+        border: 1px solid transparent;
+    }
+
+    #slide-2 .container input:focus, #slide-2 .container select:focus, #slide-2 .container button:focus {
+        outline:none;
+        border: 1px solid #999;
+    }
+
+    #slide-2 .container button{
+        margin-top: 60px;
+        border-color: #4c6a9e;
+        background-color: white;
+        color: #4c6a9e;
+        font-weight: 600;
+        text-transform: uppercase;
+    }
+
+    #form_geboortedatum select{
+        width: calc(32.666% - 4px) !important;
+        margin-right: 1%
+    }
+
+    #form_geboortedatum select:last-of-type{
+        margin-right: 1px !important;
+    }
+
+    @media (max-width: 992px) {
+        /* Nothing on this page */
+    }
+    @media (max-width: 768px) {
+        legend:first-of-type{
+            margin-top: 30px !important;
+        }
+
+        .homeSlide{
+            height: 400px;
+        }
+
+        #slide-2 .container{
+            padding-top: 10px;
+        }
+
+        #slide-2 .row{
+            margin: 0px;
+        }
+
+        #slide-2 .container .col-sm-6:first-of-type{
+            padding-right: 15px;
+        }
+
+        #slide-2 .container .col-sm-6:last-of-type{
+            padding-left: 15px;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        $(function () {
+            $( ".fullscreenMaxHeight" ).css('max-height', $( window ).height());
+            $( ".fullscreenHeight" ).css('height', $( window ).height());
+
+            // initialize skrollr if the window width is large enough
+            if ($(window).width() > 992) {
+                skrollr.init({smoothScrolling: false, forceHeight: false});
+            }
+
+
+            var $studierichting = $('#form_studierichting');
+            $studierichting.change(function() {
+                $('#form_aanmelden').prop('disabled', true);
+                var $form = $(this).closest('form');
+                var data = {};
+                data[$studierichting.attr('name')] = $studierichting.val();
+                $.ajax({
+                    url : $form.attr('action'),
+                    type: $form.attr('method'),
+                    data : data,
+                    success: function(html) {
+                        $('#form_aanmelden').prop('disabled', false);
+                        // Replace current position field ...
+                        $('#form_lidmaatschap').replaceWith(
+                            $(html).find('#form_lidmaatschap')
+                        );
+                    }
+                });
+            });
+        });
+    </script>
+{% endblock %}

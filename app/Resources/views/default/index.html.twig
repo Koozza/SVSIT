@@ -1,0 +1,637 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+{% include 'header.html.twig' %}
+
+<section id="slide-1" class="homeSlide">
+    <div class="row" style="margin: 0px !important;">
+        <div class="col-sm-12 fullscreenHeight" style="overflow: hidden; padding: 0px;">
+            <div class="fullscreenHeight" style="background-size: cover; background-image: url('{{ asset('/bundles/sit/images/DSC_0569.JPG') }}'); width: 100%; background-repeat: no-repeat; background-attachment: fixed; background-position: center;"
+                 data-center="background-position: 50% 0px;"
+                 data-top-bottom="background-position: 50% -250%;"
+                 data-anchor-target="#slide-1">
+
+                <div class="fullscreenHeight" style="background-color: rgba(28,28,28, 0.8); width: 100%; display: flex; align-items: center; ">
+                    <div style="display: block; margin: 0px auto; max-width: 60%;">
+                        <img src="{{ asset('/bundles/sit/images/logo_large.png') }}" style=" width: 100%; margin-bottom: 45px;" />
+                            <div class="row">
+                                <a href="#meerInformatie">
+                                    <div class="panel1_button col-md-6">
+                                        MEER INFORMATIE
+                                    </div>
+                                </a>
+                                <a href="{{ path('register') }}">
+                                    <div class="panel1_button col-md-6" style="background-color: #4c6a9e; color: white;">
+                                        WORD NU LID!
+                                    </div>
+                                </a>
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<a name="meerInformatie"></a>
+<section id="slide-2" class="sitvoorjou">
+<h1>{% block sit_voor_jou_title %}{% endblock %}</h1>
+    <div class="container" style="max-width: 1000px;">
+        <div class="row">
+            <div class="col-sm-4" data-200-bottom-top="transform: translateX(-150px); opacity: 0" data-100-center-top="transform: translateX(0px); opacity: 1">
+                <img src="{{ asset('/bundles/sit/images/icon_book.png') }}" />
+                {{ getContent('wat_betekend_sit_voor_jou_links')|raw }}
+            </div>
+            <div class="col-sm-4" data-200-bottom-top="transform: translateY(150px); opacity: 0" data-100-center-top="transform: translateX(0px); opacity: 1">
+                <img src="{{ asset('/bundles/sit/images/icon_controller.png') }}" />
+                {{ getContent('wat_betekend_sit_voor_jou_midden')|raw }}
+            </div>
+            <div class="col-sm-4" data-200-bottom-top="transform: translateX(150px); opacity: 0" data-100-center-top="transform: translateX(0px); opacity: 1">
+                <img src="{{ asset('/bundles/sit/images/icon_beer.png') }}" />
+                {{ getContent('wat_betekend_sit_voor_jou_rechts')|raw }}
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="slide-3" class="voordelen">
+    <div class="row" style="margin: 0px !important;">
+        <div class="col-sm-12" style="overflow: hidden; padding: 0px; ">
+            <div style="background-size: cover; background-image: url('{{ asset('/bundles/sit/images/DSC_0308.JPG') }}'); width: 100%; background-repeat: no-repeat; background-attachment: fixed; background-position: center;"
+                 data-center="background-position: 50% 0px;"
+                 data-bottom-top="background-position: 50% 300px;"
+                 data-top-bottom="background-position: 50% -300px;"
+                 data-anchor-target="#slide-3">
+
+                <div style="background-color: rgba(28,28,28, 0.8); width: 100%; display: flex; align-items: center; ">
+                    <div style="display: block; margin: 0px auto; max-width: 600px;" class="voordelen_content">
+                        <h1>Nog aan het twijfelen?</h1>
+                        {{ getContent('nog_aan_het_twijfelen')|raw }}
+                        <a href="{{ path('register') }}" style="text-decoration: none;">
+                            <div class="panel4_button" style="margin: 70px auto 20px auto; background-color: #4c6a9e; color: white;">
+                                WORD NU LID!
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="slide-4" class="evenementen">
+    <h1>AANKOMENDE EVENEMENTEN</h1>
+    <div class="container" style="max-width: 800px;">
+        <div class="row">
+            {%  if evenementen is empty %}
+                <div class="col-sm-12">
+                    <p style="text-align: center">Er zijn op dit moment geen evenementen geplanned.</p>
+                </div>
+            {% else %}
+                <div class="col-sm-6">
+                    {% for key, value in evenementen %}
+                        <div style="cursor: pointer;" class="evenement_item" data-url="{{ path('evenementen_show', {'id': value.id}) }}" data-id="{{ value.id }}" data-omschrijving="{{ value.omschrijving|striptags|truncate(250, true) }}" data-naam="{{ value.naam }}" data-lat="{{ value.locatiePositie.lat }}" data-lng="{{ value.locatiePositie.lng }}" data-adres="{{ value.locatieAdres }}" data-locatie="{{ value.locatieNaam }}" data-400-bottom-top="transform: translateX(-50px); opacity: 0" data-100-center-top="transform: translateX(0px); opacity: 1">
+                            <div class="evenementen_divider"></div>
+                            <div>
+                                <table>
+                                    <tr>
+                                        <td style="width: 100px;">Wat:</td>
+                                        <td>{{ value.naam }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width: 100px;">Waar:</td>
+                                        <td>{{ value.locatieNaam }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width: 100px;">Wanneer:</td>
+                                        <td>{{ value.datum|dutchDate("j F H:i") }}</td>
+                                    </tr>
+                                </table>
+                                <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&dates={{ value.datum|date("Ymd\\THi00\\Z", "UTC") }}/{{ value.einddatum|date("Ymd\\THi00\\Z", "UTC") }}&location={{ value.locatieAdres }}&details={{ value.omschrijving|striptags|truncate(250, true) }}&text={{ value.naam }}&sf=true&output=xml"
+                                   target="_blank" rel="nofollow">
+                                    <i class="fa fa-calendar-plus-o calender_icon" aria-hidden="true"></i></a>
+                                <a href="{{ path('evenementen_ical', {id: value.id}) }}"
+                                   target="_blank" rel="nofollow">
+                                    <i class="fa fa-calendar calender_icon" aria-hidden="true"></i></a>
+                                <div style="clear: both;"></div>
+                            </div>
+                            <div class="evenementen_divider"></div>
+                        </div>
+                    {% endfor %}
+                </div>
+
+
+                <div class="col-sm-6" data-400-bottom-top="transform: translateX(50px); opacity: 0" data-100-center-top="transform: translateX(0px); opacity: 1">
+                    <p class="evenement_title">{{ evenementen[0].naam }}</p>
+                    <p class="evenement_omschrijving">{{ evenementen[0].omschrijving|striptags|truncate(250, true)  }}</p>
+                    <p class="evenement_leesmeer"><a href="{{ path('evenementen_show', {'id': evenementen[0].id}) }}">Lees meer...</a></p>
+                    <div id="googlemap">
+
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+<section id="nieuwsbrief" class="nieuwsbrief">
+    <h1>NIEUWSBRIEF</h1>
+    <div class="container" style="max-width: 650px;">
+        {{ getContent('nieuwsbrief_intro')|raw }}
+        {% if nieuwsbriefSucces == false %}
+            {{ form_start(nieuwsbriefForm) }}
+            <div style="font-weight: 700; margin-bottom: -18px; margin-top: 25px;">{{ form_errors(nieuwsbriefForm.email) }}</div>
+            {{ form_widget(nieuwsbriefForm.email) }}
+            {{ form_widget(nieuwsbriefForm.aanmelden) }}
+            {{ form_end(nieuwsbriefForm) }}
+        {% else %}
+            {{ getContent('nieuwsbrief_succes')|raw }}
+        {% endif %}
+    </div>
+</section>
+
+<section id="slide-6" class="bestuur">
+    <h1>HET BESTUUR</h1>
+    <div class="container" style="max-width: 1100px;">
+        <div class="row">
+            {% set maxXpos = (bestuur.bestuursleden|length / 2)|round(0, 'ceil') %}
+            {% set cusPos = maxXpos %}
+            {% set otherWay = "false" %}
+            {% for lid in bestuur.bestuursleden | sortbyfield('positie') %}
+                <div class="{% if bestuur.bestuursleden|length == 5 %}col-md-15{% elseif bestuur.bestuursleden|length == 4 %}col-md-3{% else %}col-md-4{% endif %} col-sm-4 bestuurslid" data-bottom="transform:translateY({{ cusPos }}00px); opacity: 0" data-center="transform:translateY(0px); opacity: 1">
+                    <div style="width: 192px; height: 192px; margin:0px auto; overflow: hidden; position: relative;" id="bestuursImageContainer">
+                        <img src="{{ lid.getWebPath()|imagine_filter('bestuuricon') }}" style="position: relative; left: {{ lid.l }}px; top: {{ lid.t }}px; width: {{ lid.w }}px;" />
+                        <img src="/bundles/sit/images/bestuur_overlay.png" style="position: absolute; left: 0px; top: 0px;" />
+                    </div>
+                    <p>{{ lid.naam }}</p>
+                    <p>{{ lid.functie }}</p>
+                    {% if lid.fblink is not null %}
+                        <a href="{{ lid.fblink }}" target="_blank" style="color: inherit;"><i class="fa fa-facebook-official" style="font-size: 15px; margin-top: 3px;"></i></a>
+                    {% endif %}
+                    {% if lid.inlink is not null %}
+                        <a href="{{ lid.inlink }}" target="_blank" style="color: inherit;"><i class="fa fa-linkedin-square" style="font-size: 15px; margin-top: 3px;"></i></a>
+                    {% endif %}
+                </div>
+
+                {% if cusPos > 1 and otherWay == "false" %}
+                    {% set cusPos = cusPos-1 %}
+                {% else %}
+                    {% if otherWay == "true" %}
+                        {% set cusPos = cusPos+1 %}
+                    {% endif %}
+                {% endif %}
+
+                {% if cusPos == 1 %}
+                    {% if bestuur.bestuursleden|length is even %}
+                        {% if bestuur.bestuursleden|length / 2 == loop.index %}
+                            {% set otherWay = "true" %}
+                        {% endif %}
+                    {% else %}
+                        {% set otherWay = "true" %}
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+{% if sponsoren|length != 0 %}
+<section id="sponsoren" class="sponsoren">
+    <div class="container" style="max-width: 100%; height: 125px; overflow: hidden;">
+        <div style="left:0px; position: relative;" id="sponsorSlider">{% for sponsor in sponsoren %}<a href="{{ path('sponsor_pagina', {id: sponsor.id}) }}"><img src="{{ sponsor.webPath }}" class="sponsorIcon"></a>{% endfor %}</div>
+    </div>
+</section>
+{% endif %}
+
+{% include 'footer.html.twig' %}
+
+{% endblock %}
+
+{% block javascripts_head %}
+    <script src="{{ asset('/bundles/sit/js/jquery.min.js') }}"></script>
+    <script src="{{ asset('/bundles/sit/js/bootstrap.min.js') }}"></script>
+    <script defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCd4khbDjR6uLYi1-bCy6mnGwNVfCOJYBQ&callback=initMap"> </script>
+
+    <script src="{{ asset('/bundles/sit/js/skrollr.min.js') }}"></script>
+{% endblock %}
+
+{% block stylesheets %}
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{{ asset('/bundles/sit/css/bootstrap.css') }}">
+    <link rel="stylesheet" href="{{ asset('/bundles/sit/css/default.css') }}">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('/bundles/sit/css/fa.css') }}">
+<style>
+    .sponsorIcon{
+        margin: 25px 30px;
+        max-height: 75px;
+        max-width: 200px;
+    }
+
+    .sponsoren{
+        background-color: #f2f2f2;
+        padding: 40px 0px;
+        text-align: center;
+    }
+
+    .bestuur .container{
+        margin-bottom:80px;
+    }
+
+    .bestuur{
+        padding: 80px 0px 140px 0px;
+    }
+
+    .bestuur h1{
+        margin-bottom: 100px;
+    }
+
+    .nieuwsbrief li{
+        list-style: none;
+    }
+
+    .nieuwsbrief{
+        background-color: #f2f2f2;
+        padding: 40px 0px;
+        text-align: center;
+    }
+
+    .nieuwsbrief button[type="submit"] {
+        padding: 9px;
+        background-color: #363636;
+        border: 1px solid #494949;
+        color: #f8f8f8;
+        width: 135px;
+        margin-left: 6px;
+        text-transform: uppercase;
+    }
+
+    .nieuwsbrief input[type="text"] {
+        background-color: #fafafa;
+        width: 300px;
+        border: 1px solid #ababab;
+        letter-spacing:1.5px;
+        text-transform: uppercase;
+        padding: 9px;
+        color: #333333 !important;
+        margin-top:30px;
+    }
+
+    .bestuurslid{
+        text-align: center;
+    }
+
+    .bestuurslid p{
+        text-align: center;
+        letter-spacing: 1.5px;
+        margin: 0;
+        padding: 0;
+        color: #6e6d6d;
+    }
+
+    .bestuurslid p:first-of-type{
+        font-weight: 700;
+        margin-top: 10px;
+    }
+
+    .nieuwsbrief input[type="text"]::-webkit-input-placeholder{
+        color: #333333 !important;
+    }
+    .nieuwsbrief input[type="text"]:-moz-placeholder{
+        color: #333333 !important;
+    }
+    .nieuwsbrief input[type="text"]:-ms-input-placeholder{
+        color: #333333 !important;
+    }
+
+    .nieuwsbrief h1{
+        margin-top: 0px;
+    }
+
+    .nieuwsbrief p{
+        color: #6e6d6d;
+        letter-spacing: 1.5px !important;
+    }
+
+    #googlemap{
+        height: 170px;
+        width: 100%;
+        border: 1px solid #a4a4a4;
+        margin-top: 35px;
+    }
+
+    .evenement_title{
+        font-weight: 700;
+    }
+
+    .evenement_leesmeer{
+        text-align: right !important;
+        margin-top: 0px;
+        color: #6e6d6d;
+        font-style: italic;
+        width: 100%;
+    }
+
+    .evenement_leesmeer a{
+        color: #6e6d6d !important;
+        text-decoration: none;
+    }
+
+    .calender_icon{
+        margin: 0px 0px 5px 10px;
+        cursor: pointer;
+        float:right;
+
+        color: #6e6d6d;
+        font-size: 22px;
+    }
+
+    .evenementen{
+        padding: 80px 0px 140px 0px;
+        color: #6e6d6d;
+        letter-spacing: 1px;
+    }
+
+    .evenementen h1{
+        margin-bottom: 100px;
+    }
+
+    .evenementen p{
+        letter-spacing: 1.5px;
+        text-align: justify;
+    }
+
+    .evenementen table{
+        margin: 15px 0px 5px 15px;
+        float:left;
+        width: 100%;
+    }
+
+    .evenementen tr td:first-child{
+        font-weight: 700;
+        padding-right: 25px;
+    }
+
+    .evenementen_divider{
+        background-color: #2a2a2a;
+        height:1px;
+        width: 100%;
+    }
+
+    .evenementen .col-sm-6:first-child{
+        padding-left: 0px;
+        padding-right: 20px;
+    }
+
+    .evenementen .col-sm-6:last-child{
+        padding-left: 20px;
+        padding-right: 0px;
+    }
+
+    .voordelen_content{
+        padding: 65px 0px;
+        color: #efefef;
+        letter-spacing: 1.5px;
+    }
+
+    .voordelen h1{
+        margin-bottom: 100px;
+        color: #efefef;
+    }
+
+    .voordelen ul{
+        margin-top: 25px;
+        margin-left: 15px;
+    }
+
+    .sitvoorjou{
+        padding: 80px 0px 140px 0px;
+    }
+
+    .sitvoorjou h1{
+        margin-bottom: 100px;
+    }
+
+    .sitvoorjou .col-sm-4{
+        text-align: center;
+    }
+
+    .sitvoorjou .col-sm-4 p{
+        margin-top:45px;
+        color: #6e6d6d;
+        letter-spacing: 1.5px !important;
+    }
+
+    .panel1_button, .panel4_button{
+        background-color: #e5e5e5;
+        color: #111111;
+        min-width:160px;
+        text-align: center;
+        line-height: 38px;
+        border-radius: 2px;
+        cursor: pointer;
+        padding: 0px;
+        margin: 0px 10px;
+        letter-spacing: 1px;
+        max-width: 45%;
+    }
+
+    .evenementen .evenement_item:not(:last-of-type) .evenementen_divider:last-of-type {
+        display:none;
+    }
+
+    @media (max-width: 992px) {
+        .panel1_button {
+            margin: -20px auto !important;
+            margin-bottom: 30px !important;
+            max-width: 85% !important;
+        }
+
+        .sitvoorjou{
+            padding: 80px 0px;
+        }
+
+        .sitvoorjou .col-sm-4 p {
+            margin-top: 25px;
+            margin-bottom: 45px;
+        }
+
+        .voordelen_content{
+            padding: 45px 10px;
+        }
+
+        .evenementen .col-sm-6:first-child{
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+
+        .evenementen .col-sm-6:last-child{
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+
+        .bestuurslid a:last-of-type{
+            margin-bottom: 25px;
+            display:block;
+        }
+
+
+        .bestuur .container{
+            margin-bottom:0px;
+        }
+    }
+
+
+    @media (max-width: 768px) {
+        .evenement_item:nth-last-child(-n+{{ evenementen|length - 3}}) {
+            display: none;
+        }
+
+        .evenement_item:nth-last-child(-n+{{ evenementen|length - 2}}) .evenementen_divider:last-of-type {
+            display: block !important;
+        }
+
+        #mobile_divider{
+            display:block !important;
+        }
+
+        .evenement_title{
+            margin-top: 25px;
+        }
+
+        .evenementen h1{
+            margin: -10px 0px 100px 0px !important;
+        }
+
+        .bestuur h1{
+            margin: -10px 0px 100px 0px !important;
+        }
+
+        .nieuwsbrief input[type="text"] {
+            text-align: center;
+        }
+
+        .nieuwsbrief input[type="submit"] {
+            margin-left:0px;
+            margin-top:5px;
+        }
+
+        img[src="https://maps.gstatic.com/mapfiles/api-3/images/sv9.png"] {
+            display: none; !important;
+        }
+
+        #form_aanmelden{
+            margin-top:4px;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block javascripts %}
+
+
+    <script>
+        var map;
+        var marker;
+        var infowindow;
+        function initMap() {
+            {%  if evenementen is not empty %}
+            var markerloc = {lat: {{ evenementen[0].locatiePositie.lat }}, lng: {{ evenementen[0].locatiePositie.lng }}};
+            map = new google.maps.Map(document.getElementById('googlemap'), {
+                zoom: 15,
+                center: markerloc
+            });
+            marker = new google.maps.Marker({
+                position: markerloc,
+                map: map
+            });
+            marker.setVisible(false);
+
+            infowindow = new google.maps.InfoWindow({
+                content: '<h3 style="font-size: 12px; font-weight: bold; margin: 0px 0px 5px 0px;">{{ evenementen[0].locatieNaam }}</h3><p style="font-size: 10px;">{{ evenementen[0].locatieAdres|replace({"," : "<br>"})|raw }}</p>',
+            });
+
+            infowindow.setOptions({position:marker.getPosition(),
+                pixelOffset:new google.maps.Size(0,40),
+                map:map});
+
+
+            infowindow.open(map, marker);
+
+            {%  endif %}
+        }
+
+        $(function () {
+            $( ".fullscreenMaxHeight" ).css('max-height', $( window ).height());
+            $( ".fullscreenHeight" ).css('height', $( window ).height());
+
+            // initialize skrollr if the window width is large enough
+            if ($(window).width() > 992) {
+                skrollr.init({
+                    smoothScrolling: false,
+                    forceHeight: false,
+                    render: function(data) {
+                        //Dit is puur om de streepjes te fixen die zich voordoen bij bestuursleden
+                        $('.bestuurslid').each(function() {
+                            var obj = $(this);
+                            var transformMatrix = obj.css("-webkit-transform") ||
+                                obj.css("-moz-transform") ||
+                                obj.css("-ms-transform") ||
+                                obj.css("-o-transform") ||
+                                obj.css("transform");
+                            var matrix = transformMatrix.replace(/[^0-9\-.,]/g, '').split(',');
+                            var y = matrix[13] || matrix[5];//translate y
+
+                            //$('.bestuurslid').first().css('transform','translateY('+Math.ceil(y)+')');
+                            $(this).css({transform: 'translateY(' + Math.ceil(y) + 'px)'})
+                        });
+                    }
+                });
+            }
+
+            //Calender code
+            $('.evenement_item').click(function() {
+                infowindow.open(map, marker);
+                infowindow.setContent('<h3 style="font-size: 12px; font-weight: bold; margin: 0px 0px 5px 0px;">'+$(this).data('locatie')+'</h3><p style="font-size: 10px;">'+$(this).data('adres').replace(",","<br>")+'</p>');
+
+                $('.evenement_title').html($(this).data('naam'));
+                $('.evenement_omschrijving').html($(this).data('omschrijving'));
+                $('.evenement_leesmeer').children().first().attr('href', $(this).data('url'));
+
+                var markerloc = {lat: parseFloat($(this).data('lat')), lng: parseFloat($(this).data('lng'))};
+                map.setCenter(markerloc);
+                marker.setPosition(markerloc);
+            });
+
+            function start() {
+                $('#sponsorSlider').animate({
+                    left: "-=150"
+                }, {
+                    progress: function( now, fx ) {
+                        if($('#sponsorSlider').children().first().outerWidth(true) * -1 > $('#sponsorSlider').css('left').replace("px","")) {
+                            $('#sponsorSlider').stop();
+                            $('#sponsorSlider').css('left', (parseInt($('#sponsorSlider').css('left').replace("px" ,"")) + parseInt($('#sponsorSlider').children().first().outerWidth(true))) + "px");
+                            $('#sponsorSlider').append($('#sponsorSlider').children().first());
+                            start();
+                        }
+                    },
+                    easing: 'linear',
+                    duration: 5000,
+                    complete: start
+                });
+            }
+
+            //Count width of sponsors
+            var totalWidth = 0;
+            $('#sponsorSlider').children().each(function () {
+                totalWidth += $(this).outerWidth(true);
+            });
+
+            $('#sponsorSlider').width(totalWidth);
+
+            if($('#sponsorSlider').width() < $('#sponsorSlider').parent().width())
+                $('#sponsorSlider').width($('#sponsorSlider').parent().width());
+            else
+                start();
+        });
+    </script>
+{% endblock %}

@@ -1,0 +1,100 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {% include 'header.html.twig' %}
+
+    <section id="slide-1" class="homeSlide">
+        <div class="row" style="margin: 0px !important; height: 100%;">
+            <div class="col-sm-12" style="overflow: hidden; padding: 0px; height: 100%;">
+                <div style=" height: 100%; background-size: cover; background-image: url('{{ asset('/bundles/sit/images/IMG_1286.jpg') }}'); width: 100%; background-repeat: no-repeat; background-attachment: fixed; background-position: center;"
+                     data-center="background-position: 50% 50%;"
+                     data-top-bottom="background-position: 50% 150%;"
+                     data-anchor-target="#slide-1">
+
+                    <div style=" height: 100%; background-color: rgba(28,28,28, 0.8); width: 100%; display: flex; align-items: center; margin-top: 20px;">
+                        <h1>{% block title %}{% endblock %}</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="slide-2" class="mainblock">
+        <div class="container fillscreen" style="max-width: 1000px;">
+            {% block text %}{% endblock %}
+        </div>
+    </section>
+
+    {% include 'footer.html.twig' %}
+
+{% endblock %}
+
+{% block javascripts_head %}
+    <script src="{{ asset('/bundles/sit/js/jquery.min.js') }}"></script>
+    <script src="{{ asset('/bundles/sit/js/bootstrap.min.js') }}"></script>
+
+    <script src="{{ asset('/bundles/sit/js/skrollr.min.js') }}"></script>
+{% endblock %}
+
+{% block stylesheets %}
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{{ asset('/bundles/sit/css/bootstrap.css') }}">
+    <link rel="stylesheet" href="{{ asset('/bundles/sit/css/default.css') }}">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
+    <style>
+        .homeSlide{
+            height: 400px;
+        }
+
+        h1{
+            text-transform: uppercase;
+            text-align: center;
+            color: #efefef;
+            width:100%;
+            font-size: 32px;
+        }
+
+        h2{
+            text-align: left;
+            width:100%;
+            font-size: 20px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        .mainblock{
+            padding: 80px 0px 130px 0px;
+        }
+
+        @media (max-width: 992px) {
+            .panel1_button {
+                margin: -20px auto !important;
+                margin-bottom: 30px !important;
+                max-width: 85% !important;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .homeSlide{
+                height: 400px;
+            }
+        }
+    </style>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        $(function () {
+            $( ".fullscreenMaxHeight" ).css('max-height', $( window ).height());
+            $( ".fullscreenHeight" ).css('height', $( window ).height());
+
+            // initialize skrollr if the window width is large enough
+            if ($(window).width() > 992) {
+                skrollr.init({smoothScrolling: false,  forceHeight: false});
+            }
+
+            var paddT = $('#slide-2').innerHeight() - $('#slide-2').height();
+            $( ".fillscreen" ).css('min-height', $( window ).outerHeight(true) - $( '.footer' ).outerHeight(true) - $( '.credits' ).outerHeight(true) - $('.homeSlide').outerHeight(true) - paddT);
+        });
+    </script>
+{% endblock %}

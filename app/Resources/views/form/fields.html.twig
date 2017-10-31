@@ -1,0 +1,142 @@
+{% block plainText_widget %}
+    {% spaceless %}
+        {% set type = type|default('text') %}
+        {% if value is not empty %}&nbsp;
+            {% if value  is of_type("class", "DateTime") %}
+                {{ value|dutchDate("j F Y") }}
+            {% else %}
+                {{ value }}
+            {% endif %}
+        {% endif %}
+    {% endspaceless %}
+{% endblock %}
+
+{% block list_widget %}
+    {% if newAction is not null %}
+    <div class="navbar navbar-default">
+        <ul class="nav navbar-nav navbar-right">
+            <li><a class="sonata-action-element" href="{{ url(newAction) }}"><i class="fa fa-plus-circle" aria-hidden="true"></i>
+                    Nieuwe toevoegen</a></li>
+        </ul>
+    </div>
+    {% endif %}
+
+    <table class="table table-bordered table-striped sonata-ba-list">
+        <thead>
+        <tr class="sonata-ba-list-field-header" >
+        {% for f in fields %}
+                <th style="padding: 2px;" class="sonata-ba-list-field-header-text  sonata-ba-list-field-header-order-asc "><a href="#">
+                    {% if f.field is of_type("array")%}
+                        {% if f.label is defined %}{{ f.label|title }}{% endif %}
+                    {% else %}
+                        {% if f.label is defined %}{{ f.label|title }}{% else %}{{ f.field|title }}{% endif %}
+                    {% endif %}
+                    </a></th>
+        {% endfor %}
+        {% if action|length > 0 %}
+            <th style="padding: 2px;" class="sonata-ba-list-field-header-text ">
+                Action
+            </th>
+        {% endif %}
+        </tr>
+        </thead>
+
+        <tbody>
+        {% for val in value %}
+            <tr>
+            {% for f in fields %}
+                {% if f.value is defined %}
+                    {% set fieldValue = f.value %}
+                {% else %}
+                    {% if f.field is of_type("array")%}
+                        {% set fieldValue = val %}
+                        {% for a in f.field %}
+                            {% set fieldValue = attribute(fieldValue, a) %}
+                        {% endfor %}
+                    {% else %}
+                        {% set fieldValue = attribute(val, f.field) %}
+                    {% endif %}
+                {% endif %}
+
+                {% if fieldValue|get_type == "boolean" %}
+                    {% if fieldValue %}
+                        <td style="padding: 2px;" class="sonata-ba-list-field sonata-ba-list-field-text" objectId="1">
+                            <span class="label label-success">{%- trans from 'SonataAdminBundle' %}label_type_yes{% endtrans -%}</span>
+                        </td>
+                    {% else %}
+                        <td style="padding: 2px;" class="sonata-ba-list-field sonata-ba-list-field-text" objectId="1">
+                            <span class="label label-danger">{%- trans from 'SonataAdminBundle' %}label_type_no{% endtrans -%}</span>
+                        </td>
+                    {% endif %}
+                {% elseif fieldValue is of_type('class', 'Doctrine\\ORM\\PersistentCollection') or fieldValue is of_type('class', 'Doctrine\\Common\\Collections\\ArrayCollection') %}
+                    <td style="padding: 2px;" class="sonata-ba-list-field sonata-ba-list-field-text" objectId="1">
+                    {% if f.templateString is defined %}
+                        {% include(template_from_string(f.templateString)) %}
+                    {% else %}
+                        {% for entity in fieldValue %}
+                            {% if f.entityField is defined %}
+                                {% if f.linkRoute is defined %}<a href="{{ url(f.linkRoute, { 'id': attribute(entity, f.entityField).id }) }}">{{ attribute(entity, f.entityField) }}</a>{% else %}{{ attribute(entity, f.entityField) }}{% endif %}{% if not loop.last %}<br>{% endif %}
+                            {% else %}
+                                {% if f.linkRoute is defined %}<a href="{{ url(f.linkRoute, { 'id': entity.id }) }}">{{ entity }}</a>{% else %}{{ entity }}{% endif %}{% if not loop.last %}<br>{% endif %}
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                    </td>
+                {% elseif fieldValue is of_type('class', 'DateTime') %}
+                    <td style="padding: 2px;" class="sonata-ba-list-field sonata-ba-list-field-text" objectId="1">
+                        {% if(f.url is defined) %}
+                            {% if f.urlParameter is defined %}
+                                <a href="{{ f.url|replace({'__VALUE__': attribute((fieldValue is of_type("object") ? fieldValue : val), f.urlParameter)}) }}">{{ fieldValue|replace({'__VALUE__': attribute((fieldValue is of_type("object") ? fieldValue : val), f.urlParameter)})|dutchDate("j F Y H:i:s") }}</a>
+                            {% else %}
+                                <a href="{{ f.url|replace({'__VALUE__': attribute((fieldValue is of_type("object") ? fieldValue : val), f.field)}) }}">{{ fieldValue|replace({'__VALUE__': attribute((fieldValue is of_type("object") ? fieldValue : val), f.field)})|dutchDate("j F Y H:i:s") }}</a>
+                            {% endif %}
+                        {% else %}
+                            {{ fieldValue|dutchDate("j F Y H:i:s") }}
+                        {% endif %}
+                    </td>
+                {% else %}
+                    <td style="padding: 2px;" class="sonata-ba-list-field sonata-ba-list-field-text" objectId="1">
+                    {% if f.templateString is defined %}
+                        {% include(template_from_string(f.templateString)) %}
+                    {% else %}
+                        {% if(f.url is defined) %}
+                            {% if f.urlParameter is defined %}
+
+                                {% if f.urlParameter is of_type("array")%}
+                                    {% set urlParam = val %}
+                                    {% for a in f.urlParameter %}
+                                        {% set urlParam = attribute(urlParam, a) %}
+                                    {% endfor %}
+                                {% else %}
+                                    {% set urlParam = attribute(val, f.urlParameter) %}
+                                {% endif %}
+
+                                <a href="{{ f.url|replace({'__VALUE__': urlParam}) }}">{{ fieldValue|replace({'__VALUE__': urlParam}) }}</a>
+                            {% else %}
+                                <a href="{{ f.url|replace({'__VALUE__': attribute((fieldValue is of_type("object") ? fieldValue : val), f.field)}) }}">{{ fieldValue|replace({'__VALUE__': attribute((fieldValue is of_type("object") ? fieldValue : val), f.field)}) }}</a>
+                            {% endif %}
+                        {% else %}
+                            {{ fieldValue }}
+                        {% endif %}
+                    {% endif %}
+                    </td>
+                {% endif %}
+            {% endfor %}
+            {% if action|length > 0 %}
+                <td style="padding: 2px;" class="sonata-ba-list-field sonata-ba-list-field-text" objectId="1">
+                    {% for a in action %}
+                    <div class="btn-group">
+                        {% if a.linkRoute is defined %}
+                            <a style="line-height: 0.5;" href="{{ url(a.linkRoute, { 'id': val.id }) }}" class="btn btn-sm btn-default edit_link" title="Tonen">
+                                <i class="fa fa-search-plus" aria-hidden="true"></i>&nbsp;&nbsp;Tonen
+                            </a>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                </td>
+            {% endif %}
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

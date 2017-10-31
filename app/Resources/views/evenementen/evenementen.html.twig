@@ -1,0 +1,194 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {% include 'header.html.twig' %}
+
+    <section id="slide-1" class="homeSlide">
+        <div class="row" style="margin: 0px !important; height: 100%;">
+            <div class="col-sm-12" style="overflow: hidden; padding: 0px; height: 100%;">
+                <div style=" height: 100%; background-size: cover; background-image: url('{{ asset('/bundles/sit/images/IMG_9226.jpg') }}'); width: 100%; background-repeat: no-repeat; background-attachment: fixed; background-position: center;"
+                     data-center="background-position: 50% 80%;"
+                     data-top-bottom="background-position: 50% 180%;"
+                     data-anchor-target="#slide-1">
+
+                    <div style=" height: 100%; background-color: rgba(28,28,28, 0.8); width: 100%; display: flex; align-items: center; margin-top: 20px;">
+                        <h1>Evenementen</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="slide-2">
+        <div class="container fillscreen" style="max-width: 1100px;">
+            <div class="row">
+                <div class="col-sm-4">
+                    <img src="{{ asset('/bundles/sit/images/icon_beer.png') }}" />
+                    <ul>
+                        {% for evenement in evenementen_beer %}
+                            <li><a href="{{ path('evenementen_show', {'id': evenement.id}) }}"><span style="font-weight: 800;">{{ evenement.datum|dutchDate("d F") }}:</span><br>{{ evenement.naam }}</a></li>
+                        {% endfor %}
+                        {% if evenementen_beer|length == 0 %}
+                            <li style="padding: 12px 2px;">Geen evenementen gevonden in deze categorie.</li>
+                        {% endif %}
+                    </ul>
+                </div>
+                <div class="col-sm-4">
+                    <img src="{{ asset('/bundles/sit/images/icon_book.png') }}" />
+                    <ul>
+                        {% for evenement in evenementen_book %}
+                            <li><a href="{{ path('evenementen_show', {'id': evenement.id}) }}"><span style="font-weight: 800;">{{ evenement.datum|dutchDate("d F") }}:</span><br>{{ evenement.naam }}</a></li>
+                        {% endfor %}
+                        {% if evenementen_book|length == 0 %}
+                            <li style="padding: 12px 2px;">Geen evenementen gevonden in deze categorie.</li>
+                        {% endif %}
+                    </ul>
+                </div>
+                <div class="col-sm-4">
+                    <img src="{{ asset('/bundles/sit/images/icon_controller.png') }}" />
+                    <ul>
+                        {% for evenement in evenementen_controller %}
+                            <li><a href="{{ path('evenementen_show', {'id': evenement.id}) }}"><span style="font-weight: 800;">{{ evenement.datum|dutchDate("d F") }}:</span><br>{{ evenement.naam }}</a></li>
+                        {% endfor %}
+                        {% if evenementen_controller|length == 0 %}
+                            <li style="padding: 12px 2px;">Geen evenementen gevonden in deze categorie.</li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {% include 'footer.html.twig' %}
+
+{% endblock %}
+
+{% block javascripts_head %}
+    <script src="{{ asset('/bundles/sit/js/jquery.min.js') }}"></script>
+    <script src="{{ asset('/bundles/sit/js/bootstrap.min.js') }}"></script>
+
+    <script src="{{ asset('/bundles/sit/js/skrollr.min.js') }}"></script>
+{% endblock %}
+
+{% block stylesheets %}
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{{ asset('/bundles/sit/css/bootstrap.css') }}">
+    <link rel="stylesheet" href="{{ asset('/bundles/sit/css/default.css') }}">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('/bundles/sit/css/fa.css') }}">
+    <style>
+        .homeSlide{
+            height: 400px;
+        }
+
+        h1{
+            text-transform: uppercase;
+            text-align: center;
+            color: #efefef;
+            width:100%;
+            font-size: 32px;
+        }
+
+        li h2{
+            display: inline;
+            margin: 0px;
+            padding: 0px;
+            font-weight: bold;
+            font-size: 36px;
+            color: black;
+        }
+
+        li h4{
+            display: inline;
+            padding: 0px 0px 0px 0px;
+            margin: 0px 0px 0px 0px;
+            font-weight: 600;
+            font-size: 16px;
+            text-transform: uppercase;
+            color: black;
+        }
+
+        #slide-2 .col-sm-4{
+            margin-top: 80px;
+            text-align: center;
+        }
+
+        #slide-2 ul{
+            text-align: left;
+            list-style: none;
+            margin-top: 30px;
+        }
+
+        #slide-2 li{
+            border-bottom: 1px solid black;
+        }
+
+        #slide-2 li a{
+            color: inherit;
+            text-decoration: none;
+            padding: 12px 2px;
+            display: block;
+            letter-spacing:1.3px;
+        }
+
+        #slide-2 ul li:first-of-type{
+            border-top: 1px solid black;
+        }
+
+        .event_location{
+            font-size: 10px;
+            color: #6e6d6d;
+            margin-bottom: 8px;
+            letter-spacing: 1.5px !important
+        }
+
+        p{
+            letter-spacing: 1.5px !important
+        }
+
+        #slide-2 .container{
+            margin: 40px auto 80px auto;
+        }
+
+        @media (max-width: 768px) {
+            .homeSlide{
+                height: 400px;
+            }
+
+            #xs_icon{
+                display: inline !important;
+            }
+
+            #n_xs_icon{
+                display: none;
+            }
+
+            .evenement h4:first-of-type{
+                display: inline;
+                padding-left: 0px !important;
+            }
+
+            .evenement h4{
+                display: block;
+                padding-left: 5px;
+            }
+        }
+    </style>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        $(function () {
+            $( ".fullscreenMaxHeight" ).css('max-height', $( window ).height());
+            $( ".fullscreenHeight" ).css('height', $( window ).height());
+
+            // initialize skrollr if the window width is large enough
+            if ($(window).width() > 992) {
+                skrollr.init({smoothScrolling: false, forceHeight: false});
+            }
+
+            var paddT = parseInt($('.fillscreen').css('marginTop').replace("px","")) + parseInt($('.fillscreen').css('marginBottom').replace("px",""));
+            $( ".fillscreen" ).css('min-height', $( window ).outerHeight(true) - $( '.footer' ).outerHeight(true) - $( '.credits' ).outerHeight(true) - $('.homeSlide').outerHeight(true) - paddT);
+        });
+    </script>
+{% endblock %}

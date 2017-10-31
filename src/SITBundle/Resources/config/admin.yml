@@ -1,0 +1,307 @@
+services:
+    sonata.admin.gebruiker:
+        class: SITBundle\Admin\GebruikerAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Ledenadministratie", label: "Gebruikers" }
+        arguments:
+            - ~
+            - SITBundle\Entity\Gebruiker
+            - SITBundle:CRUD
+        calls:
+            - [ setTranslationDomain, [SITBundle]]
+            - [ setTemplate, [base_list_field, SITBundle:Admin:gebruikers_base_list_field.html.twig]]
+            - [ setTemplate, [list, SITBundle:Admin:gebruikers_base_list.html.twig]]
+    sonata.admin.sponsor:
+        class: SITBundle\Admin\SponsorAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Website", label: "Sponsoren" }
+        arguments:
+            - ~
+            - SITBundle\Entity\Sponsor
+            - ~
+        calls:
+            - [ setTranslationDomain, [SITBundle]]
+            - [ setTemplate, [base_list_field, SITBundle:Admin:gebruikers_base_list_field.html.twig]]
+            - [ setTemplate, [list, SITBundle:Admin:gebruikers_base_list.html.twig]]
+    sonata.admin.evenement:
+        class: SITBundle\Admin\EvenementAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Website", label: "Evenementen" }
+        arguments:
+            - ~
+            - SITBundle\Entity\Evenement
+            - ~
+        calls:
+            - [ setTranslationDomain, [SITBundle]]
+            - [ setTemplate, [base_list_field, SITBundle:Admin:gebruikers_base_list_field.html.twig]]
+            - [ setTemplate, [list, SITBundle:Admin:gebruikers_base_list.html.twig]]
+    sonata.admin.nieuws:
+        class: SITBundle\Admin\NieuwsAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Website", label: "Nieuws" }
+        arguments:
+            - ~
+            - SITBundle\Entity\Nieuwsbericht
+            - ~
+        calls:
+            - [ setTranslationDomain, [SITBundle]]
+            - [ setTemplate, [base_list_field, SITBundle:Admin:gebruikers_base_list_field.html.twig]]
+            - [ setTemplate, [list, SITBundle:Admin:gebruikers_base_list.html.twig]]
+    sonata.admin.nieuwsbriefleden:
+        class: SITBundle\Admin\NieuwsbriefLedenAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Website", label: "Nieuwsbrief Deelnemers" }
+        arguments:
+            - ~
+            - SITBundle\Entity\NieuwsbriefDeelnemer
+            - ~
+        calls:
+            - [ setTranslationDomain, [SITBundle]]
+            - [ setTemplate, [base_list_field, SITBundle:Admin:gebruikers_base_list_field.html.twig]]
+            - [ setTemplate, [list, SITBundle:Admin:gebruikers_base_list.html.twig]]
+    sonata.admin.betaallinks:
+        class: SITBundle\Admin\BetaalLinkAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Financieel", label: "Betaal Links" }
+        arguments:
+            - ~
+            - SITBundle\Entity\BetaalLink
+            - ~
+        calls:
+            - [ setTranslationDomain, [SITBundle]]
+            - [ setTemplate, [base_list_field, SITBundle:Admin:betaal_base_list_field.html.twig]]
+            - [ setTemplate, [list, SITBundle:Admin:betaal_base_list.html.twig]]
+            - [ setTemplate, [edit, SITBundle:Admin:betaal_base_edit.html.twig]]
+    sonata.admin.mollie.customer:
+        class: SITBundle\Admin\MollieCustomerAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Financieel", label: "Mollie Klanten" }
+        arguments:
+            - ~
+            - SITBundle\Entity\MollieCustomer
+            - ~
+        calls:
+            - [ setTranslationDomain, [SITBundle]]
+            - [ setTemplate, [base_list_field, SITBundle:Admin:mollie_base_list_field.html.twig]]
+            - [ setTemplate, [list, SITBundle:Admin:mollie_base_list.html.twig]]
+            - [ setTemplate, [button_edit, SITBundle:Admin:blank.html.twig]]
+    sonata.admin.mollie.payment:
+        class: SITBundle\Admin\MolliePaymentAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Financieel", label: "Mollie Betalingen" }
+        arguments:
+            - ~
+            - SITBundle\Entity\MolliePayment
+            - SITBundle:CRUD
+            - ~
+        calls:
+            - [ setTranslationDomain, [SITBundle]]
+            - [ setTemplate, [base_list_field, SITBundle:Admin:mollie_base_list_field.html.twig]]
+            - [ setTemplate, [list, SITBundle:Admin:mollie_base_list.html.twig]]
+            - [ setTemplate, [button_edit, SITBundle:Admin:blank.html.twig]]
+    sonata.admin.mollie.mandate:
+        class: SITBundle\Admin\MollieMandateAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Financieel", label: "Mollie Machtigingen" }
+        arguments:
+            - ~
+            - SITBundle\Entity\MollieMandate
+            - ~
+        calls:
+            - [ setTranslationDomain, [SITBundle]]
+            - [ setTemplate, [base_list_field, SITBundle:Admin:mollie_base_list_field.html.twig]]
+            - [ setTemplate, [list, SITBundle:Admin:mollie_base_list.html.twig]]
+            - [ setTemplate, [button_edit, SITBundle:Admin:blank.html.twig]]
+    sonata.admin.lidmaatschap:
+        class: SITBundle\Admin\LidmaatschapAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Overige", label: "Lidmaatschappen" }
+        arguments:
+            - ~
+            - SITBundle\Entity\Lidmaatschap
+            - ~
+        calls:
+            - [ setTranslationDomain, [SITBundle]]
+            - [ setTemplate, [base_list_field, SITBundle:Admin:gebruikers_base_list_field.html.twig]]
+            - [ setTemplate, [list, SITBundle:Admin:gebruikers_base_list.html.twig]]
+    sonata.admin.studierichting:
+        class: SITBundle\Admin\StudierichtingAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Overige", label: "Studierichting" }
+        arguments:
+            - ~
+            - SITBundle\Entity\Studierichting
+            - ~
+        calls:
+            - [ setTranslationDomain, [SITBundle]]
+            - [ setTemplate, [base_list_field, SITBundle:Admin:gebruikers_base_list_field.html.twig]]
+            - [ setTemplate, [list, SITBundle:Admin:gebruikers_base_list.html.twig]]
+    sonata.admin.periode:
+        class: SITBundle\Admin\PeriodeAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Overige", label: "Periodes" }
+        arguments:
+            - ~
+            - SITBundle\Entity\Periode
+            - ~
+        calls:
+            - [ setTranslationDomain, [SITBundle]]
+            - [ setTemplate, [base_list_field, SITBundle:Admin:gebruikers_base_list_field.html.twig]]
+            - [ setTemplate, [list, SITBundle:Admin:gebruikers_base_list.html.twig]]
+    sonata.admin.betaling:
+        class: SITBundle\Admin\BetalingAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Ledenadministratie", label: "Betalingen" }
+        arguments:
+            - ~
+            - SITBundle\Entity\Betaling
+            - ~
+        calls:
+            - [ setTranslationDomain, [SITBundle]]
+            - [ setTemplate, [base_list_field, SITBundle:Admin:gebruikers_base_list_field.html.twig]]
+            - [ setTemplate, [list, SITBundle:Admin:gebruikers_base_list.html.twig]]
+    sonata.admin.product:
+        class: SITBundle\Admin\ProductAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Merchandise", label: "Producten" }
+        arguments:
+            - ~
+            - SITBundle\Entity\Product
+            - ~
+        calls:
+            - [ setTranslationDomain, [SITBundle]]
+            - [ setTemplate, [base_list_field, SITBundle:Admin:gebruikers_base_list_field.html.twig]]
+            - [ setTemplate, [list, SITBundle:Admin:gebruikers_base_list.html.twig]]
+    sonata.admin.factuur:
+        class: SITBundle\Admin\FactuurAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Merchandise", label: "Facturen" }
+        arguments:
+            - ~
+            - SITBundle\Entity\Factuur
+            - SITBundle:CRUD
+            - ~
+        calls:
+            - [ setTranslationDomain, [SITBundle]]
+            - [ setTemplate, [base_list_field, SITBundle:Admin:gebruikers_base_list_field.html.twig]]
+            - [ setTemplate, [list, SITBundle:Admin:gebruikers_base_list.html.twig]]
+            - [ setTemplate, [show, SITBundle:Admin:factuur_base_show.html.twig]]
+    sonata.admin.factuurproductkoppeling:
+        class: SITBundle\Admin\FactuurProductKoppelingAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Merchandise", label: "FactuurProductKoppeling" }
+        arguments:
+            - ~
+            - SITBundle\Entity\FactuurProductKoppeling
+            - ~
+        calls:
+            - [ setTranslationDomain, [SITBundle]]
+            - [ setTemplate, [base_list_field, SITBundle:Admin:gebruikers_base_list_field.html.twig]]
+            - [ setTemplate, [list, SITBundle:Admin:gebruikers_base_list.html.twig]]
+    sonata.admin.customproduct:
+        class: SITBundle\Admin\CustomProductAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Merchandise", label: "CustomProduct" }
+        arguments:
+            - ~
+            - SITBundle\Entity\CustomProduct
+            - ~
+        calls:
+            - [ setTranslationDomain, [SITBundle]]
+            - [ setTemplate, [base_list_field, SITBundle:Admin:gebruikers_base_list_field.html.twig]]
+            - [ setTemplate, [list, SITBundle:Admin:gebruikers_base_list.html.twig]]
+    sonata.admin.maat:
+        class: SITBundle\Admin\MaatAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Merchandise", label: "Maten" }
+        arguments:
+            - ~
+            - SITBundle\Entity\Maat
+            - ~
+        calls:
+            - [ setTranslationDomain, [SITBundle]]
+            - [ setTemplate, [base_list_field, SITBundle:Admin:gebruikers_base_list_field.html.twig]]
+            - [ setTemplate, [list, SITBundle:Admin:gebruikers_base_list.html.twig]]
+    sonata.admin.voorraad:
+        class: SITBundle\Admin\VoorraadAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Merchandise", label: "Voorraad" }
+        arguments:
+            - ~
+            - SITBundle\Entity\MaatProduct
+            - ~
+        calls:
+            - [ setTranslationDomain, [SITBundle]]
+            - [ setTemplate, [base_list_field, SITBundle:Admin:gebruikers_base_list_field.html.twig]]
+            - [ setTemplate, [list, SITBundle:Admin:gebruikers_base_list.html.twig]]
+    sonata.admin.bestuurslid:
+        class: SITBundle\Admin\BestuurslidAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Website", label: "Bestuursleden" }
+        arguments:
+            - ~
+            - SITBundle\Entity\Bestuurslid
+            - ~
+        calls:
+            - [ setTranslationDomain, [SITBundle]]
+            - [ setTemplate, [base_list_field, SITBundle:Admin:gebruikers_base_list_field.html.twig]]
+            - [ setTemplate, [list, SITBundle:Admin:gebruikers_base_list.html.twig]]
+    sonata.admin.bestuur:
+        class: SITBundle\Admin\BestuurAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Website", label: "Bestuur" }
+        arguments:
+            - ~
+            - SITBundle\Entity\Bestuur
+            - ~
+        calls:
+            - [ setTranslationDomain, [SITBundle]]
+            - [ setTemplate, [base_list_field, SITBundle:Admin:gebruikers_base_list_field.html.twig]]
+            - [ setTemplate, [list, SITBundle:Admin:gebruikers_base_list.html.twig]]
+    sonata.admin.content:
+        class: SITBundle\Admin\ContentAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Website", label: "Content" }
+        arguments:
+            - ~
+            - SITBundle\Entity\ContentEntry
+            - ~
+        calls:
+            - [ setTranslationDomain, [SITBundle]]
+            - [ setTemplate, [base_list_field, SITBundle:Admin:gebruikers_base_list_field.html.twig]]
+            - [ setTemplate, [list, SITBundle:Admin:gebruikers_base_list.html.twig]]
+    sonata.admin.fotos:
+        class: SITBundle\Admin\FotoAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Website", label: "Foto's" }
+        arguments:
+            - ~
+            - SITBundle\Entity\Foto
+            - ~
+        calls:
+            - [ setTranslationDomain, [SITBundle]]
+            - [ setTemplate, [base_list_field, SITBundle:Admin:gebruikers_base_list_field.html.twig]]
+            - [ setTemplate, [list, SITBundle:Admin:gebruikers_base_list.html.twig]]
+    sonata.admin.footer_widgets_has_media:
+        class: SITBundle\Admin\SITMediaAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Website", label: "SITMediaAdmin" }
+        arguments:
+            - ~
+            - SITBundle\Entity\SITMedia
+            - ~
+        calls:
+            - [ setTranslationDomain, [SITBundle]]
+    sonata.admin.productverzoek:
+        class: SITBundle\Admin\ProductVerzoekAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Merchandise", label: "Product Verzoeken" }
+        arguments:
+            - ~
+            - SITBundle\Entity\ProductVerzoek
+            - ~
+        calls:
+            - [ setTranslationDomain, [SITBundle]]
+            - [ setTemplate, [base_list_field, SITBundle:Admin:mollie_base_list_field.html.twig]]
+            - [ setTemplate, [list, SITBundle:Admin:mollie_base_list.html.twig]]
+            - [ setTemplate, [button_edit, SITBundle:Admin:blank.html.twig]]

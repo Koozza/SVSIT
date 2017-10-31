@@ -1,0 +1,9 @@
+{% extends 'paylink/simple.html.twig' %}
+
+{% block title %}
+    Betaling nog niet helemaal voltooid
+{% endblock %}
+
+{% block text %}
+    {{ getContent('paylink_payment_open')|raw }}
+{% endblock %}

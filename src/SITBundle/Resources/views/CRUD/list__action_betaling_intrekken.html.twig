@@ -1,0 +1,5 @@
+{% if admin.isGranted('MOLLIE', object) and admin.hasRoute('intrekken') and ((object.status == "pending" or object.status == "paid") and object.method == "directdebit") %}
+    <a style="line-height: 1; margin-left: 5px;" href="{{ admin.generateObjectUrl('intrekken', object) }}" class="btn btn-sm btn-default edit_link" title="Intrekken">
+        <i class="fa fa-euro" aria-hidden="true"></i>&nbsp;&nbsp;Intrekken
+    </a>
+{% endif %}

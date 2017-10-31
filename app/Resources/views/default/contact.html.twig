@@ -1,0 +1,155 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+{% include 'header.html.twig' %}
+
+    <section id="slide-1" class="homeSlide">
+        <div class="row" style="margin: 0px !important; height: 100%;">
+            <div class="col-sm-12" style="overflow: hidden; padding: 0px; height: 100%;">
+                <div style=" height: 100%; background-size: cover; background-image: url('{{ asset('/bundles/sit/images/IMG_9001.jpg') }}'); width: 100%; background-repeat: no-repeat; background-attachment: fixed; background-position: center;"
+                     data-center="background-position: 50% 50%;"
+                     data-top-bottom="background-position: 50% 150%;"
+                     data-anchor-target="#slide-1">
+
+                    <div style=" height: 100%; background-color: rgba(28,28,28, 0.8); width: 100%; display: flex; align-items: center; margin-top: 20px;">
+                        <h1>Contactformulier</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="slide-2">
+        <div class="container fillscreen" style="max-width: 800px;">
+        {% if formSucces == false %}
+            {{ form_start(form) }}
+                <div class="row">
+                    <div class="col-sm-12">
+                        <label for="form_naam" class="required">Naam *</label>
+                        {{ form_errors(form.naam) }}
+                        {{ form_widget(form.naam) }}
+
+                        <label for="form_emailadres">E-mailadres *</label>
+                        {{ form_errors(form.emailadres) }}
+                        {{ form_widget(form.emailadres) }}
+
+                        <label for="form_onderwerp" class="required">Onderwerp *</label>
+                        {{ form_errors(form.onderwerp) }}
+                        {{ form_widget(form.onderwerp) }}
+
+                        <label for="form_bericht" class="required">Bericht *</label>
+                        {{ form_errors(form.bericht) }}
+                        {{ form_widget(form.bericht) }}
+
+                        {{  form_errors(form.recaptcha) }}
+                        {{  form_widget(form.recaptcha) }}
+
+
+                        {{  form_widget(form.versturen) }}
+                        <p>* Deze velden zijn verplicht</p>
+                    </div>
+                </div>
+            {{ form_end(form) }}
+        {% else %}
+            <div style="height: 30px;"> </div>
+            {{ getContent('contact_verstuurd')|raw }}
+        {% endif %}
+        </div>
+    </section>
+
+{% include 'footer.html.twig' %}
+
+{% endblock %}
+
+{% block javascripts_head %}
+    <script src="{{ asset('/bundles/sit/js/jquery.min.js') }}"></script>
+    <script src="{{ asset('/bundles/sit/js/bootstrap.min.js') }}"></script>
+
+    <script src="{{ asset('/bundles/sit/js/skrollr.min.js') }}"></script>
+{% endblock %}
+
+{% block stylesheets %}
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{{ asset('/bundles/sit/css/bootstrap.css') }}">
+    <link rel="stylesheet" href="{{ asset('/bundles/sit/css/default.css') }}">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('/bundles/sit/css/fa.css') }}">
+    <style>
+    .homeSlide{
+        height: 400px;
+    }
+
+    li{
+        list-style: none;
+        font-weight: bold;
+        margin-left: 5px;
+    }
+
+    h1{
+        text-transform: uppercase;
+        text-align: center;
+        color: #efefef;
+        width:100%;
+        font-size: 32px;
+    }
+
+    label{
+        width: 100%;
+        font-weight: 400;
+        letter-spacing: 1.2px;
+    }
+
+    #slide-2 .container{
+        margin: 60px auto 80px auto;
+    }
+
+    #slide-2 .container input, #slide-2 .container select, #slide-2 .container button, #slide-2 .container textarea{
+        width: 100%;
+        margin-bottom: 10px;
+        padding: 8px 16px;
+        background-color: #f1f1f1;
+        border: 1px solid transparent;
+    }
+
+    #slide-2 .container textarea{
+        height: 200px;
+    }
+
+    #slide-2 .container input:focus, #slide-2 .container select:focus, #slide-2 .container button:focus, #slide-2 .container textarea:focus {
+        outline:none;
+        border: 1px solid #999;
+    }
+
+    #slide-2 .container button{
+        margin-top: 60px;
+        border-color: #4c6a9e;
+        background-color: white;
+        color: #4c6a9e;
+        font-weight: 600;
+        text-transform: uppercase;
+    }
+
+    @media (max-width: 768px) {
+        .homeSlide{
+            height: 400px;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        $(function () {
+            $( ".fullscreenMaxHeight" ).css('max-height', $( window ).height());
+            $( ".fullscreenHeight" ).css('height', $( window ).height());
+
+            // initialize skrollr if the window width is large enough
+            if ($(window).width() > 992) {
+                skrollr.init({smoothScrolling: false, forceHeight: false});
+            }
+
+            var paddT = $('#slide-6').innerHeight() - $('#slide-6').height();
+            $( ".fillscreen" ).css('min-height', $( window ).outerHeight(true) - $( '.footer' ).outerHeight(true) - $( '.credits' ).outerHeight(true) - $('.homeSlide').outerHeight(true) - paddT);
+        });
+    </script>
+{% endblock %}

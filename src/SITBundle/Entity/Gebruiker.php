@@ -1,0 +1,1018 @@
+<?php
+namespace SITBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Security\Core\User\AdvancedUserInterface;
+
+
+/**
+ * @ORM\Entity
+ * @ORM\Table(name="gebruiker")
+ */
+class Gebruiker implements AdvancedUserInterface, \Serializable
+{
+    /**
+     * @ORM\Column(type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @Assert\NotBlank()
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 255,
+     *      minMessage = "Voornaam moet minimaal {{ limit }} tekens lang zijn",
+     *      maxMessage = "Voornaam mag maximaal {{ limit }} tekens lang zijn"
+     * )
+     * @ORM\Column(type="string", length=255)
+     */
+    private $voornaam;
+
+    /**
+     * @Assert\Length(
+     *      min = 0,
+     *      max = 10,
+     *      minMessage = "Tussenvoegsel moet minimaal {{ limit }} tekens lang zijn",
+     *      maxMessage = "Tussenvoegsel mag maximaal {{ limit }} tekens lang zijn"
+     * )
+     * @ORM\Column(type="string", length=10, nullable=true)
+     */
+    private $tussenvoegsel;
+
+    /**
+     * @Assert\NotBlank()
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 255,
+     *      minMessage = "Achternaam moet minimaal {{ limit }} tekens lang zijn",
+     *      maxMessage = "Achternaam mag maximaal {{ limit }} tekens lang zijn"
+     * )
+     * @ORM\Column(type="string", length=255)
+     */
+    private $achternaam;
+
+    /**
+     * @Assert\NotBlank()
+     * @Assert\Type("\DateTime")
+     * @ORM\Column(type="date", length=255)
+     */
+    private $geboortedatum;
+
+    /**
+     * @Assert\NotBlank()
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 255,
+     *      minMessage = "Adres moet minimaal {{ limit }} tekens lang zijn",
+     *      maxMessage = "Adres mag maximaal {{ limit }} tekens lang zijn"
+     * )
+     * @ORM\Column(type="string", length=255)
+     */
+    private $adres;
+
+    /**
+     * @Assert\NotBlank()
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 7,
+     *      minMessage = "Postcode moet minimaal {{ limit }} tekens lang zijn",
+     *      maxMessage = "Postcode mag maximaal {{ limit }} tekens lang zijn"
+     * )
+     * @Assert\Regex(
+     *     pattern     = "~\A[1-9]\d{3} ?[a-zA-Z]{2}\z~",
+     * )
+     * @ORM\Column(type="string", length=7)
+     */
+    private $postcode;
+
+    /**
+     * @Assert\NotBlank()
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 255,
+     *      minMessage = "Woonplaats moet minimaal {{ limit }} tekens lang zijn",
+     *      maxMessage = "Woonplaats mag maximaal {{ limit }} tekens lang zijn"
+     * )
+     * @ORM\Column(type="string", length=255)
+     */
+    private $woonplaats;
+
+    /**
+     * @Assert\NotBlank()
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 12,
+     *      minMessage = "Telefoonnummer moet minimaal {{ limit }} tekens lang zijn",
+     *      maxMessage = "Telefoonnummer mag maximaal {{ limit }} tekens lang zijn"
+     * )
+     * @ORM\Column(type="string", length=12)
+     */
+    private $telefoonnummer;
+
+    /**
+     * @Assert\NotBlank()
+     * @Assert\Email(
+     *     message = "Het e-mailadres '{{ value }}' is geen vallide e-mailadres."
+     * )
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 255,
+     *      minMessage = "E-mailadres moet minimaal {{ limit }} tekens lang zijn",
+     *      maxMessage = "E-Mailadres mag maximaal {{ limit }} tekens lang zijn"
+     * )
+     * @ORM\Column(type="string", length=255)
+     */
+    private $emailadres;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $newEmailadres;
+
+    /**
+     * @var Geslacht
+     *
+     * @Assert\NotBlank()
+     * @Assert\Choice({"Man", "Vrouw"})
+     * @ORM\Column(type="string", length=255)
+     */
+    private $geslacht;
+
+    /**
+     * @Assert\Length(
+     *      min = 0,
+     *      max = 10,
+     *      minMessage = "Studentnummer moet minimaal {{ limit }} tekens lang zijn",
+     *      maxMessage = "Studentnummer mag maximaal {{ limit }} tekens lang zijn"
+     * )
+     * @ORM\Column(type="string", length=10, nullable=true)
+     */
+    private $studentnummer;
+
+    /**
+     * @ORM\Column(type="integer", length=4, nullable=true)
+     */
+    private $startjaar;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $heeftBevestiging;
+
+    /**
+     * @ORM\Column(type="date", length=255)
+     */
+    private $inschrijfdatum;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Studierichting", inversedBy="gebruikers",cascade={"persist"})
+     */
+    private $studierichting;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Lidmaatschap", inversedBy="gebruikers",cascade={"persist"})
+     */
+    private $lidmaatschap;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Betaling", mappedBy="gebruiker", cascade={"remove"})
+     * @ORM\OrderBy({"id" = "DESC"})
+     */
+    private $betalingen;
+
+    /**
+     * @ORM\Column(type="string", length=25, nullable=true)
+     */
+    private $activatiecode;
+
+    /**
+     * @Assert\NotBlank()
+     * @Assert\Length(
+     *      min = 8,
+     *      max = 255,
+     *      minMessage = "Wachtwoord moet minimaal {{ limit }} tekens lang zijn",
+     *      maxMessage = "Wachtwoord mag maximaal {{ limit }} tekens lang zijn"
+     * )
+     * @ORM\Column(type="string", length=255)
+     */
+    private $password;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $salt;
+
+    /**
+     * @ORM\OneToOne(targetEntity="MollieCustomer", inversedBy="gebruiker")
+     */
+    private $MollieCustomer;
+
+    /**
+     * @ORM\OneToMany(targetEntity="ProductVerzoek", mappedBy="gebruiker")
+     */
+    private $productverzoeken;
+
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->salt = base_convert(sha1(uniqid(mt_rand(), true)), 16, 36);
+        $this->betalingen = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    public function __toString()
+    {
+        return $this->voornaam . ' ' . ($this->tussenvoegsel != '' ? $this->tussenvoegsel . ' ' : '') . $this->achternaam;
+    }
+
+    public function eraseCredentials()
+    {
+    }
+
+    public function getRoles()
+    {
+        return array('ROLE_USER');
+    }
+
+    public function isAccountNonExpired()
+    {
+        return true;
+    }
+
+    public function isAccountNonLocked()
+    {
+        return true;
+    }
+
+    public function isCredentialsNonExpired()
+    {
+        return true;
+    }
+
+    public function isEnabled()
+    {
+        return ($this->activatiecode == null ? true : false);
+    }
+
+    /** @see \Serializable::serialize() */
+    public function serialize()
+    {
+        return serialize(array(
+            $this->id,
+            $this->emailadres,
+            $this->password,
+            $this->salt,
+        ));
+    }
+
+    /** @see \Serializable::unserialize() */
+    public function unserialize($serialized)
+    {
+        list (
+            $this->id,
+            $this->emailadres,
+            $this->password,
+            $this->salt,
+            ) = unserialize($serialized);
+    }
+
+    public function checkAllowedIncasso() {
+        if($this->getMollieCustomer() == null)
+            return false;
+
+        //Check het lidmaatschap
+        if($this->getLidmaatschap() != null) {
+            if($this->getLidmaatschap()->getIncasseerbaar() == false)
+                return false;
+        }else{
+            return false;
+        }
+
+        //Kijken wanneer het huidige abbo afloopt:
+        $highest = null;
+        foreach($this->getBetalingen() as $betaling) {
+            if($betaling->getIsLifetime())
+                return true;
+
+            $heeftBetaald = false;
+            if($betaling->getMolliePayment() == null)
+                $heeftBetaald = true;
+            else {
+                if ($betaling->getMolliePayment()->getStatus() == "paid")
+                    $heeftBetaald = true;
+
+                //False omdat als een betaling openstaat er sowieso niet geicaseerd mag worden!
+                if($betaling->getMolliePayment()->getStatus() == "open"  || $betaling->getMolliePayment()->getStatus() == "pending")
+                    return false;
+            }
+
+            if($heeftBetaald) {
+                foreach ($betaling->getPeriodes() as $periode) {
+                    if ($highest == null)
+                        $highest = $periode->getEinddatum();
+                    else
+                        if ($periode->getEinddatum() > $highest)
+                            $highest = $periode->getEinddatum();
+                }
+            }
+        }
+
+        if($highest != null) {
+            $now = new \DateTime();
+            if($now->diff($highest)->format("%r%a") > 14) {
+                return false;
+            }
+        }
+
+        //Kijken of er een valide mandaat is
+        foreach($this->getMollieCustomer()->getMandates() as $mandate) {
+            if($mandate->getStatus() == 'valid')
+                return true;
+        }
+    }
+
+    public function checkIncassoPossibleInFuture() {
+        if($this->getMollieCustomer() == null)
+            return false;
+
+        //Check het lidmaatschap
+        if($this->getLidmaatschap() != null) {
+            if($this->getLidmaatschap()->getIncasseerbaar() == false)
+                return false;
+        }else{
+            return false;
+        }
+
+        //Kijken wanneer het huidige abbo afloopt:
+        $highest = null;
+        foreach($this->getBetalingen() as $betaling) {
+            if($betaling->getIsLifetime())
+                return true;
+
+            $heeftBetaald = false;
+            if($betaling->getMolliePayment() != null)
+                if($betaling->getMolliePayment()->getStatus() == "open"  || $betaling->getMolliePayment()->getStatus() == "pending")
+                    return false;
+        }
+
+        //Kijken of er een valide mandaat is
+        foreach($this->getMollieCustomer()->getMandates() as $mandate) {
+            if($mandate->getStatus() == 'valid')
+                return true;
+        }
+    }
+
+    public function getBetaald() {
+        $highest = null;
+        foreach($this->getBetalingen() as $betaling) {
+            if($betaling->getIsLifetime())
+                return true;
+
+            $heeftBetaald = false;
+            if($betaling->getMolliePayment() == null)
+                $heeftBetaald = true;
+            else
+                //Als er een geslaagde betaling is OF als er een SEPA incasso is met de pending status.
+                if($betaling->getMolliePayment()->getStatus() == "paid" || ($betaling->getMolliePayment()->getStatus() == "pending" && $betaling->getMolliePayment()->getMethod() == "directdebit" ))
+                    $heeftBetaald = true;
+
+            if($heeftBetaald) {
+                foreach ($betaling->getPeriodes() as $periode) {
+                    if ($highest == null)
+                        $highest = $periode->getEinddatum();
+                    else
+                        if ($periode->getEinddatum() > $highest)
+                            $highest = $periode->getEinddatum();
+                }
+            }
+
+            $now = new \DateTime();
+
+            if($now <$highest)
+                return true;
+        }
+        return false;
+    }
+
+    public function getGeactiveerd() {
+        if($this->activatiecode == null)
+            return true;
+        else
+            return false;
+    }
+
+    public function getFullName() {
+        return $this->voornaam . ' ' . ($this->tussenvoegsel != null ? $this->tussenvoegsel.' ' : '') . $this->achternaam;
+    }
+
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set voornaam
+     *
+     * @param string $voornaam
+     *
+     * @return Gebruiker
+     */
+    public function setVoornaam($voornaam)
+    {
+        $this->voornaam = $voornaam;
+
+        return $this;
+    }
+
+    /**
+     * Get voornaam
+     *
+     * @return string
+     */
+    public function getVoornaam()
+    {
+        return $this->voornaam;
+    }
+
+    /**
+     * Set tussenvoegsel
+     *
+     * @param string $tussenvoegsel
+     *
+     * @return Gebruiker
+     */
+    public function setTussenvoegsel($tussenvoegsel)
+    {
+        $this->tussenvoegsel = $tussenvoegsel;
+
+        return $this;
+    }
+
+    /**
+     * Get tussenvoegsel
+     *
+     * @return string
+     */
+    public function getTussenvoegsel()
+    {
+        return $this->tussenvoegsel;
+    }
+
+    /**
+     * Set achternaam
+     *
+     * @param string $achternaam
+     *
+     * @return Gebruiker
+     */
+    public function setAchternaam($achternaam)
+    {
+        $this->achternaam = $achternaam;
+
+        return $this;
+    }
+
+    /**
+     * Get achternaam
+     *
+     * @return string
+     */
+    public function getAchternaam()
+    {
+        return $this->achternaam;
+    }
+
+    /**
+     * Set geboortedatum
+     *
+     * @param \DateTime $geboortedatum
+     *
+     * @return Gebruiker
+     */
+    public function setGeboortedatum($geboortedatum)
+    {
+        $this->geboortedatum = $geboortedatum;
+
+        return $this;
+    }
+
+    /**
+     * Get geboortedatum
+     *
+     * @return \DateTime
+     */
+    public function getGeboortedatum()
+    {
+        return $this->geboortedatum;
+    }
+
+    /**
+     * Set adres
+     *
+     * @param string $adres
+     *
+     * @return Gebruiker
+     */
+    public function setAdres($adres)
+    {
+        $this->adres = $adres;
+
+        return $this;
+    }
+
+    /**
+     * Get adres
+     *
+     * @return string
+     */
+    public function getAdres()
+    {
+        return $this->adres;
+    }
+
+    /**
+     * Set postcode
+     *
+     * @param string $postcode
+     *
+     * @return Gebruiker
+     */
+    public function setPostcode($postcode)
+    {
+        $this->postcode = $postcode;
+
+        return $this;
+    }
+
+    /**
+     * Get postcode
+     *
+     * @return string
+     */
+    public function getPostcode()
+    {
+        return $this->postcode;
+    }
+
+    /**
+     * Set woonplaats
+     *
+     * @param string $woonplaats
+     *
+     * @return Gebruiker
+     */
+    public function setWoonplaats($woonplaats)
+    {
+        $this->woonplaats = $woonplaats;
+
+        return $this;
+    }
+
+    /**
+     * Get woonplaats
+     *
+     * @return string
+     */
+    public function getWoonplaats()
+    {
+        return $this->woonplaats;
+    }
+
+    /**
+     * Set telefoonnummer
+     *
+     * @param string $telefoonnummer
+     *
+     * @return Gebruiker
+     */
+    public function setTelefoonnummer($telefoonnummer)
+    {
+        $this->telefoonnummer = $telefoonnummer;
+
+        return $this;
+    }
+
+    /**
+     * Get telefoonnummer
+     *
+     * @return string
+     */
+    public function getTelefoonnummer()
+    {
+        return $this->telefoonnummer;
+    }
+
+    /**
+     * Set emailadres
+     *
+     * @param string $emailadres
+     *
+     * @return Gebruiker
+     */
+    public function setEmailadres($emailadres)
+    {
+        $this->emailadres = $emailadres;
+
+        return $this;
+    }
+
+    /**
+     * Get emailadres
+     *
+     * @return string
+     */
+    public function getEmailadres()
+    {
+        return $this->emailadres;
+    }
+
+    /**
+     * Set geslacht
+     *
+     * @param php_enum_geslacht $geslacht
+     *
+     * @return Gebruiker
+     */
+    public function setGeslacht($geslacht)
+    {
+        $this->geslacht = $geslacht;
+
+        return $this;
+    }
+
+    /**
+     * Get geslacht
+     *
+     * @return php_enum_geslacht
+     */
+    public function getGeslacht()
+    {
+        return $this->geslacht;
+    }
+
+    /**
+     * Set studentnummer
+     *
+     * @param string $studentnummer
+     *
+     * @return Gebruiker
+     */
+    public function setStudentnummer($studentnummer)
+    {
+        $this->studentnummer = $studentnummer;
+
+        return $this;
+    }
+
+    /**
+     * Get studentnummer
+     *
+     * @return string
+     */
+    public function getStudentnummer()
+    {
+        return $this->studentnummer;
+    }
+
+    /**
+     * Set startjaar
+     *
+     * @param integer $startjaar
+     *
+     * @return Gebruiker
+     */
+    public function setStartjaar($startjaar)
+    {
+        $this->startjaar = $startjaar;
+
+        return $this;
+    }
+
+    /**
+     * Get startjaar
+     *
+     * @return integer
+     */
+    public function getStartjaar()
+    {
+        return $this->startjaar;
+    }
+
+    /**
+     * Set heeftBevestiging
+     *
+     * @param boolean $heeftBevestiging
+     *
+     * @return Gebruiker
+     */
+    public function setHeeftBevestiging($heeftBevestiging)
+    {
+        $this->heeftBevestiging = $heeftBevestiging;
+
+        return $this;
+    }
+
+    /**
+     * Get heeftBevestiging
+     *
+     * @return boolean
+     */
+    public function getHeeftBevestiging()
+    {
+        return $this->heeftBevestiging;
+    }
+
+    /**
+     * Set inschrijfdatum
+     *
+     * @param \DateTime $inschrijfdatum
+     *
+     * @return Gebruiker
+     */
+    public function setInschrijfdatum($inschrijfdatum)
+    {
+        $this->inschrijfdatum = $inschrijfdatum;
+
+        return $this;
+    }
+
+    /**
+     * Get inschrijfdatum
+     *
+     * @return \DateTime
+     */
+    public function getInschrijfdatum()
+    {
+        return $this->inschrijfdatum;
+    }
+
+    /**
+     * Set studierichting
+     *
+     * @param \SITBundle\Entity\Studierichting $studierichting
+     *
+     * @return Gebruiker
+     */
+    public function setStudierichting(\SITBundle\Entity\Studierichting $studierichting = null)
+    {
+        $this->studierichting = $studierichting;
+
+        return $this;
+    }
+
+    /**
+     * Get studierichting
+     *
+     * @return \SITBundle\Entity\Studierichting
+     */
+    public function getStudierichting()
+    {
+        return $this->studierichting;
+    }
+
+    /**
+     * Set lidmaatschap
+     *
+     * @param \SITBundle\Entity\Lidmaatschap $lidmaatschap
+     *
+     * @return Gebruiker
+     */
+    public function setLidmaatschap(\SITBundle\Entity\Lidmaatschap $lidmaatschap = null)
+    {
+        $this->lidmaatschap = $lidmaatschap;
+
+        return $this;
+    }
+
+    /**
+     * Get lidmaatschap
+     *
+     * @return \SITBundle\Entity\Lidmaatschap
+     */
+    public function getLidmaatschap()
+    {
+        return $this->lidmaatschap;
+    }
+
+    /**
+     * Add betalingen
+     *
+     * @param \SITBundle\Entity\Betaling $betalingen
+     *
+     * @return Gebruiker
+     */
+    public function addBetalingen(\SITBundle\Entity\Betaling $betalingen)
+    {
+        $this->betalingen[] = $betalingen;
+
+        return $this;
+    }
+
+    /**
+     * Remove betalingen
+     *
+     * @param \SITBundle\Entity\Betaling $betalingen
+     */
+    public function removeBetalingen(\SITBundle\Entity\Betaling $betalingen)
+    {
+        $this->betalingen->removeElement($betalingen);
+    }
+
+    /**
+     * Get betalingen
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getBetalingen()
+    {
+        return $this->betalingen;
+    }
+
+    /**
+     * Set activatiecode
+     *
+     * @param string $activatiecode
+     *
+     * @return Gebruiker
+     */
+    public function setActivatiecode($activatiecode)
+    {
+        $this->activatiecode = $activatiecode;
+
+        return $this;
+    }
+
+    /**
+     * Get activatiecode
+     *
+     * @return string
+     */
+    public function getActivatiecode()
+    {
+        return $this->activatiecode;
+    }
+
+    /**
+     * Set username
+     *
+     * @param string $username
+     *
+     * @return Gebruiker
+     */
+    public function setUsername($username)
+    {
+        //$this->emailadres = $username;
+
+        return $this;
+    }
+
+    /**
+     * Get username
+     *
+     * @return string
+     */
+    public function getUsername()
+    {
+        return $this->emailadres;
+    }
+
+    /**
+     * Set password
+     *
+     * @param string $password
+     *
+     * @return Gebruiker
+     */
+    public function setPassword($password)
+    {
+        $this->password = $password;
+
+        return $this;
+    }
+
+    /**
+     * Get password
+     *
+     * @return string
+     */
+    public function getPassword()
+    {
+        return $this->password;
+    }
+
+    /**
+     * Set salt
+     *
+     * @param string $salt
+     *
+     * @return Gebruiker
+     */
+    public function setSalt($salt)
+    {
+        $this->salt = $salt;
+
+        return $this;
+    }
+
+    /**
+     * Get salt
+     *
+     * @return string
+     */
+    public function getSalt()
+    {
+        return $this->salt;
+    }
+
+    /**
+     * Set mollieCustomer
+     *
+     * @param \SITBundle\Entity\MollieCustomer $mollieCustomer
+     *
+     * @return Gebruiker
+     */
+    public function setMollieCustomer(\SITBundle\Entity\MollieCustomer $mollieCustomer = null)
+    {
+        $this->MollieCustomer = $mollieCustomer;
+
+        return $this;
+    }
+
+    /**
+     * Get mollieCustomer
+     *
+     * @return \SITBundle\Entity\MollieCustomer
+     */
+    public function getMollieCustomer()
+    {
+        return $this->MollieCustomer;
+    }
+
+    /**
+     * Set newEmailadres
+     *
+     * @param string $newEmailadres
+     *
+     * @return Gebruiker
+     */
+    public function setNewEmailadres($newEmailadres)
+    {
+        $this->newEmailadres = $newEmailadres;
+
+        return $this;
+    }
+
+    /**
+     * Get newEmailadres
+     *
+     * @return string
+     */
+    public function getNewEmailadres()
+    {
+        return $this->newEmailadres;
+    }
+
+    /**
+     * Add productverzoeken
+     *
+     * @param \SITBundle\Entity\ProductVerzoek $productverzoeken
+     *
+     * @return Gebruiker
+     */
+    public function addProductverzoeken(\SITBundle\Entity\ProductVerzoek $productverzoeken)
+    {
+        $this->productverzoeken[] = $productverzoeken;
+    
+        return $this;
+    }
+
+    /**
+     * Remove productverzoeken
+     *
+     * @param \SITBundle\Entity\ProductVerzoek $productverzoeken
+     */
+    public function removeProductverzoeken(\SITBundle\Entity\ProductVerzoek $productverzoeken)
+    {
+        $this->productverzoeken->removeElement($productverzoeken);
+    }
+
+    /**
+     * Get productverzoeken
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getProductverzoeken()
+    {
+        return $this->productverzoeken;
+    }
+}

@@ -1,0 +1,7 @@
+{% extends 'register/register_simple.html.twig' %}
+
+{% block title %}Aanmelding compleet!{% endblock %}
+
+{% block content %}
+    {{ include(template_from_string(getContent('account_activated')|unescape|raw)) }}
+{% endblock %}

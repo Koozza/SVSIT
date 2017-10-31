@@ -1,0 +1,170 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {% include 'header.html.twig' %}
+
+    <section id="slide-1" class="homeSlide">
+        <div class="row" style="margin: 0px !important; height: 100%;">
+            <div class="col-sm-12" style="overflow: hidden; padding: 0px; height: 100%;">
+                <div class="headerimage" style=" height: 100%; background-size: cover; background-image: url('{{ asset('/bundles/sit/images/DSC_0564.jpg') }}'); width: 100%; background-repeat: no-repeat; background-attachment: fixed; background-position: center;"
+                     data-center="background-position: 50% 20%;"
+                     data-top-bottom="background-position: 50% 120%;"
+                     data-anchor-target="#slide-1">
+
+                    <div style=" height: 100%; background-color: rgba(28,28,28, 0.8); width: 100%; display: flex; align-items: center; ">
+                        <h1>Wachtwoord Vergeten</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="slide-2">
+        <div class="login_container container" style="max-width: 700px;">
+            {{ form_start(form) }}
+            <label for="password">Wachtwoord:</label>
+            {{ form_errors(form.password) }}
+            {{ form_widget(form.password) }}
+
+            <label for="herhaalPassword">Herhaal Wachtwoord:</label>
+            {{ form_errors(form.herhaalPassword) }}
+            {{ form_widget(form.herhaalPassword) }}
+
+            <button type="submit">Wachtwoord instellen</button>
+            {{ form_end(form) }}
+        </div>
+    </section>
+
+    {% include 'footer.html.twig' %}
+
+{% endblock %}
+
+{% block javascripts_head %}
+    <script src="{{ asset('/bundles/sit/js/jquery.min.js') }}"></script>
+    <script src="{{ asset('/bundles/sit/js/bootstrap.min.js') }}"></script>
+
+    <script src="{{ asset('/bundles/sit/js/skrollr.min.js') }}"></script>
+{% endblock %}
+
+{% block stylesheets %}
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{{ asset('/bundles/sit/css/bootstrap.css') }}">
+    <link rel="stylesheet" href="{{ asset('/bundles/sit/css/default.css') }}">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
+    <style>
+        .homeSlide{
+            height: 400px;
+        }
+
+        input[type="checkbox"] {
+            width: auto !important;
+            top: 2px;
+            position: relative;
+            margin: 0px 2px 0px 0px !important;
+            padding: 0px;
+        }
+
+        h1{
+            text-align: center;
+            color: #efefef;
+            width:100%;
+            font-size: 32px;
+        }
+
+        h2{
+            margin-bottom: 5px;
+            font-size: 14px;
+            text-transform: uppercase;
+            margin-bottom: 30px;
+            font-weight: 600;
+        }
+
+        #slide-2 ul{
+            list-style: none;
+            font-weight: 600;
+            color: #cc0000;
+        }
+
+        .login_container{
+            padding: 50px 10px 150px 10px;
+        }
+
+        #slide-2 .container .col-sm-6 legend:first-of-type{
+            margin-top: 30px;
+        }
+
+        legend {
+            margin-top: 60px;
+            font-size: 20px;
+            text-transform: uppercase;
+        }
+
+        label{
+            width: 100%;
+            font-weight: 400;
+            letter-spacing: 1.2px;
+        }
+
+        #slide-2 .container input, #slide-2 .container select, #slide-2 .container button{
+            width: 100%;
+            margin-bottom: 10px;
+            padding: 8px 16px;
+            background-color: #f1f1f1;
+            border: 1px solid transparent;
+        }
+
+        #slide-2 .container input:focus, #slide-2 .container select:focus, #slide-2 .container button:focus {
+            outline:none;
+            border: 1px solid #999;
+        }
+
+        #slide-2 .container button{
+            margin-top: 20px;
+            border-color: #4c6a9e;
+            background-color: white;
+            color: #4c6a9e;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        @media (max-width: 992px) {
+            /* Nothing on this page */
+        }
+        @media (max-width: 768px) {
+            legend:first-of-type{
+                margin-top: 30px !important;
+            }
+
+            .homeSlide{
+                height: 400px;
+            }
+
+            .container{
+                padding-top: 10px;
+            }
+
+            .row{
+                margin: 0px;
+            }
+
+            .login_container{
+                padding: 50px 10px 100px 10px;
+                margin-top: 30px;
+            }
+        }
+    </style>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        $(function () {
+            $( ".fullscreenMaxHeight" ).css('max-height', $( window ).height());
+            $( ".fullscreenHeight" ).css('height', $( window ).height());
+
+            // initialize skrollr if the window width is large enough
+            if ($(window).width() > 992) {
+                skrollr.init({smoothScrolling: false, forceHeight: false});
+            }
+        });
+    </script>
+{% endblock %}

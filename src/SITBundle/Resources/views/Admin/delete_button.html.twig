@@ -1,0 +1,5 @@
+{% if admin.hasroute('delete') and admin.id(object) and admin.isGranted('VIEW', object) and admin.show|length > 0 %}
+    <a style="line-height: 0.5;" href="{{ admin.generateObjectUrl('delete', object) }}" class="btn btn-sm btn-default edit_link" title="Verwijderen">
+        <i class="fa fa-trash-o" aria-hidden="true"></i>&nbsp;&nbsp;Verwijderen
+    </a>
+{% endif %}

@@ -1,0 +1,140 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {% include 'header.html.twig' %}
+
+    <section id="slide-1" class="homeSlide">
+        <div class="row" style="margin: 0px !important; height: 100%;">
+            <div class="col-sm-12" style="overflow: hidden; padding: 0px; height: 100%;">
+                <div class="headerimage" style=" height: 100%; background-size: cover; background-image: url('{{ asset('/bundles/sit/images/webshop.jpg') }}'); width: 100%; background-repeat: no-repeat; background-attachment: fixed; background-position: center;"
+                     data-center="background-position: 50% 85%;"
+                     data-top-bottom="background-position: 50% 185%;"
+                     data-anchor-target="#slide-1">
+
+                    <div style=" height: 100%; background-color: rgba(28,28,28, 0.8); width: 100%; display: flex; align-items: center; margin-top: 20px;">
+                        <h1>Webshop</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="slide-6" class="webshop">
+        <div class="container" style="max-width: 1100px;">
+            <div class="row">
+                {% for product in producten %}
+                <div class="col-sm-4">
+                    <a class="productLink" href="{{ path('productpage', {id: product.id}) }}">
+                        <div class="productContainer">
+                            <div class="productImageContainer" style="background-size:cover; background-repeat: no-repeat; background-position: center center;
+                            {% if product.afbeeldingen.count > 0 %}
+                                    background-image: url({% path product.afbeeldingen[0].media, 'big' %});
+                            {% endif %}">
+                            </div>
+                            <p class="productType">{{ product.type }}</p>
+                            <p class="productPrice">&euro; {{ product.prijs|number_format(2, ',', '.') }}</p>
+                            <p class="productName">{{ product.naam }}</p>
+                        </div>
+                    </a>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    {% include 'footer.html.twig' %}
+
+{% endblock %}
+
+{% block javascripts_head %}
+    <script src="{{ asset('/bundles/sit/js/jquery.min.js') }}"></script>
+    <script src="{{ asset('/bundles/sit/js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('/bundles/sit/js/skrollr.min.js') }}"></script>
+{% endblock %}
+
+{% block stylesheets %}
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{{ asset('/bundles/sit/css/bootstrap.css') }}">
+    <link rel="stylesheet" href="{{ asset('/bundles/sit/css/default.css') }}">
+    <link rel="stylesheet" href="{{ asset('/bundles/sit/css/fa.css') }}">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
+    <style>
+        .homeSlide{
+            height: 400px;
+        }
+
+        h1{
+            text-transform: uppercase;
+            text-align: center;
+            color: #efefef;
+            width:100%;
+            font-size: 32px;
+        }
+
+        .webshop{
+            padding: 40px 0px 80px 0px;
+        }
+
+        .webshop p{
+            letter-spacing: 1.5px;
+        }
+
+        .productContainer{
+            width: 246px;
+            margin: 30px auto 0px auto;
+        }
+
+        .productImageContainer{
+            width: 246px;
+            height: 355px;
+            background-color: #f6f6f6;
+            margin-bottom: 8px;
+            overflow: hidden;
+            text-align: center;
+
+        }
+
+        .productImageContainer img{
+            max-width: 246px;
+            max-height: 355px;
+        }
+
+        .productPrice{
+            float:right;
+            margin-bottom: 0px;
+        }
+
+        .productType{
+            float:left;
+            text-transform: uppercase;
+            font-weight: 700;
+            margin-bottom: 0px;
+        }
+
+        .productName{
+            margin-top: 6px;
+            clear:both;
+            font-size: 11px;
+        }
+
+        .productLink{
+            color:inherit !important;
+            text-decoration: none !important;
+            display: block;
+        }
+    </style>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        $(function () {
+            $( ".fullscreenMaxHeight" ).css('max-height', $( window ).height());
+            $( ".fullscreenHeight" ).css('height', $( window ).height());
+
+            // initialize skrollr if the window width is large enough
+            if ($(window).width() > 992) {
+                skrollr.init({smoothScrolling: false, forceHeight: false});
+            }
+        });
+    </script>
+{% endblock %}

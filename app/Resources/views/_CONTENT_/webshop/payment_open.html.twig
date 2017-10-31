@@ -1,0 +1,9 @@
+{% extends 'webshop/simple.html.twig' %}
+
+{% block title %}
+    Betaling nog niet helemaal voltooid
+{% endblock %}
+
+{% block text %}
+    {{ getContent('webshop_payment_open')|raw }}
+{% endblock %}

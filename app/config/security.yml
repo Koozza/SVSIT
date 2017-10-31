@@ -1,0 +1,225 @@
+# To get started with security, check out the documentation:
+# http://symfony.com/doc/current/book/security.html
+security:
+    encoders:
+        Application\Sonata\UserBundle\Entity\User: sha512
+        SITBundle\Entity\Gebruiker: sha512
+
+    role_hierarchy:
+        ROLE_SONATA_ADMIN_GEBRUIKER_ALL_FIELDS:
+            - ROLE_SONATA_ADMIN_GEBRUIKER_FIELD_VOORNAAM
+            - ROLE_SONATA_ADMIN_GEBRUIKER_FIELD_TUSSENVOEGSEL
+            - ROLE_SONATA_ADMIN_GEBRUIKER_FIELD_ACHTERNAAM
+            - ROLE_SONATA_ADMIN_GEBRUIKER_FIELD_GESLACHT
+            - ROLE_SONATA_ADMIN_GEBRUIKER_FIELD_GEBOORTEDATUM
+            - ROLE_SONATA_ADMIN_GEBRUIKER_FIELD_TELEFOONNUMMER
+            - ROLE_SONATA_ADMIN_GEBRUIKER_FIELD_EMAILADRES
+            - ROLE_SONATA_ADMIN_GEBRUIKER_FIELD_STUDENTNUMMER
+            - ROLE_SONATA_ADMIN_GEBRUIKER_FIELD_STARTJAAR
+            - ROLE_SONATA_ADMIN_GEBRUIKER_FIELD_INSCHRIJFDATUM
+            - ROLE_SONATA_ADMIN_GEBRUIKER_FIELD_BETAALD
+            - ROLE_SONATA_ADMIN_GEBRUIKER_FIELD_HEEFT_BEVESTIGING
+            - ROLE_SONATA_ADMIN_GEBRUIKER_FIELD_STUDIERICHTING
+            - ROLE_SONATA_ADMIN_GEBRUIKER_FIELD_LIDMAATSCHAP
+            - ROLE_SONATA_ADMIN_GEBRUIKER_FIELD_GEACTIVEERD
+        ROLE_SONATA_ADMIN_BETALING_ALL_FIELDS:
+            - ROLE_SONATA_ADMIN_BETALING_FIELD_DATUM
+            - ROLE_SONATA_ADMIN_BETALING_FIELD_GEBRUIKER
+            - ROLE_SONATA_ADMIN_BETALING_FIELD_IS_LIFETIME
+            - ROLE_SONATA_ADMIN_BETALING_FIELD_PERIODES
+            - ROLE_SONATA_ADMIN_BETALING_FIELD_MOLLIE_PAYMENT
+            - ROLE_SONATA_ADMIN_BETALING_FIELD_MOLLIE_STATUS
+        ROLE_SONATA_ADMIN_LIDMAATSCHAP_ALL_FIELDS:
+            - ROLE_SONATA_ADMIN_LIDMAATSCHAP_FIELD_BESCHRIJVING
+            - ROLE_SONATA_ADMIN_LIDMAATSCHAP_FIELD_PRIJS
+            - ROLE_SONATA_ADMIN_LIDMAATSCHAP_FIELD_ZICHTBAAR_OP_WEBSITE
+            - ROLE_SONATA_ADMIN_LIDMAATSCHAP_FIELD_INCASSEERBAAR
+            - ROLE_SONATA_ADMIN_LIDMAATSCHAP_FIELD_AANTAL_PERIODES
+            - ROLE_SONATA_ADMIN_LIDMAATSCHAP_FIELD_GEBRUIKERS
+            - ROLE_SONATA_ADMIN_LIDMAATSCHAP_FIELD_STUDIERICHTINGEN
+        ROLE_SONATA_ADMIN_PERIODE_ALL_FIELDS:
+            - ROLE_SONATA_ADMIN_PERIODE_FIELD_NAAM
+            - ROLE_SONATA_ADMIN_PERIODE_FIELD_BEGINDATUM
+            - ROLE_SONATA_ADMIN_PERIODE_FIELD_EINDDATUM
+            - ROLE_SONATA_ADMIN_PERIODE_FIELD_VOLGENDE_PERIODE
+            - ROLE_SONATA_ADMIN_PERIODE_FIELD_BETALINGEN
+        ROLE_SONATA_ADMIN_STUDIERICHTING_ALL_FIELDS:
+            - ROLE_SONATA_ADMIN_STUDIERICHTING_FIELD_STUDIERICHTING
+            - ROLE_SONATA_ADMIN_STUDIERICHTING_FIELD_STARTJAAR_RELEVANT
+            - ROLE_SONATA_ADMIN_STUDIERICHTING_FIELD_LIDMAATSCHAPPEN
+            - ROLE_SONATA_ADMIN_STUDIERICHTING_FIELD_GEBRUIKERS
+        ROLE_SONATA_ADMIN_EVENEMENT_ALL_FIELDS:
+            - ROLE_SONATA_ADMIN_EVENEMENT_FIELD_NAAM
+            - ROLE_SONATA_ADMIN_EVENEMENT_FIELD_OMSCHRIJVING
+            - ROLE_SONATA_ADMIN_EVENEMENT_FIELD_DATUM
+            - ROLE_SONATA_ADMIN_EVENEMENT_FIELD_DUUR
+            - ROLE_SONATA_ADMIN_EVENEMENT_FIELD_TYPE
+            - ROLE_SONATA_ADMIN_EVENEMENT_FIELD_LOCATIE_NAAM
+            - ROLE_SONATA_ADMIN_EVENEMENT_FIELD_LOCATIE_ADRES
+        ROLE_SONATA_ADMIN_NIEUWS_ALL_FIELDS:
+            - ROLE_SONATA_ADMIN_NIEUWS_FIELD_TITEL
+            - ROLE_SONATA_ADMIN_NIEUWS_FIELD_AUTEUR
+            - ROLE_SONATA_ADMIN_NIEUWS_FIELD_BERICHT
+            - ROLE_SONATA_ADMIN_NIEUWS_FIELD_GEPUBLICEERD
+            - ROLE_SONATA_ADMIN_NIEUWS_FIELD_EDITED
+        ROLE_SONATA_ADMIN_NIEUWSBRIEFLEDEN_ALL_FIELDS:
+            - ROLE_SONATA_ADMIN_NIEUWSBRIEFLEDEN_FIELD_EMAIL
+            - ROLE_SONATA_ADMIN_NIEUWSBRIEFLEDEN_FIELD_INSCHRIJFDATUM
+            - ROLE_SONATA_ADMIN_NIEUWSBRIEFLEDEN_FIELD_ACTIEF
+        ROLE_SONATA_ADMIN_BETAALLINK_ALL_FIELDS:
+            - ROLE_SONATA_ADMIN_BETAALLINK_FIELD_NAAM
+            - ROLE_SONATA_ADMIN_BETAALLINK_FIELD_BETAAL_VERZOEK
+            - ROLE_SONATA_ADMIN_BETAALLINK_FIELD_MULTIUSER
+            - ROLE_SONATA_ADMIN_BETAALLINK_FIELD_ALLEEN_INGELOGGED
+            - ROLE_SONATA_ADMIN_BETAALLINK_FIELD_ALLEEN_LEDEN
+            - ROLE_SONATA_ADMIN_BETAALLINK_FIELD_CHARGE_PAYMENT_COST
+            - ROLE_SONATA_ADMIN_BETAALLINK_FIELD_TYPE
+            - ROLE_SONATA_ADMIN_BETAALLINK_FIELD_MOLLIE
+        ROLE_SONATA_ADMIN_BETAALVERZOEK_ALL_FIELDS:
+            - ROLE_SONATA_ADMIN_BETAALVERZOEK_FIELD_ALL
+        ROLE_SONATA_ADMIN_SPONSOR_ALL_FIELDS:
+            - ROLE_SONATA_ADMIN_SPONSOR_FIELD_NAAM
+            - ROLE_SONATA_ADMIN_SPONSOR_FIELD_URL
+            - ROLE_SONATA_ADMIN_SPONSOR_FIELD_BESCHRIJVING
+            - ROLE_SONATA_ADMIN_SPONSOR_FIELD_FILE
+        ROLE_SONATA_ADMIN_PRODUCT_ALL_FIELDS:
+            - ROLE_SONATA_ADMIN_PRODUCT_FIELD_NAAM
+            - ROLE_SONATA_ADMIN_PRODUCT_FIELD_PRIJS
+            - ROLE_SONATA_ADMIN_PRODUCT_FIELD_BTW
+            - ROLE_SONATA_ADMIN_PRODUCT_FIELD_IS_INC_BTW
+            - ROLE_SONATA_ADMIN_PRODUCT_FIELD_VOORRAAD_KAN_NEGATIEF
+        ROLE_SONATA_ADMIN_FACTUUR_ALL_FIELDS:
+            - ROLE_SONATA_ADMIN_FACTUUR_FIELD_FACTUURDATUM
+            - ROLE_SONATA_ADMIN_FACTUUR_FIELD_FACTUUR_VERLOOP_DATUM
+            - ROLE_SONATA_ADMIN_FACTUUR_FIELD_REFERENTIE
+            - ROLE_SONATA_ADMIN_FACTUUR_FIELD_PRODUCT
+            - ROLE_SONATA_ADMIN_FACTUUR_FIELD_CUSTOM_PRODUCT
+            - ROLE_SONATA_ADMIN_FACTUUR_FIELD_GEBRUIKER
+            - ROLE_SONATA_ADMIN_FACTUUR_FIELD_NAAM
+            - ROLE_SONATA_ADMIN_FACTUUR_FIELD_ADRES
+            - ROLE_SONATA_ADMIN_FACTUUR_FIELD_POSTCODE
+            - ROLE_SONATA_ADMIN_FACTUUR_FIELD_WOONPLAATS
+            - ROLE_SONATA_ADMIN_FACTUUR_FIELD_TYPE
+            - ROLE_SONATA_ADMIN_FACTUUR_FIELD_FACTUURNUMMER
+            - ROLE_SONATA_ADMIN_FACTUUR_FIELD_STATUS
+            - ROLE_SONATA_ADMIN_FACTUUR_FIELD_EMAIL
+            - ROLE_SONATA_ADMIN_FACTUUR_FIELD_CHARGE_PAYMENT_COST
+        ROLE_SONATA_ADMIN_BESTUUR_ALL_FIELDS:
+            - ROLE_SONATA_ADMIN_BESTUUR_FIELD_NAAM
+            - ROLE_SONATA_ADMIN_BESTUUR_FIELD_BESTUURSLEDEN
+            - ROLE_SONATA_ADMIN_BESTUUR_FIELD_ISHUIDIGEBESTUUR
+            - ROLE_SONATA_ADMIN_BESTUUR_FIELD_FILE
+        ROLE_SONATA_ADMIN_BESTUURSLID_ALL_FIELDS:
+            - ROLE_SONATA_ADMIN_BESTUURSLID_FIELD_NAAM
+            - ROLE_SONATA_ADMIN_BESTUURSLID_FIELD_FUNCTIE
+            - ROLE_SONATA_ADMIN_BESTUURSLID_FIELD_FBLINK
+            - ROLE_SONATA_ADMIN_BESTUURSLID_FIELD_INLINK
+            - ROLE_SONATA_ADMIN_BESTUURSLID_FIELD_FILE
+        ROLE_SONATA_ADMIN_CONTENT_ALL_FIELDS:
+            - ROLE_SONATA_ADMIN_CONTENT_FIELD_NAAM
+            - ROLE_SONATA_ADMIN_CONTENT_FIELD_CATEGORIE
+            - ROLE_SONATA_ADMIN_CONTENT_FIELD_TYPE
+        ROLE_SONATA_ADMIN_PRODUCTVERZOEK_ALL_FIELDS:
+            - ROLE_SONATA_ADMIN_PRODUCTVERZOEK_FIELD_PRODUCT
+            - ROLE_SONATA_ADMIN_PRODUCTVERZOEK_FIELD_GEBRUIKER
+            - ROLE_SONATA_ADMIN_PRODUCTVERZOEK_FIELD_DATUM
+        ROLE_SONATA_ADMIN_MAAT_ALL_FIELDS:
+            - ROLE_SONATA_ADMIN_MAAT_FIELD_NAAM
+        ROLE_SONATA_ADMIN_VOORRAAD_ALL_FIELDS:
+            - ROLE_SONATA_ADMIN_VOORRAAD_FIELD_PRODUCT
+            - ROLE_SONATA_ADMIN_VOORRAAD_FIELD_MAAT
+            - ROLE_SONATA_ADMIN_VOORRAAD_FIELD_VOORRAAD
+        ROLE_ADMIN:       [ROLE_USER, ROLE_SONATA_ADMIN]
+        ROLE_SUPER_ADMIN: [ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
+
+    # http://symfony.com/doc/current/book/security.html#where-do-users-come-from-user-providers
+    providers:
+        fos_userbundle:
+            id: fos_user.user_manager
+        sit_provider:
+            entity:
+                class: SITBundle:Gebruiker
+                property: emailadres
+
+    firewalls:
+            # Disabling the security for the web debug toolbar, the profiler and Assetic.
+            dev:
+                pattern:  ^/(_(profiler|wdt)|css|images|js)/
+                security: false
+
+            # -> custom firewall for the admin area of the URL
+            admin:
+                pattern:            /admin(.*)
+                context:            user
+                form_login:
+                    provider:       fos_userbundle
+                    login_path:     /admin/login
+                    use_forward:    false
+                    check_path:     /admin/login_check
+                    failure_path:   null
+                    default_target_path:   /admin/sit/gebruiker/list
+                logout:
+                    path:           /admin/logout
+                    target:         /admin/login
+                anonymous:          true
+
+
+            gebruiker:
+                pattern:            /(user|payment|webshop)(.*)
+                form_login:
+                    provider: sit_provider
+                    login_path:     user_login
+                    use_forward:    false
+                    check_path:     user_login
+                    failure_path:   null
+                    default_target_path: user_dashboard
+                    csrf_token_generator: security.csrf.token_manager
+                logout:
+                    path:           user_logout
+                    target:         /
+                anonymous:          true
+
+            # -> end custom configuration
+
+            # default login area for standard users
+
+            # This firewall is used to handle the public login area
+            # This part is handled by the FOS User Bundle
+            #main:
+                #pattern:             .*
+                #context:             user
+                #form_login:
+                    #provider:       fos_userbundle
+                    #login_path:     /login
+                    #use_forward:    false
+                    #check_path:     /login_check
+                    #failure_path:   null
+                #logout:             true
+                #anonymous:          true
+
+    access_control:
+        # Admin login page needs to be accessed without credential
+        - { path: ^/admin/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/admin/logout$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/admin/login_check$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/admin/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
+
+        # Admin login page needs to be accessed without credential
+        - { path: ^/user/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/user/logout$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/user/login_check$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+
+        - { path: ^/payment/webhook, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/payment/link, role: IS_AUTHENTICATED_ANONYMOUSLY }
+
+        - { path: ^/webshop/webhook, role: IS_AUTHENTICATED_ANONYMOUSLY }
+
+        # Secured part of the site
+        # This config requires being logged for the whole site and having the admin role for the admin part.
+        # Change these rules to adapt them to your needs
+        - { path: ^/user/, role: ROLE_USER }
+        - { path: ^/payment/, role: ROLE_USER }
+        - { path: ^/webshop/request/, role: ROLE_USER }
+        - { path: ^/webshop/checkout/, role: ROLE_USER }
+        - { path: ^/admin/, role: [ROLE_ADMIN, ROLE_SONATA_ADMIN] }
+        - { path: ^/.*, role: IS_AUTHENTICATED_ANONYMOUSLY }

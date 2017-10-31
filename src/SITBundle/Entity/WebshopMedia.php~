@@ -1,0 +1,166 @@
+<?php
+/*
+ * This file is part of the Sonata project.
+ *
+ * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+namespace SITBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\Common\Collections\ArrayCollection;
+/**
+ * @ORM\Table(name="webshop_media")
+ * @ORM\Entity
+ */
+class WebshopMedia
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+    /**
+     * @var \Application\Sonata\MediaBundle\Entity\Media
+     * @Assert\NotBlank()
+     * @ORM\ManyToOne(targetEntity="Application\Sonata\MediaBundle\Entity\Media", cascade={"persist"}, fetch="LAZY")
+     * @ORM\JoinColumn(name="afbeelding_id", referencedColumnName="id")
+     */
+    protected $afbeelding;
+
+    /**
+     * @var Product
+     * @Assert\NotBlank()
+     * @ORM\ManyToOne(targetEntity="Product", cascade={"persist","remove"} ,inversedBy="webshopMedia", fetch="LAZY" )
+     * @ORM\JoinColumn(name="product_id", referencedColumnName="id",nullable=true)
+     */
+    protected $product;
+
+    /**
+     * @var integer
+     * @ORM\Column(name="position", type="integer")
+     */
+    protected $position;
+
+
+    /**
+     * @var boolean
+     * @ORM\Column(name="enable", type="boolean")
+     */
+    protected $enabled;
+
+    /**
+     * @var boolean
+     * @ORM\Column(name="delete_footer", type="boolean")
+     */
+    protected $deleteFooter;
+
+    public function __construct()
+    {
+        $this->position = 0;
+    }
+
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setAfbeelding(\Sonata\MediaBundle\Model\MediaInterface $afbeelding = null)
+    {
+        $this->afbeelding = $afbeelding;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getAfbeelding()
+    {
+        return $this->afbeelding;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setPosition($position)
+    {
+        $this->position = $position;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getPosition()
+    {
+        return $this->position;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function __toString()
+    {
+        return $this->getFooterWidget().' | '.$this->getMedia();
+    }
+
+    /**
+     * Set product
+     *
+     * @param \SITBundle\Entity\Product $product
+     *
+     * @return WebshopMedia
+     */
+    public function setProduct(\SITBundle\Entity\Product $product = null)
+    {
+        $this->product = $product;
+    
+        return $this;
+    }
+
+    /**
+     * Get product
+     *
+     * @return \SITBundle\Entity\Product
+     */
+    public function getProduct()
+    {
+        return $this->product;
+    }
+
+    /**
+     * Set enabled
+     *
+     * @param boolean $enabled
+     *
+     * @return WebshopMedia
+     */
+    public function setEnabled($enabled)
+    {
+        $this->enabled = $enabled;
+    
+        return $this;
+    }
+
+    /**
+     * Get enabled
+     *
+     * @return boolean
+     */
+    public function getEnabled()
+    {
+        return $this->enabled;
+    }
+}

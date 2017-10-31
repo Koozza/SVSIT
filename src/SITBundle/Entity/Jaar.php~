@@ -1,0 +1,41 @@
+<?php
+namespace SITBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use SITBundle\Enum\Geslacht;
+
+/**
+ * @ORM\Entity
+ * @ORM\Table(name="jaar")
+ */
+class Jaar
+{
+    /**
+     * @ORM\Column(type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @ORM\Column(type="string", length=15)
+     */
+    private $jaar;
+
+    /**
+     * @var \Doctrine\Common\Collections\ArrayCollection
+     *
+     * @ORM\ManyToMany(targetEntity="Gebruiker", mappedBy="jarenBetaald")
+     *
+     */
+    private $gebruikers;
+
+    /**
+     * @var \Doctrine\Common\Collections\ArrayCollection
+     *
+     * @ORM\ManyToMany(targetEntity="Gebruiker", mappedBy="startjaar")
+     *
+     */
+    private $startjaarGebruikers;
+    
+}

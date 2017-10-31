@@ -1,0 +1,5 @@
+{% if admin.isGranted('MOLLIE', object) and admin.hasRoute('incasseren') and object.checkAllowedIncasso %}
+    <a style="line-height: 0.5;" href="{{ admin.generateObjectUrl('incasseren', object) }}" class="btn btn-sm btn-default edit_link" title="Incasseren">
+        <i class="fa fa-euro" aria-hidden="true"></i>&nbsp;&nbsp;Incasseren
+    </a>
+{% endif %}

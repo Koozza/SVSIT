@@ -1,0 +1,78 @@
+{% extends 'user/dashboard.html.twig' %}
+
+{% block content %}
+    {% for betaling in gebruiker.betalingen %}
+        <div class="betalingRow">
+            <div class="row">
+                <div class="col-sm-8">
+                    Lidmaatschap: {{ gebruiker.lidmaatschap }}<br>
+                    {% for periode in betaling.periodes %}{{ periode }}{% if not loop.last %}, {% endif %}{% endfor %}
+                </div>
+                <div class="col-sm-4" style="text-align: right;">
+                    {{ betaling.datum|dutchDate("j F Y") }}
+                </div>
+            </div>
+            {% if betaling.molliePayment is not null %}
+            <div class="row" style="margin-top:15px;">
+                <div class="col-sm-12">
+                    <table>
+                        <tr>
+                            <td style="font-weight:600">Status:</td>
+                            <td style="padding-left: 10px;">{{ betaling.molliePayment.status|paymentStatus }}</td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight:600">Methode:</td>
+                            <td style="padding-left: 10px;">{{ betaling.molliePayment.method|paymentStatus }}</td>
+                        </tr>
+                        {% if betaling.molliePayment.paidDatetime is not null %}
+                            <tr>
+                                <td style="font-weight:600">Betaald om:</td>
+                                <td style="padding-left: 10px;">{{ betaling.molliePayment.paidDatetime|dutchDate("j F Y H:i:s")  }}</td>
+                            </tr>
+                        {% endif %}
+                        {% if betaling.molliePayment.cancelledDatetime is not null %}
+                            <tr>
+                                <td style="font-weight:600">Geannuleerd om:</td>
+                                <td style="padding-left: 10px;">{{ betaling.molliePayment.cancelledDatetime|dutchDate("j F Y H:i:s")  }}</td>
+                            </tr>
+                        {% endif %}
+                        {% if betaling.molliePayment.manuallyCancelledDatetime is not null %}
+                            <tr>
+                                <td style="font-weight:600">Geannuleerd om:</td>
+                                <td style="padding-left: 10px;">{{ betaling.molliePayment.manuallyCancelledDatetime|dutchDate("j F Y H:i:s")  }}</td>
+                            </tr>
+                        {% endif %}
+                        {% if betaling.molliePayment.expiredDatetime is not null %}
+                            <tr>
+                                <td style="font-weight:600">Verlopen om:</td>
+                                <td style="padding-left: 10px;">{{ betaling.molliePayment.expiredDatetime|dutchDate("j F Y H:i:s")  }}</td>
+                            </tr>
+                        {% endif %}
+                    </table>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    {% endfor %}
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+
+    <style>
+        .betalingRow:first-of-type{
+            border-top: 1px solid black;
+            margin-top: 30px;
+        }
+        .betalingRow{
+            border-bottom: 1px solid black;
+            padding: 8px 0px;
+        }
+
+        @media (max-width: 768px) {
+            .col-sm-4{
+                text-align: left !important;
+            }
+        }
+    </style>
+{% endblock %}

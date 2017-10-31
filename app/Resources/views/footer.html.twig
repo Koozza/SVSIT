@@ -1,0 +1,56 @@
+<section id="slide-7" class="footer">
+
+    <div class="container" style="max-width: 900px;">
+        <div class="row">
+            <div class="col-sm-4">
+                <h2>EVENEMENTEN</h2>
+                <div class="footer_bar"></div>
+                {% for key, value in evenementen %}
+                    <a href="{{ path('evenementen_show', {'id': value.id}) }}">{{ value.naam }}</a>
+                    <div class="footer_bar"></div>
+                {% endfor %}
+                {%  if evenementen is empty %}
+                    Er zijn op dit moment geen evenementen geplanned.
+                    <div class="footer_bar"></div>
+                {% endif %}
+            </div>
+            <div class="col-sm-4">
+                <h2>CONTACTGEGEVENS</h2>
+                <p>Studievereniging<br>Innovatie & Technologie</p>
+                <p>Wibautstraat 2-4<br>1091 GM Amsterdam</p>
+                <a href="https://www.facebook.com/hvaSIT/" target="_blank"><img src="{{ asset('/bundles/sit/images/icon_facebook.png') }}" class="sm_image" /></a>
+                <a href="https://twitter.com/hvasit" target="_blank"><img src="{{ asset('/bundles/sit/images/icon_twitter.png') }}" class="sm_image" /></a>
+                <a href="https://www.linkedin.com/company/studievereniging-innovatie-en-technologie" target="_blank"><img src="{{ asset('/bundles/sit/images/icon_in.png') }}" class="sm_image" /></a>
+                <a href="{{ path('contact') }}"><img src="{{ asset('/bundles/sit/images/icon_email.png') }}" class="sm_image" /></a>
+            </div>
+            <div class="col-sm-4">
+                <h2>LAATSTE NIEUWS</h2>
+                <div class="footer_bar"></div>
+                {% for key, value in nieuws %}
+                    <a href="{{ path('nieuws_artikel', {id: value.id}) }}">{{ value.titel }}</a>
+                    <div class="footer_bar"></div>
+                {% endfor %}
+                {%  if nieuws is empty %}
+                    Er zijn op dit moment geen nieuws berichten.
+                    <div class="footer_bar"></div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="slide-8" class="credits">
+    <p>Studievereniging Innovatie & Technologie</p>
+    <p><span style="color: #888888; font-weight: 300;">Website door:</span> Thijs Dalmaijer</p>
+</section>
+
+<script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-58960232-3', 'auto');
+    ga('send', 'pageview');
+
+</script>

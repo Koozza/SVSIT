@@ -1,0 +1,73 @@
+{% set currentPath = path(app.request.attributes.get('_route'),app.request.attributes.get('_route_params')) %}
+
+<nav class="navbar navbar-fixed-top">
+    <div class="container-fluid" style="min-height: 75px;">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#mainNavBar" style="margin-top:20px;">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="/">
+                <img src="{{ asset('/bundles/sit/images/logo_small.png') }}" class="navbar-brand" />
+            </a>
+        </div>
+        <div class="collapse navbar-collapse" id="mainNavBar">
+            <ul class="nav navbar-nav navbar-right" style="margin-top:12px;">
+                <li style="border: 1px solid #4c6a9e; margin: 6px 5px 0px 10px;"><a href="{{ path('user_dashboard') }}" style="padding: 8px 12px; color: #4c6a9e;">MIJN ACCOUNT</a></li>
+                <li style="border: 1px solid #4c6a9e; margin: 6px 5px 0px 10px;"><a href="{{ path('register') }}" style="padding: 8px 12px; color: #4c6a9e;">WORD SIT LID!</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right" style="margin-top:12px;">
+                <li{%  if currentPath == path('frontpage') %} class="active"{% endif %}><a href="{{ path('frontpage') }}">HOME</a></li>
+                <li class="dropdown">
+                    <a class="dropdown-toggle{%
+                    if path('bestuur') in currentPath or
+                    path('nieuws') in currentPath or
+                    path('evenementen') in currentPath
+                    %} active{% endif %}" data-hover="dropdown" data-toggle="dropdown" href="#">SIT <span class="caret" style="margin-top: -2px;"></span></a>
+                    <ul class="dropdown-menu dropdown-menu-left">
+                        <li{%  if path('nieuws') in currentPath %} class="active"{% endif %}><a href="{{ path('nieuws') }}">NIEUWS</a></li>
+                        <li{%  if path('evenementen') in currentPath %} class="active"{% endif %}><a href="{{ path('evenementen') }}">EVENEMENTEN</a></li>
+                        <li class="dropdown-submenu dropdown-menu-right">
+                            <a class="{% if path('bestuur') in currentPath %} active{% endif %}" href="#" id="bestuurSublink">BESTUUR <span class="caret"></span></a>
+                            <ul class="dropdown-menu dropdownmenu">
+                                {%  for bestuur in besturen %}
+                                    <li{%  if currentPath == path('bestuur_id', {id:bestuur.id}) %} class="active"{% endif %}><a href="{{ path('bestuur_id', {id:bestuur.id}) }}">{{ bestuur.naam }}</a></li>
+                                {% endfor %}
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a class="dropdown-toggle{%  if path('sponsors') in currentPath %} active{% endif %}" data-hover="dropdown" data-toggle="dropdown" href="#">PARTNERS <span class="caret" style="margin-top: -2px;"></span></a>
+                    <ul class="dropdown-menu dropdown-menu-left">
+                        <li{%  if currentPath == path('sponsors') %} class="active"{% endif %}><a href="{{ path('sponsors') }}">PROMOTIEMOGELIJKHEDEN</a></li>
+                        {%  for sponsor in sponsoren %}
+                            <li{%  if currentPath == path('sponsor_pagina', {id:sponsor.id}) %} class="active"{% endif %}><a href="{{ path('sponsor_pagina', {id:sponsor.id}) }}">{{ sponsor.naam }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </li>
+                <!--
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">COMMISSIES <span class="caret" style="margin-top: -2px;"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">GAMESCOMMISIE</a></li>
+                    </ul>
+                </li>
+                -->
+                <li{%  if path('webshop') in currentPath %} class="active"{% endif %}><a href="{{ path('webshop') }}">WEBSHOP</a></li>
+                <li{%  if currentPath == path('contact') %} class="active"{% endif %}><a href="{{ path('contact') }}">CONTACT</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<script>
+    $(document).ready(function(){
+        $('.dropdown-submenu a#bestuurSublink').on("click", function(e){
+            $(this).next('ul').toggle();
+            e.stopPropagation();
+            e.preventDefault();
+        });
+    });
+</script>

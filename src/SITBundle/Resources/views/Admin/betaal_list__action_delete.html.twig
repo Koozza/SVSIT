@@ -1,0 +1,6 @@
+{% if admin.isGranted('DELETE', object) and admin.hasRoute('delete') and object.TotaalAantalBetalingen  == 0 %}
+    <a href="{{ admin.generateObjectUrl('delete', object) }}" class="btn btn-sm btn-default delete_link" title="{{ 'action_delete'|trans({}, 'SonataAdminBundle') }}" style="line-height:0.5;">
+        <i class="fa fa-times" aria-hidden="true"></i>
+        {{ 'action_delete'|trans({}, 'SonataAdminBundle') }}
+    </a>
+{% endif %}
